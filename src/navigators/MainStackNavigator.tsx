@@ -2,7 +2,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {Alert, BackHandler, StyleSheet} from 'react-native';
 import {navigationRef} from '../lib/navigation';
-import HomeScreen from '../screens/HomeScreen';
+import TabNavigator from './TabNavigator';
 
 const MainStack = createStackNavigator();
 
@@ -35,10 +35,8 @@ const MainStackNavigator = () => {
   }, []);
 
   return (
-    <MainStack.Navigator
-      screenOptions={{headerShown: false}}
-      initialRouteName="Home">
-      <MainStack.Screen name="Home" component={HomeScreen} />
+    <MainStack.Navigator screenOptions={{headerShown: false}}>
+      <MainStack.Screen name="Tab" component={TabNavigator} />
     </MainStack.Navigator>
   );
 };
