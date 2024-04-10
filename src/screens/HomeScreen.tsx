@@ -1,11 +1,17 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet} from 'react-native';
+import HeaderBar from '../components/Header/HeaderBar';
+import BeansData from '../data/BeansData';
+import CoffeeData from '../data/CoffeeData';
 
 const HomeScreen = () => {
+  const coffeeList = CoffeeData;
+  const beanList = BeansData;
+
   return (
-    <View>
-      <Text>HomeScreen</Text>
-    </View>
+    <SafeAreaView>
+      <HeaderBar leftIcon="menu" />
+    </SafeAreaView>
   );
 };
 
