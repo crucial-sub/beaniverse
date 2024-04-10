@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {SPACING} from '../../theme/theme';
+import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../../theme/theme';
 import BackButton from './BackButton';
 import MenuButton from './MenuButton';
 import ProfileImage from './ProfileImage';
@@ -28,11 +28,10 @@ const styles = StyleSheet.create({
     height: SPACING.space_36,
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: SPACING.space_30,
   },
   title: {
-    fontSize: 20,
-    fontWeight: '600',
-    fontFamily: 'Poppins',
+    fontSize: FONTSIZE.size_20,
+    fontFamily: FONTFAMILY.poppins_semibold,
+    color: COLORS.primaryWhiteHex,
   },
 });
