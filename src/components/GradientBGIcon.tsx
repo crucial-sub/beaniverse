@@ -37,8 +37,6 @@ const styles = StyleSheet.create({
   LinearGradientBG: {
     alignItems: 'center',
     justifyContent: 'center',
-    // width: 30,
-    // height: 30,
   },
 });
 
