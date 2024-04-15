@@ -1,6 +1,6 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import HeaderBar from '../components/Header/HeaderBar';
+import CoffeeList from '../components/CoffeeList/CoffeeList';
 import BeansData from '../data/BeansData';
 import CoffeeData from '../data/CoffeeData';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/theme';
@@ -12,8 +12,8 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
-        <HeaderBar leftIcon="menu" />
         <Text style={styles.titleText}>Find the best coffee for you</Text>
+        <CoffeeList />
       </View>
     </SafeAreaView>
   );
@@ -38,5 +38,6 @@ const styles = StyleSheet.create({
     color: COLORS.primaryWhiteHex,
     fontFamily: FONTFAMILY.poppins_semibold,
     fontSize: FONTSIZE.size_28,
+    marginTop: SPACING.space_40,
   },
 });
