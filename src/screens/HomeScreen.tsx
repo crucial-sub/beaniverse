@@ -1,14 +1,9 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import CoffeeList from '../components/CoffeeList/CoffeeList';
-import BeansData from '../data/BeansData';
-import CoffeeData from '../data/CoffeeData';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/theme';
 
 const HomeScreen = () => {
-  const coffeeList = CoffeeData;
-  const beanList = BeansData;
-
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
