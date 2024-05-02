@@ -1,12 +1,17 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {Alert, BackHandler, StyleSheet} from 'react-native';
+import {useRecoilValue} from 'recoil';
 import {navigationRef} from '../lib/navigation';
+import {authState} from '../recoil';
+import SignInScreen from '../screens/SignInScreen';
 import TabNavigator from './TabNavigator';
 
 const MainStack = createStackNavigator();
 
 const MainStackNavigator = () => {
+  const auth = useRecoilValue(authState);
+
   React.useEffect(() => {
     const handleBackPress = () => {
       if (navigationRef.getCurrentRoute()?.name === 'TodoList') {
@@ -36,7 +41,15 @@ const MainStackNavigator = () => {
 
   return (
     <MainStack.Navigator screenOptions={{headerShown: false}}>
-      <MainStack.Screen name="Tab" component={TabNavigator} />
+      {!auth.isSignIn ? (
+        <>
+          <MainStack.Screen name="SignIn" component={SignInScreen} />
+        </>
+      ) : (
+        <>
+          <MainStack.Screen name="Tab" component={TabNavigator} />
+        </>
+      )}
     </MainStack.Navigator>
   );
 };
