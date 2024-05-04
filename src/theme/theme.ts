@@ -14,6 +14,7 @@ interface Spacing {
   space_32: number;
   space_36: number;
   space_40: number;
+  space_60: number;
 }
 
 export const SPACING: Spacing = {
@@ -32,6 +33,7 @@ export const SPACING: Spacing = {
   space_32: 32,
   space_36: 36,
   space_40: 40,
+  space_60: 60,
 };
 
 interface Color {
@@ -43,6 +45,7 @@ interface Color {
   primaryGreyHex: string;
   secondaryGreyHex: string;
   primarySilverGreyHex: string;
+  secondarySilverGreyHex: string;
   primaryLightGreyHex: string;
   secondaryLightGreyHex: string;
   primaryWhiteHex: string;
@@ -59,6 +62,7 @@ export const COLORS: Color = {
   primaryGreyHex: '#252A32',
   secondaryGreyHex: '#252A32',
   primarySilverGreyHex: '#FFFFFF2E',
+  secondarySilverGreyHex: '#333333',
   primaryLightGreyHex: '#52555A',
   secondaryLightGreyHex: '#AEAEAE',
   primaryWhiteHex: '#FFFFFF',

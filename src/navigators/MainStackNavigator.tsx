@@ -3,14 +3,14 @@ import React from 'react';
 import {Alert, BackHandler, StyleSheet} from 'react-native';
 import {useRecoilValue} from 'recoil';
 import {navigationRef} from '../lib/navigation';
-import {authState} from '../recoil';
+import {accessTokenState} from '../recoil';
 import SignInScreen from '../screens/SignInScreen';
 import TabNavigator from './TabNavigator';
 
 const MainStack = createStackNavigator();
 
 const MainStackNavigator = () => {
-  const auth = useRecoilValue(authState);
+  const accessToken = useRecoilValue(accessTokenState);
 
   React.useEffect(() => {
     const handleBackPress = () => {
@@ -41,7 +41,7 @@ const MainStackNavigator = () => {
 
   return (
     <MainStack.Navigator screenOptions={{headerShown: false}}>
-      {!auth.isSignIn ? (
+      {!accessToken ? (
         <>
           <MainStack.Screen name="SignIn" component={SignInScreen} />
         </>
