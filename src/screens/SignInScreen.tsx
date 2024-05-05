@@ -29,7 +29,7 @@ const SignInScreen = () => {
   const [token, setToken] = useRecoilState(accessTokenState);
   const handleSignIn = () => {
     const getAccessToken = async () => {
-      const {accessToken} = await signIn(email, password);
+      const accessToken = await signIn(email, password);
       if (accessToken) setToken(accessToken);
     };
     getAccessToken();

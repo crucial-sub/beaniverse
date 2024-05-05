@@ -2,13 +2,16 @@ import apiClient from './apiClient';
 
 export const signIn = async (email: string, password: string) => {
   try {
-    const {data} = await apiClient.post('auth/login', {
+    const {
+      data: {accessToken},
+    } = await apiClient.post('auth/login', {
       email,
       password,
     });
 
-    return data;
+    return accessToken;
   } catch (error) {
-    return {accessToken: null};
+    console.log(error);
+    return null;
   }
 };
