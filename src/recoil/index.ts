@@ -5,10 +5,14 @@ export const accessTokenState = atom({
   default: '',
 });
 
-export const authState = atom({
-  key: 'auth-state',
-  default: {
-    isSignIn: false,
-    user: null,
-  },
+interface userType {
+  email: string;
+  id: number;
+  profileImage: string;
+  user_name: string;
+}
+
+export const userState = atom<userType | null>({
+  key: 'user-state',
+  default: null,
 });

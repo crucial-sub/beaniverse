@@ -1,9 +1,10 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {Alert, BackHandler, StyleSheet} from 'react-native';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {getUser} from '../api/apiUser';
 import {navigationRef} from '../lib/navigation';
-import {accessTokenState} from '../recoil';
+import {accessTokenState, userState} from '../recoil';
 import SignInScreen from '../screens/SignInScreen';
 import TabNavigator from './TabNavigator';
 
@@ -11,6 +12,7 @@ const MainStack = createStackNavigator();
 
 const MainStackNavigator = () => {
   const accessToken = useRecoilValue(accessTokenState);
+  const [user, setUser] = useRecoilState(userState);
 
   React.useEffect(() => {
     const handleBackPress = () => {
@@ -38,6 +40,15 @@ const MainStackNavigator = () => {
       );
     };
   }, []);
+
+  React.useEffect(() => {
+    if (!accessToken) return;
+    const setCurrentUser = async () => {
+      const currentUser = await getUser(accessToken);
+      setUser(currentUser);
+    };
+    setCurrentUser();
+  }, [accessToken]);
 
   return (
     <MainStack.Navigator screenOptions={{headerShown: false}}>
