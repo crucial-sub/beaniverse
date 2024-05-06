@@ -2,9 +2,10 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {Alert, BackHandler, StyleSheet} from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
+import {getCoffee} from '../api/apiCoffee';
 import {getUser} from '../api/apiUser';
 import {navigationRef} from '../lib/navigation';
-import {accessTokenState, userState} from '../recoil';
+import {accessTokenState, coffeeListState, userState} from '../recoil';
 import SignInScreen from '../screens/SignInScreen';
 import TabNavigator from './TabNavigator';
 
@@ -13,6 +14,7 @@ const MainStack = createStackNavigator();
 const MainStackNavigator = () => {
   const accessToken = useRecoilValue(accessTokenState);
   const [user, setUser] = useRecoilState(userState);
+  const [coffeeList, setCoffeeList] = useRecoilState(coffeeListState);
 
   React.useEffect(() => {
     const handleBackPress = () => {
@@ -47,7 +49,12 @@ const MainStackNavigator = () => {
       const currentUser = await getUser(accessToken);
       setUser(currentUser);
     };
+    const setCoffeeData = async () => {
+      const coffeeData = await getCoffee(accessToken);
+      setCoffeeList(coffeeData);
+    };
     setCurrentUser();
+    setCoffeeData();
   }, [accessToken]);
 
   return (
