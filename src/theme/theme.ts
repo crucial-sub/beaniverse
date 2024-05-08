@@ -49,6 +49,7 @@ interface Color {
   primaryLightGreyHex: string;
   secondaryLightGreyHex: string;
   primaryWhiteHex: string;
+  secondaryWhiteHex: string;
   primaryBlackRGBA: string;
   secondaryBlackRGBA: string;
 }
@@ -66,6 +67,7 @@ export const COLORS: Color = {
   primaryLightGreyHex: '#52555A',
   secondaryLightGreyHex: '#AEAEAE',
   primaryWhiteHex: '#FFFFFF',
+  secondaryWhiteHex: '#D9D9D9',
   primaryBlackRGBA: 'rgba(12,15,20,0.5)',
   secondaryBlackRGBA: 'rgba(0,0,0,0.7)',
 };
@@ -96,9 +98,12 @@ export const FONTFAMILY: FontFamily = {
 
 interface FontSize {
   size_8: number;
+  size_9: number;
   size_10: number;
   size_12: number;
+  size_13: number;
   size_14: number;
+  size_15: number;
   size_16: number;
   size_18: number;
   size_20: number;
@@ -109,9 +114,12 @@ interface FontSize {
 
 export const FONTSIZE: FontSize = {
   size_8: 8,
+  size_9: 9,
   size_10: 10,
   size_12: 12,
+  size_13: 13,
   size_14: 14,
+  size_15: 15,
   size_16: 16,
   size_18: 18,
   size_20: 20,
@@ -125,7 +133,9 @@ interface BorderRadius {
   radius_8: number;
   radius_10: number;
   radius_15: number;
+  radius_16: number;
   radius_20: number;
+  radius_23: number;
   radius_25: number;
 }
 
@@ -134,6 +144,8 @@ export const BORDERRADIUS: BorderRadius = {
   radius_8: 8,
   radius_10: 10,
   radius_15: 15,
+  radius_16: 16,
   radius_20: 20,
+  radius_23: 23,
   radius_25: 25,
 };

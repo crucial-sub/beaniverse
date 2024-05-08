@@ -7,8 +7,17 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import StarIcon from '../../assets/svg_images/star.svg';
 import {CoffeeType} from '../../recoil';
-import {COLORS, SPACING} from '../../theme/theme';
+import {
+  BORDERRADIUS,
+  COLORS,
+  FONTFAMILY,
+  FONTSIZE,
+  SPACING,
+} from '../../theme/theme';
+import {capitalize} from '../../utils';
+import HeartButton from '../Header/HeartButton';
 
 interface CoffeeCardProps {
   coffee: CoffeeType;
@@ -24,13 +33,23 @@ const CoffeeCard = ({coffee}: CoffeeCardProps) => {
         style={styles.LinearGradientBG}>
         <ImageBackground
           source={{uri: coffee.imageUrl}}
-          style={styles.CardImageBG}></ImageBackground>
-        <Text>{coffee.name}</Text>
-        <Text>{`From ${coffee.origin.country}`}</Text>
-        <View>
-          <View>
-            <Text>$</Text>
-            <Text>{coffee.price}</Text>
+          style={styles.CoffeeImageBG}>
+          <View style={styles.CoffeeRatingWrapper}>
+            <StarIcon fill={COLORS.primaryOrangeHex} />
+            <Text style={styles.CoffeeRating}>{coffee.rating.toFixed(1)}</Text>
+          </View>
+        </ImageBackground>
+        <View style={styles.CardInfoWrapper}>
+          <Text style={styles.CoffeeName}>{capitalize(coffee.name)}</Text>
+          <Text style={styles.CoffeeOrigin}>{`From ${capitalize(
+            coffee.origin.country,
+          )}`}</Text>
+          <View style={styles.CardBottomWrapper}>
+            <View style={styles.CoffeePriceWrapper}>
+              <Text style={styles.DollorSign}>$ </Text>
+              <Text style={styles.CoffeePrice}>{coffee.price}</Text>
+            </View>
+            <HeartButton />
           </View>
         </View>
       </LinearGradient>
@@ -41,25 +60,70 @@ const CoffeeCard = ({coffee}: CoffeeCardProps) => {
 export default CoffeeCard;
 
 const styles = StyleSheet.create({
-  Container: {
+  Container: {},
+  LinearGradientBG: {
     borderWidth: 1,
     borderColor: COLORS.secondaryDarkGreyHex,
-    borderRadius: 23,
-    alignItems: 'center',
-    justifyContent: 'center',
+    borderRadius: BORDERRADIUS.radius_23,
     backgroundColor: COLORS.secondaryDarkGreyHex,
-    overflow: 'hidden',
     width: 150,
     height: 250,
+    padding: 12,
+    gap: SPACING.space_10,
   },
-  LinearGradientBG: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  CardImageBG: {
+  CoffeeImageBG: {
     width: 126,
     height: 126,
-    borderRadius: SPACING.space_16,
+    borderRadius: BORDERRADIUS.radius_16,
+    overflow: 'hidden',
   },
-  CardName: {},
+  CoffeeRatingWrapper: {
+    position: 'absolute',
+    width: 53,
+    height: 22,
+    right: 0,
+    flexDirection: 'row',
+    backgroundColor: '#00000099',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomLeftRadius: BORDERRADIUS.radius_16,
+    borderTopRightRadius: BORDERRADIUS.radius_16,
+    gap: 4,
+  },
+  CoffeeRating: {
+    fontFamily: FONTFAMILY.poppins_semibold,
+    fontSize: FONTSIZE.size_10,
+    color: COLORS.primaryWhiteHex,
+  },
+  CardInfoWrapper: {
+    gap: 5,
+  },
+  CoffeeName: {
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_13,
+    color: COLORS.primaryWhiteHex,
+  },
+  CoffeeOrigin: {
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_9,
+    color: COLORS.primaryWhiteHex,
+  },
+  CardBottomWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  CoffeePriceWrapper: {
+    flexDirection: 'row',
+  },
+  DollorSign: {
+    fontFamily: FONTFAMILY.poppins_semibold,
+    fontSize: FONTSIZE.size_16,
+    color: COLORS.primaryOrangeHex,
+  },
+  CoffeePrice: {
+    fontFamily: FONTFAMILY.poppins_semibold,
+    fontSize: FONTSIZE.size_16,
+    color: COLORS.primaryWhiteHex,
+  },
 });
