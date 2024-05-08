@@ -2,10 +2,15 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {Alert, BackHandler, StyleSheet} from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {getCoffee} from '../api/apiCoffee';
+import {getCoffeeCategories, getCoffeeList} from '../api/apiCoffee';
 import {getUser} from '../api/apiUser';
 import {navigationRef} from '../lib/navigation';
-import {accessTokenState, coffeeListState, userState} from '../recoil';
+import {
+  accessTokenState,
+  coffeeCategoriesState,
+  coffeeListState,
+  userState,
+} from '../recoil';
 import SignInScreen from '../screens/SignInScreen';
 import TabNavigator from './TabNavigator';
 
@@ -15,6 +20,9 @@ const MainStackNavigator = () => {
   const accessToken = useRecoilValue(accessTokenState);
   const [user, setUser] = useRecoilState(userState);
   const [coffeeList, setCoffeeList] = useRecoilState(coffeeListState);
+  const [coffeeCategories, setCoffeeCategories] = useRecoilState(
+    coffeeCategoriesState,
+  );
 
   React.useEffect(() => {
     const handleBackPress = () => {
@@ -49,12 +57,17 @@ const MainStackNavigator = () => {
       const currentUser = await getUser(accessToken);
       setUser(currentUser);
     };
-    const setCoffeeData = async () => {
-      const coffeeData = await getCoffee(accessToken);
-      setCoffeeList(coffeeData);
+    const setCoffeeListData = async () => {
+      const coffeeListData = await getCoffeeList(accessToken);
+      setCoffeeList(coffeeListData);
+    };
+    const setCoffeeCategoriesData = async () => {
+      const coffeeCategoriesData = await getCoffeeCategories(accessToken);
+      setCoffeeCategories(coffeeCategoriesData);
     };
     setCurrentUser();
-    setCoffeeData();
+    setCoffeeListData();
+    setCoffeeCategoriesData();
   }, [accessToken]);
 
   return (

@@ -34,3 +34,13 @@ export const coffeeListState = atom<CoffeeType[] | null>({
   key: 'coffee-list-state',
   default: null,
 });
+
+export interface CoffeeCategoryType {
+  id: number;
+  name: string;
+}
+
+export const coffeeCategoriesState = atom<CoffeeCategoryType[] | null>({
+  key: 'coffee-categories-state',
+  default: null,
+});
