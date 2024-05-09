@@ -26,7 +26,10 @@ const MainStackNavigator = () => {
 
   React.useEffect(() => {
     const handleBackPress = () => {
-      if (navigationRef.getCurrentRoute()?.name === 'TodoList') {
+      if (
+        navigationRef.getCurrentRoute()?.name === 'SignIn' ||
+        navigationRef.getCurrentRoute()?.name === 'Home'
+      ) {
         Alert.alert('잠깐!!', '정말 앱을 종료하시겠어요?', [
           {
             text: '취소',
