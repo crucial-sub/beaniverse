@@ -1,7 +1,14 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useRecoilState} from 'recoil';
-import {coffeeCategoriesState} from '../../recoil';
+import {coffeeCategoriesState, selectedCoffeeCategoryState} from '../../recoil';
 import {COLORS, FONTFAMILY, FONTSIZE} from '../../theme/theme';
 import {capitalize} from '../../utils';
 
@@ -9,6 +16,17 @@ const CoffeeCategories = () => {
   const [coffeeCategories, setCoffeeCategories] = useRecoilState(
     coffeeCategoriesState,
   );
+  const [selectedCategory, setSelectedCategory] = useRecoilState(
+    selectedCoffeeCategoryState,
+  );
+
+  const handlePress = (category: string) => {
+    setSelectedCategory(category);
+  };
+  const selectedStyle: TextStyle = {
+    color: COLORS.primaryOrangeHex,
+  };
+
   if (!coffeeCategories) return;
   const arr = [{id: 0, name: 'all'}, ...coffeeCategories];
   return (
@@ -18,7 +36,17 @@ const CoffeeCategories = () => {
         horizontal={true}
         showsHorizontalScrollIndicator={false}>
         {arr.map(el => {
-          return <Text style={styles.CategoryName}>{capitalize(el.name)}</Text>;
+          return (
+            <TouchableOpacity key={el.id} onPress={() => handlePress(el.name)}>
+              <Text
+                style={[
+                  styles.CategoryName,
+                  el.name === selectedCategory ? selectedStyle : null,
+                ]}>
+                {capitalize(el.name)}
+              </Text>
+            </TouchableOpacity>
+          );
         })}
       </ScrollView>
     </View>

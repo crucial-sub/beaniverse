@@ -44,3 +44,8 @@ export const coffeeCategoriesState = atom<CoffeeCategoryType[] | null>({
   key: 'coffee-categories-state',
   default: null,
 });
+
+export const selectedCoffeeCategoryState = atom({
+  key: 'selected-coffee-category-state',
+  default: 'all',
+});
