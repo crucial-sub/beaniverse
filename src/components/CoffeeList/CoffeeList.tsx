@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {
@@ -10,29 +10,33 @@ import CoffeeCard from './CoffeeCard';
 
 const CoffeeList = () => {
   const [coffeeList, setCoffeeList] = useRecoilState(coffeeListState);
-  if (!coffeeList) return;
   const [renderData, setRenderData] = React.useState(coffeeList);
+
   const selectedCategory = useRecoilValue(selectedCoffeeCategoryState);
-
-  useEffect(() => {
-    if (!coffeeList) return;
-    if (selectedCategory === 'all') return;
-    const filteredData = coffeeList.filter(
-      el => el.category.name === selectedCategory,
-    );
-
-    setRenderData(filteredData);
-  }, [selectedCategory]);
 
   const renderItem = ({item}: {item: CoffeeType}) => (
     <CoffeeCard coffee={item} />
   );
   const keyExtractor = (item: CoffeeType) => `flat-list-item-${item.id}`;
 
+  React.useEffect(() => {
+    if (!coffeeList) return;
+    if (selectedCategory === 'all') {
+      setRenderData(coffeeList);
+    } else {
+      const filteredData = coffeeList.filter(el => {
+        if (!el.category) return false;
+        else return el.category.name === selectedCategory;
+      });
+
+      setRenderData(filteredData);
+    }
+  }, [coffeeList, selectedCategory]);
+
   return (
     <View>
       <FlatList
-        data={coffeeList}
+        data={renderData}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         horizontal={true}
