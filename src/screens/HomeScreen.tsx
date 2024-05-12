@@ -2,6 +2,7 @@ import React from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import CoffeeCategories from '../components/CoffeeList/CoffeeCategories';
 import CoffeeList from '../components/CoffeeList/CoffeeList';
+import SearchInput from '../components/CoffeeList/SearchInput';
 import HomeHeader from '../components/Header/HomeHeader';
 import {COLORS, SPACING} from '../theme/theme';
 
@@ -10,6 +11,7 @@ const HomeScreen = () => {
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.container}>
         <HomeHeader />
+        <SearchInput />
         <CoffeeCategories />
         <CoffeeList />
       </View>
