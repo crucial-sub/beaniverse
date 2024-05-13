@@ -11,6 +11,7 @@ import {
   coffeeListState,
   userState,
 } from '../recoil';
+import DetailsScreen from '../screens/DetailsScreen';
 import SignInScreen from '../screens/SignInScreen';
 import TabNavigator from './TabNavigator';
 
@@ -82,6 +83,7 @@ const MainStackNavigator = () => {
       ) : (
         <>
           <MainStack.Screen name="Tab" component={TabNavigator} />
+          <MainStack.Screen name="Details" component={DetailsScreen} />
         </>
       )}
     </MainStack.Navigator>

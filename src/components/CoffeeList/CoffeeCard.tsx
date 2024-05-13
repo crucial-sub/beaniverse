@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {
   ImageBackground,
@@ -8,6 +9,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import StarIcon from '../../assets/svg_images/star.svg';
+import {RootNavigationProp} from '../../navigators/navigation';
 import {CoffeeType} from '../../recoil';
 import {
   BORDERRADIUS,
@@ -24,8 +26,13 @@ interface CoffeeCardProps {
 }
 
 const CoffeeCard = ({coffee}: CoffeeCardProps) => {
+  const navigation = useNavigation<RootNavigationProp>();
+  const handlePress = () => {
+    navigation.navigate('Details', {id: coffee.id});
+  };
+
   return (
-    <TouchableOpacity style={styles.Container}>
+    <TouchableOpacity style={styles.Container} onPress={handlePress}>
       <LinearGradient
         start={{x: 0, y: 0}}
         end={{x: 1, y: 1}}
