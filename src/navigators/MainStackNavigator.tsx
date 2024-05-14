@@ -14,8 +14,9 @@ import {
 import DetailsScreen from '../screens/DetailsScreen';
 import SignInScreen from '../screens/SignInScreen';
 import TabNavigator from './TabNavigator';
+import {RootStackParamList} from './navigation';
 
-const MainStack = createStackNavigator();
+const MainStack = createStackNavigator<RootStackParamList>();
 
 const MainStackNavigator = () => {
   const accessToken = useRecoilValue(accessTokenState);

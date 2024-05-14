@@ -1,7 +1,11 @@
+import {StackScreenProps} from '@react-navigation/stack';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import {RootStackParamList} from '../navigators/navigation';
 
-const DetailsScreen = ({route}: any) => {
+type DetailsScreenProps = StackScreenProps<RootStackParamList, 'Details'>;
+
+const DetailsScreen = ({route}: DetailsScreenProps) => {
   return (
     <View>
       <Text>DetailsScreen</Text>
