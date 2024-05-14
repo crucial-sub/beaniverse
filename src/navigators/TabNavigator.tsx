@@ -20,7 +20,7 @@ const TabNavigator = () => {
         tabBarHideOnKeyboard: true,
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarStyle: styles.tabBarStyle,
+        tabBarStyle: styles.TabBarStyle,
       }}>
       <BottomTab.Screen
         name="Home"
@@ -81,7 +81,7 @@ const TabNavigator = () => {
 export default TabNavigator;
 
 const styles = StyleSheet.create({
-  tabBarStyle: {
+  TabBarStyle: {
     height: 80,
     position: 'absolute',
     backgroundColor: COLORS.primaryBlackRGBA,

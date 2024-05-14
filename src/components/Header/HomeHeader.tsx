@@ -8,12 +8,12 @@ import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../../theme/theme';
 const HomeHeader = () => {
   const user = useRecoilValue(userState);
   return (
-    <View style={styles.headerWrapper}>
+    <View style={styles.HeaderWrapper}>
       <FastImage
         source={{uri: user?.profileImage}}
-        style={styles.profileImage}
+        style={styles.ProfileImage}
       />
-      <Text style={styles.headerText}>{`Welcome ${user?.user_name}`}</Text>
+      <Text style={styles.HeaderText}>{`Welcome ${user?.user_name}`}</Text>
     </View>
   );
 };
@@ -21,17 +21,17 @@ const HomeHeader = () => {
 export default HomeHeader;
 
 const styles = StyleSheet.create({
-  headerWrapper: {
+  HeaderWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: SPACING.space_15,
     gap: SPACING.space_15,
   },
-  profileImage: {
+  ProfileImage: {
     width: 35,
     height: 35,
   },
-  headerText: {
+  HeaderText: {
     color: COLORS.primaryWhiteHex,
     fontFamily: FONTFAMILY.poppins_medium,
     fontSize: FONTSIZE.size_16,

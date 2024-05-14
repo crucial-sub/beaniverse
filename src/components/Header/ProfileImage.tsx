@@ -6,14 +6,14 @@ import {SPACING} from '../../theme/theme';
 
 const ProfileImage = () => {
   return (
-    <FastImage source={ImageAssets.profileImage} style={styles.profileImage} />
+    <FastImage source={ImageAssets.profileImage} style={styles.ProfileImage} />
   );
 };
 
 export default ProfileImage;
 
 const styles = StyleSheet.create({
-  profileImage: {
+  ProfileImage: {
     width: SPACING.space_30,
     height: SPACING.space_30,
   },

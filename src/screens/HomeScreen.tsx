@@ -8,8 +8,8 @@ import {COLORS, SPACING} from '../theme/theme';
 
 const HomeScreen = () => {
   return (
-    <SafeAreaView style={styles.safeAreaView}>
-      <View style={styles.container}>
+    <SafeAreaView style={styles.SafeAreaView}>
+      <View style={styles.Container}>
         <HomeHeader />
         <SearchInput />
         <CoffeeCategories />
@@ -22,11 +22,11 @@ const HomeScreen = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  safeAreaView: {
+  SafeAreaView: {
     flex: 1,
     backgroundColor: COLORS.primaryBlackHex,
   },
-  container: {
+  Container: {
     flex: 1,
     backgroundColor: COLORS.primaryBlackHex,
     paddingHorizontal: SPACING.space_30,

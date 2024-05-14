@@ -14,7 +14,7 @@ const HeaderBar = ({title, leftIcon}: HeaderBarProps) => {
   return (
     <View style={styles.HeaderContainer}>
       {leftIcon === 'back' ? <BackButton /> : <MenuButton />}
-      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.Title}>{title}</Text>
       {title === 'Payment' ? <></> : <ProfileImage />}
     </View>
   );
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  title: {
+  Title: {
     fontSize: FONTSIZE.size_20,
     fontFamily: FONTFAMILY.poppins_semibold,
     color: COLORS.primaryWhiteHex,
