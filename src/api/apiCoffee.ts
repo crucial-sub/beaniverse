@@ -25,3 +25,16 @@ export const getCoffeeCategories = async (accessToken: string) => {
     console.log(error);
   }
 };
+
+export const getCoffeeDetails = async (accessToken: string, id: number) => {
+  try {
+    const {data} = await apiClient.get(`coffee/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
