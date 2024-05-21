@@ -18,7 +18,7 @@ export const userState = atom<UserType | null>({
 });
 
 export interface CoffeeType {
-  category: {id: number; name: string};
+  category: {id: number; name: string} | null;
   id: number;
   imageUrl: string;
   isFavorite: boolean;
@@ -27,7 +27,7 @@ export interface CoffeeType {
   price: number;
   rating: number;
   roastType: {id: number; name: string};
-  type: 'COFFEE';
+  type: 'COFFEE' | 'COFFEE_BEAN';
 }
 
 export const coffeeListState = atom<CoffeeType[] | null>({
@@ -49,16 +49,3 @@ export const selectedCoffeeCategoryState = atom({
   key: 'selected-coffee-category-state',
   default: 'all',
 });
-
-export interface CoffeeBeanType {
-  category: null;
-  id: number;
-  imageUrl: string;
-  isFavorite: boolean;
-  name: string;
-  origin: {country: string; id: number};
-  price: number;
-  rating: number;
-  roastType: {id: number; name: string};
-  type: 'COFFEE_BEAN';
-}
