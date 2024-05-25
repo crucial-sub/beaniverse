@@ -2,11 +2,13 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {Alert, BackHandler, StyleSheet} from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {getCoffeeCategories, getCoffeeList} from '../api/apiCoffee';
+import {getCoffeeAndBeans, getCoffeeCategories} from '../api/apiCoffee';
 import {getUser} from '../api/apiUser';
 import {navigationRef} from '../lib/navigation';
 import {
+  CoffeeAndBeansType,
   accessTokenState,
+  beansState,
   coffeeCategoriesState,
   coffeeListState,
   userState,
@@ -22,6 +24,7 @@ const MainStackNavigator = () => {
   const accessToken = useRecoilValue(accessTokenState);
   const [user, setUser] = useRecoilState(userState);
   const [coffeeList, setCoffeeList] = useRecoilState(coffeeListState);
+  const [coffeeBeans, setCoffeeBeans] = useRecoilState(beansState);
   const [coffeeCategories, setCoffeeCategories] = useRecoilState(
     coffeeCategoriesState,
   );
@@ -62,16 +65,23 @@ const MainStackNavigator = () => {
       const currentUser = await getUser(accessToken);
       setUser(currentUser);
     };
-    const setCoffeeListData = async () => {
-      const coffeeListData = await getCoffeeList(accessToken);
-      setCoffeeList(coffeeListData);
+    const setCoffeeAndBeansData = async () => {
+      const coffeeAndBeans: CoffeeAndBeansType[] = await getCoffeeAndBeans();
+      const coffeeList = [] as CoffeeAndBeansType[];
+      const beans = [] as CoffeeAndBeansType[];
+      coffeeAndBeans.forEach(item => {
+        if (item.type === 'COFFEE') coffeeList.push(item);
+        else if (item.type === 'COFFEE_BEAN') beans.push(item);
+      });
+      setCoffeeList(coffeeList);
+      setCoffeeBeans(beans);
     };
     const setCoffeeCategoriesData = async () => {
-      const coffeeCategoriesData = await getCoffeeCategories(accessToken);
+      const coffeeCategoriesData = await getCoffeeCategories();
       setCoffeeCategories(coffeeCategoriesData);
     };
     setCurrentUser();
-    setCoffeeListData();
+    setCoffeeAndBeansData();
     setCoffeeCategoriesData();
   }, [accessToken]);
 

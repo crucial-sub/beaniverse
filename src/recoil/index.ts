@@ -17,7 +17,7 @@ export const userState = atom<UserType | null>({
   default: null,
 });
 
-export interface CoffeeType {
+export interface CoffeeAndBeansType {
   category: {id: number; name: string} | null;
   id: number;
   imageUrl: string;
@@ -30,8 +30,13 @@ export interface CoffeeType {
   type: 'COFFEE' | 'COFFEE_BEAN';
 }
 
-export const coffeeListState = atom<CoffeeType[] | null>({
+export const coffeeListState = atom<CoffeeAndBeansType[] | null>({
   key: 'coffee-list-state',
+  default: null,
+});
+
+export const beansState = atom<CoffeeAndBeansType[] | null>({
+  key: 'beans-state',
   default: null,
 });
 

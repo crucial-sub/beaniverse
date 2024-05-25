@@ -5,7 +5,6 @@ import {
   Text,
   TextStyle,
   TouchableOpacity,
-  View,
 } from 'react-native';
 import {useRecoilState} from 'recoil';
 import {coffeeCategoriesState, selectedCoffeeCategoryState} from '../../recoil';
@@ -29,27 +28,26 @@ const CoffeeCategories = () => {
 
   if (!coffeeCategories) return;
   const arr = [{id: 0, name: 'all'}, ...coffeeCategories];
+
   return (
-    <View>
-      <ScrollView
-        contentContainerStyle={styles.CategoryContentContainerStyle}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}>
-        {arr.map(el => {
-          return (
-            <TouchableOpacity key={el.id} onPress={() => handlePress(el.name)}>
-              <Text
-                style={[
-                  styles.CategoryName,
-                  el.name === selectedCategory ? selectedStyle : null,
-                ]}>
-                {capitalize(el.name)}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
-      </ScrollView>
-    </View>
+    <ScrollView
+      contentContainerStyle={styles.CategoryContentContainerStyle}
+      horizontal={true}
+      showsHorizontalScrollIndicator={false}>
+      {arr.map(el => {
+        return (
+          <TouchableOpacity key={el.id} onPress={() => handlePress(el.name)}>
+            <Text
+              style={[
+                styles.CategoryName,
+                el.name === selectedCategory ? selectedStyle : null,
+              ]}>
+              {capitalize(el.name)}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
+    </ScrollView>
   );
 };
 
@@ -58,6 +56,8 @@ export default CoffeeCategories;
 const styles = StyleSheet.create({
   CategoryContentContainerStyle: {
     gap: 20,
+    marginVertical: 30,
+    paddingHorizontal: 30,
   },
   CategoryName: {
     fontFamily: FONTFAMILY.poppins_semibold,

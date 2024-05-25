@@ -2,7 +2,7 @@ import React from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {
-  CoffeeType,
+  CoffeeAndBeansType,
   coffeeListState,
   selectedCoffeeCategoryState,
 } from '../../recoil';
@@ -14,10 +14,11 @@ const CoffeeList = () => {
 
   const selectedCategory = useRecoilValue(selectedCoffeeCategoryState);
 
-  const renderItem = ({item}: {item: CoffeeType}) => (
+  const renderItem = ({item}: {item: CoffeeAndBeansType}) => (
     <CoffeeCard coffee={item} />
   );
-  const keyExtractor = (item: CoffeeType) => `flat-list-item-${item.id}`;
+  const keyExtractor = (item: CoffeeAndBeansType) =>
+    `flat-list-item-${item.id}`;
 
   React.useEffect(() => {
     if (!coffeeList) return;

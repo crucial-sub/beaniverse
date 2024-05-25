@@ -8,7 +8,6 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import StarIcon from '../../assets/svg_images/star.svg';
 import {RootNavigationProp} from '../../navigators/navigation';
 import {CoffeeAndBeansType} from '../../recoil';
 import {
@@ -21,14 +20,14 @@ import {
 import {capitalize} from '../../utils';
 import HeartButton from '../Header/HeartButton';
 
-interface CoffeeCardProps {
-  coffee: CoffeeAndBeansType;
+interface CoffeeBeanCardProps {
+  coffeeBean: CoffeeAndBeansType;
 }
 
-const CoffeeCard = ({coffee}: CoffeeCardProps) => {
+const CoffeeBeanCard = ({coffeeBean}: CoffeeBeanCardProps) => {
   const navigation = useNavigation<RootNavigationProp>();
   const handlePress = () => {
-    navigation.navigate('Details', {id: coffee.id});
+    navigation.navigate('Details', {id: coffeeBean.id});
   };
 
   return (
@@ -39,22 +38,17 @@ const CoffeeCard = ({coffee}: CoffeeCardProps) => {
         colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
         style={styles.LinearGradientBG}>
         <ImageBackground
-          source={{uri: coffee.imageUrl}}
-          style={styles.CoffeeImageBG}>
-          <View style={styles.CoffeeRatingWrapper}>
-            <StarIcon fill={COLORS.primaryOrangeHex} />
-            <Text style={styles.CoffeeRating}>{coffee.rating.toFixed(1)}</Text>
-          </View>
-        </ImageBackground>
+          source={{uri: coffeeBean.imageUrl}}
+          style={styles.CoffeeImageBG}></ImageBackground>
         <View style={styles.CardInfoWrapper}>
-          <Text style={styles.CoffeeName}>{capitalize(coffee.name)}</Text>
+          <Text style={styles.CoffeeName}>{capitalize(coffeeBean.name)}</Text>
           <Text style={styles.CoffeeOrigin}>{`From ${capitalize(
-            coffee.origin.country,
+            coffeeBean.origin.country,
           )}`}</Text>
           <View style={styles.CardBottomWrapper}>
             <View style={styles.CoffeePriceWrapper}>
               <Text style={styles.DollorSign}>$ </Text>
-              <Text style={styles.CoffeePrice}>{coffee.price}</Text>
+              <Text style={styles.CoffeePrice}>{coffeeBean.price}</Text>
             </View>
             <HeartButton />
           </View>
@@ -64,7 +58,7 @@ const CoffeeCard = ({coffee}: CoffeeCardProps) => {
   );
 };
 
-export default CoffeeCard;
+export default CoffeeBeanCard;
 
 const styles = StyleSheet.create({
   Container: {},
