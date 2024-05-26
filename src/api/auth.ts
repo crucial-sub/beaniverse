@@ -1,4 +1,4 @@
-import apiClient from './apiClient';
+import apiClient, {setAuthHeader} from './apiClient';
 
 export const signIn = async (email: string, password: string) => {
   try {
@@ -8,6 +8,8 @@ export const signIn = async (email: string, password: string) => {
       email,
       password,
     });
+
+    setAuthHeader(accessToken);
 
     return accessToken;
   } catch (error) {

@@ -1,38 +1,26 @@
 import apiClient from './apiClient';
 
-export const getCoffeeList = async (accessToken: string) => {
+export const getCoffeeAndBeans = async () => {
   try {
-    const {data} = await apiClient.get('coffee/', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const {data} = await apiClient.get('coffee/');
     return data;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const getCoffeeCategories = async (accessToken: string) => {
+export const getCoffeeCategories = async () => {
   try {
-    const {data} = await apiClient.get('coffee/categories', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const {data} = await apiClient.get('coffee/categories');
     return data;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const getCoffeeDetails = async (accessToken: string, id: number) => {
+export const getCoffeeDetails = async (id: number) => {
   try {
-    const {data} = await apiClient.get(`coffee/${id}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const {data} = await apiClient.get(`coffee/${id}`);
     return data;
   } catch (error) {
     console.log(error);
