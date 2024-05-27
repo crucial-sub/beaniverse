@@ -8,10 +8,9 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import {useRecoilValue} from 'recoil';
 import {getCoffeeDetails} from '../api/apiCoffee';
 import {RootStackParamList} from '../navigators/navigation';
-import {CoffeeType, accessTokenState} from '../recoil';
+import {CoffeeAndBeansType} from '../recoil';
 import {COLORS} from '../theme/theme';
 
 type DetailsScreenProps = StackScreenProps<RootStackParamList, 'Details'>;
@@ -20,11 +19,10 @@ const screenHeight = Dimensions.get('window').height;
 const IMAGE_BG_HEIGHT = screenHeight * 0.6;
 
 const DetailsScreen = ({route}: DetailsScreenProps) => {
-  const accessToken = useRecoilValue(accessTokenState);
   const {id} = route.params!;
-  const {data, isLoading} = useQuery<CoffeeType, Error>({
+  const {data, isLoading} = useQuery<CoffeeAndBeansType, Error>({
     queryKey: ['get-coffee-details', id],
-    queryFn: () => getCoffeeDetails(accessToken, id),
+    queryFn: () => getCoffeeDetails(id),
     staleTime: 5 * 60 * 1000,
   });
 
