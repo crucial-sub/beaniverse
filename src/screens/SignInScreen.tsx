@@ -27,13 +27,11 @@ const SignInScreen = () => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [token, setToken] = useRecoilState(accessTokenState);
-  const handleSignIn = () => {
-    const getAccessToken = async () => {
-      const accessToken = await signIn(email, password);
-      if (accessToken) setToken(accessToken);
-    };
-    getAccessToken();
+
+  const handleSignIn = async () => {
+    await signIn(email, password);
   };
+
   const handleFocus = (inputType: string) =>
     setActiveBorder({...activeBorder, [inputType]: true});
   const handleBlur = (inputType: string) =>
