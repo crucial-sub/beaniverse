@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiClient, {setAuthHeader} from './apiClient';
 
 export const signIn = async (email: string, password: string) => {
@@ -10,8 +11,12 @@ export const signIn = async (email: string, password: string) => {
     });
 
     setAuthHeader(accessToken);
-
-    return accessToken;
+    await AsyncStorage.setItem(
+      'authToken',
+      JSON.stringify({
+        accessToken,
+      }),
+    );
   } catch (error) {
     console.log(error);
     return null;
