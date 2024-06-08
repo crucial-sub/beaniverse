@@ -8,7 +8,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import {getCoffeeDetails} from '../api/apiCoffee';
+import {DETAIL_SAMPLE} from '../data';
 import {RootStackParamList} from '../navigators/navigation';
 import {CoffeeAndBeansType} from '../recoil';
 import {COLORS} from '../theme/theme';
@@ -22,7 +22,8 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
   const {id} = route.params!;
   const {data, isLoading} = useQuery<CoffeeAndBeansType, Error>({
     queryKey: ['get-coffee-details', id],
-    queryFn: () => getCoffeeDetails(id),
+    // queryFn: () => getCoffeeDetails(id),
+    queryFn: () => DETAIL_SAMPLE[id - 1],
     staleTime: 5 * 60 * 1000,
   });
 

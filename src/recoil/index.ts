@@ -40,6 +40,14 @@ export const beansState = atom<CoffeeAndBeansType[] | null>({
   default: null,
 });
 
+export interface CoffeeAndBeansDetailType extends CoffeeAndBeansType {
+  option: {
+    id: number;
+    size: string;
+    price: number;
+  }[];
+}
+
 export interface CoffeeCategoryType {
   id: number;
   name: string;

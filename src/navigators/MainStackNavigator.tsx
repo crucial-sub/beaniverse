@@ -2,8 +2,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {Alert, BackHandler, StyleSheet} from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
-import {getCoffeeAndBeans, getCoffeeCategories} from '../api/apiCoffee';
-import {getUser} from '../api/apiUser';
+import {CATEGORIES_SAMPLE, COFFEEANDBEANS_SAMPLE, USER_SAMPLE} from '../data';
 import {navigationRef} from '../lib/navigation';
 import {
   CoffeeAndBeansType,
@@ -60,13 +59,15 @@ const MainStackNavigator = () => {
   }, []);
 
   React.useEffect(() => {
-    if (!accessToken) return;
+    // if (!accessToken) return;
     const setCurrentUser = async () => {
-      const currentUser = await getUser(accessToken);
+      // const currentUser = await getUser(accessToken);
+      const currentUser = USER_SAMPLE;
       setUser(currentUser);
     };
     const setCoffeeAndBeansData = async () => {
-      const coffeeAndBeans: CoffeeAndBeansType[] = await getCoffeeAndBeans();
+      // const coffeeAndBeans: CoffeeAndBeansType[] = await getCoffeeAndBeans();
+      const coffeeAndBeans = COFFEEANDBEANS_SAMPLE;
       const coffeeList = [] as CoffeeAndBeansType[];
       const beans = [] as CoffeeAndBeansType[];
       coffeeAndBeans.forEach(item => {
@@ -77,7 +78,8 @@ const MainStackNavigator = () => {
       setCoffeeBeans(beans);
     };
     const setCoffeeCategoriesData = async () => {
-      const coffeeCategoriesData = await getCoffeeCategories();
+      // const coffeeCategoriesData = await getCoffeeCategories();
+      const coffeeCategoriesData = CATEGORIES_SAMPLE;
       setCoffeeCategories(coffeeCategoriesData);
     };
     setCurrentUser();
@@ -87,7 +89,7 @@ const MainStackNavigator = () => {
 
   return (
     <MainStack.Navigator screenOptions={{headerShown: false}}>
-      {!accessToken ? (
+      {accessToken ? (
         <>
           <MainStack.Screen name="SignIn" component={SignInScreen} />
         </>
