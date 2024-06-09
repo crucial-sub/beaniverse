@@ -182,11 +182,13 @@ export const DETAIL_SAMPLE: CoffeeAndBeansDetailType[] = [
     rating: 4.5,
     roastType: {id: 1, name: 'roast1'},
     type: 'COFFEE',
-    option: [
+    options: [
       {id: 1, size: 'S', price: 10.5},
       {id: 2, size: 'M', price: 21},
       {id: 3, size: 'L', price: 31.5},
     ],
+    description:
+      'Cappuccino is a latte made with more foam than steamed milk, often with a sprinkle of cocoa powder or cinnamon on top.',
   },
   {
     category: {id: 2, name: 'category2'},
@@ -200,11 +202,13 @@ export const DETAIL_SAMPLE: CoffeeAndBeansDetailType[] = [
     rating: 4.5,
     roastType: {id: 2, name: 'roast2'},
     type: 'COFFEE',
-    option: [
+    options: [
       {id: 1, size: 'S', price: 10.5},
       {id: 2, size: 'M', price: 21},
       {id: 3, size: 'L', price: 31.5},
     ],
+    description:
+      'Cappuccino is a latte made with more foam than steamed milk, often with a sprinkle of cocoa powder or cinnamon on top.',
   },
   {
     category: {id: 3, name: 'category3'},
@@ -218,11 +222,13 @@ export const DETAIL_SAMPLE: CoffeeAndBeansDetailType[] = [
     rating: 4.5,
     roastType: {id: 3, name: 'roast3'},
     type: 'COFFEE',
-    option: [
+    options: [
       {id: 1, size: 'S', price: 10.5},
       {id: 2, size: 'M', price: 21},
       {id: 3, size: 'L', price: 31.5},
     ],
+    description:
+      'Cappuccino is a latte made with more foam than steamed milk, often with a sprinkle of cocoa powder or cinnamon on top.',
   },
   {
     category: {id: 4, name: 'category4'},
@@ -236,11 +242,13 @@ export const DETAIL_SAMPLE: CoffeeAndBeansDetailType[] = [
     rating: 4.5,
     roastType: {id: 4, name: 'roast4'},
     type: 'COFFEE',
-    option: [
+    options: [
       {id: 1, size: 'S', price: 10.5},
       {id: 2, size: 'M', price: 21},
       {id: 3, size: 'L', price: 31.5},
     ],
+    description:
+      'Cappuccino is a latte made with more foam than steamed milk, often with a sprinkle of cocoa powder or cinnamon on top.',
   },
   {
     category: {id: 5, name: 'category5'},
@@ -254,11 +262,13 @@ export const DETAIL_SAMPLE: CoffeeAndBeansDetailType[] = [
     rating: 4.5,
     roastType: {id: 5, name: 'roast5'},
     type: 'COFFEE',
-    option: [
+    options: [
       {id: 1, size: 'S', price: 10.5},
       {id: 2, size: 'M', price: 21},
       {id: 3, size: 'L', price: 31.5},
     ],
+    description:
+      'Cappuccino is a latte made with more foam than steamed milk, often with a sprinkle of cocoa powder or cinnamon on top.',
   },
   {
     category: null,
@@ -272,11 +282,13 @@ export const DETAIL_SAMPLE: CoffeeAndBeansDetailType[] = [
     rating: 4.5,
     roastType: {id: 1, name: 'roast1'},
     type: 'COFFEE_BEAN',
-    option: [
+    options: [
       {id: 1, size: '250gm', price: 10.5},
       {id: 2, size: '500gm', price: 21},
       {id: 3, size: '1000gm', price: 31.5},
     ],
+    description:
+      'Arabica beans are by far the most popular type of coffee beans, making up about 60% of the world’s coffee. These tasty beans originated many centuries ago in the highlands of Ethiopia, and may even be the first coffee beans ever consumed! ',
   },
   {
     category: null,
@@ -290,11 +302,13 @@ export const DETAIL_SAMPLE: CoffeeAndBeansDetailType[] = [
     rating: 4.5,
     roastType: {id: 2, name: 'roast2'},
     type: 'COFFEE_BEAN',
-    option: [
+    options: [
       {id: 1, size: '250gm', price: 10.5},
       {id: 2, size: '500gm', price: 21},
       {id: 3, size: '1000gm', price: 31.5},
     ],
+    description:
+      'Arabica beans are by far the most popular type of coffee beans, making up about 60% of the world’s coffee. These tasty beans originated many centuries ago in the highlands of Ethiopia, and may even be the first coffee beans ever consumed! ',
   },
   {
     category: null,
@@ -308,11 +322,13 @@ export const DETAIL_SAMPLE: CoffeeAndBeansDetailType[] = [
     rating: 4.5,
     roastType: {id: 3, name: 'roast3'},
     type: 'COFFEE_BEAN',
-    option: [
+    options: [
       {id: 1, size: '250gm', price: 10.5},
       {id: 2, size: '500gm', price: 21},
       {id: 3, size: '1000gm', price: 31.5},
     ],
+    description:
+      'Arabica beans are by far the most popular type of coffee beans, making up about 60% of the world’s coffee. These tasty beans originated many centuries ago in the highlands of Ethiopia, and may even be the first coffee beans ever consumed! ',
   },
   {
     category: null,
@@ -326,11 +342,13 @@ export const DETAIL_SAMPLE: CoffeeAndBeansDetailType[] = [
     rating: 4.5,
     roastType: {id: 4, name: 'roast4'},
     type: 'COFFEE_BEAN',
-    option: [
+    options: [
       {id: 1, size: '250gm', price: 10.5},
       {id: 2, size: '500gm', price: 21},
       {id: 3, size: '1000gm', price: 31.5},
     ],
+    description:
+      'Arabica beans are by far the most popular type of coffee beans, making up about 60% of the world’s coffee. These tasty beans originated many centuries ago in the highlands of Ethiopia, and may even be the first coffee beans ever consumed! ',
   },
   {
     category: null,
@@ -344,10 +362,12 @@ export const DETAIL_SAMPLE: CoffeeAndBeansDetailType[] = [
     rating: 4.5,
     roastType: {id: 5, name: 'roast5'},
     type: 'COFFEE_BEAN',
-    option: [
+    options: [
       {id: 1, size: '250gm', price: 10.5},
       {id: 2, size: '500gm', price: 21},
       {id: 3, size: '1000gm', price: 31.5},
     ],
+    description:
+      'Arabica beans are by far the most popular type of coffee beans, making up about 60% of the world’s coffee. These tasty beans originated many centuries ago in the highlands of Ethiopia, and may even be the first coffee beans ever consumed! ',
   },
 ];
