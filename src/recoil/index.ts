@@ -41,6 +41,7 @@ export const beansState = atom<CoffeeAndBeansType[] | null>({
 });
 
 export interface CoffeeAndBeansDetailType extends CoffeeAndBeansType {
+  ratingCount: number;
   options: {
     id: number;
     size: string;
