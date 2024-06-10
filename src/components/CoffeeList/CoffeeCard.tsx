@@ -53,7 +53,7 @@ const CoffeeCard = ({coffee}: CoffeeCardProps) => {
           )}`}</Text>
           <View style={styles.CardBottomWrapper}>
             <View style={styles.CoffeePriceWrapper}>
-              <Text style={styles.DollorSign}>$ </Text>
+              <Text style={styles.DollarSign}>$ </Text>
               <Text style={styles.CoffeePrice}>{coffee.price}</Text>
             </View>
             <HeartButton />
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   CoffeePriceWrapper: {
     flexDirection: 'row',
   },
-  DollorSign: {
+  DollarSign: {
     fontFamily: FONTFAMILY.poppins_semibold,
     fontSize: FONTSIZE.size_16,
     color: COLORS.primaryOrangeHex,

@@ -15,6 +15,7 @@ interface Spacing {
   space_36: number;
   space_40: number;
   space_60: number;
+  space_100: number;
 }
 
 export const SPACING: Spacing = {
@@ -34,6 +35,7 @@ export const SPACING: Spacing = {
   space_36: 36,
   space_40: 40,
   space_60: 60,
+  space_100: 100,
 };
 
 interface Color {
@@ -73,15 +75,15 @@ export const COLORS: Color = {
 };
 
 interface FontFamily {
-  poppins_black: string;
-  poppins_bold: string;
-  poppins_extrabold: string;
-  poppins_extralight: string;
-  poppins_light: string;
-  poppins_medium: string;
-  poppins_regular: string;
-  poppins_semibold: string;
-  poppins_thin: string;
+  poppins_black: string; //900
+  poppins_bold: string; //700
+  poppins_extrabold: string; //800
+  poppins_extralight: string; //200
+  poppins_light: string; //300
+  poppins_medium: string; //500
+  poppins_regular: string; //400
+  poppins_semibold: string; //600
+  poppins_thin: string; //100
 }
 
 export const FONTFAMILY: FontFamily = {
