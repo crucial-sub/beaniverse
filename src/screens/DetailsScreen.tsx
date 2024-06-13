@@ -13,6 +13,8 @@ import BeanIcon from '../assets/svg_images/bean.svg';
 import CoffeeIcon from '../assets/svg_images/coffee.svg';
 import LocationIcon from '../assets/svg_images/location.svg';
 import StarIcon from '../assets/svg_images/star.svg';
+import BackButton from '../components/Header/BackButton';
+import HeartButton from '../components/Header/HeartButton';
 import {DETAIL_SAMPLE} from '../data';
 import {RootStackParamList} from '../navigators/navigation';
 import {CoffeeAndBeansDetailType} from '../recoil';
@@ -55,6 +57,10 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
   if (data)
     return (
       <View style={styles.Container}>
+        <View style={styles.DetailHeader}>
+          <BackButton />
+          <HeartButton />
+        </View>
         <ImageBackground
           source={{uri: data.imageUrl}}
           style={styles.CoffeeImageBG}
@@ -168,6 +174,16 @@ export default DetailsScreen;
 const styles = StyleSheet.create({
   Container: {
     backgroundColor: COLORS.primaryBlackHex,
+  },
+  DetailHeader: {
+    position: 'absolute',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    top: 60,
+    left: 0,
+    right: 0,
+    zIndex: 1,
+    paddingHorizontal: SPACING.space_20,
   },
   CoffeeImageBG: {
     height: IMAGE_BG_HEIGHT,
