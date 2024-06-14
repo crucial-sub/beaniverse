@@ -7,8 +7,11 @@ import {
   ImageBackground,
   StyleSheet,
   Text,
+  TextStyle,
   View,
+  ViewStyle,
 } from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import BeanIcon from '../assets/svg_images/bean.svg';
 import CoffeeIcon from '../assets/svg_images/coffee.svg';
 import LocationIcon from '../assets/svg_images/location.svg';
@@ -41,6 +44,17 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
     queryFn: () => DETAIL_SAMPLE[id - 1],
     staleTime: 5 * 60 * 1000,
   });
+  const [selectedOptionIndex, setSelectedOptionIndex] = React.useState(0);
+  const handleSelectOption = (idx: number) => {
+    setSelectedOptionIndex(idx);
+  };
+  const selectedBoxStyle: ViewStyle = {
+    borderColor: COLORS.primaryOrangeHex,
+    borderWidth: 2,
+  };
+  const selectedTextStyle: TextStyle = {
+    color: COLORS.primaryOrangeHex,
+  };
 
   if (isLoading)
     return (
@@ -105,7 +119,6 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
                       width={24}
                       height={24}
                       fill={COLORS.primaryOrangeHex}
-                      // stroke={COLORS.primaryOrangeHex}
                     />
                   ) : null}
                   <Text style={styles.DetailInfoRightText}>
@@ -145,10 +158,22 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
           <View style={styles.SizeWrapper}>
             <Text style={styles.SizeTitle}>Size</Text>
             <View style={styles.SizeTextWrapper}>
-              {data.options.map(opt => (
-                <View key={opt.id} style={styles.SizeTextBox}>
-                  <Text style={styles.SizeText}>{opt.size}</Text>
-                </View>
+              {data.options.map((opt, idx) => (
+                <TouchableOpacity
+                  key={opt.id}
+                  style={[
+                    styles.SizeTextBox,
+                    idx === selectedOptionIndex ? selectedBoxStyle : null,
+                  ]}
+                  onPress={() => handleSelectOption(idx)}>
+                  <Text
+                    style={[
+                      styles.SizeText,
+                      idx === selectedOptionIndex ? selectedTextStyle : null,
+                    ]}>
+                    {opt.size}
+                  </Text>
+                </TouchableOpacity>
               ))}
             </View>
           </View>
@@ -158,7 +183,9 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
             <Text style={styles.PriceTitle}>Price</Text>
             <View style={styles.PriceTextWrapper}>
               <Text style={styles.DollarSign}>$ </Text>
-              <Text style={styles.PriceText}>10.50</Text>
+              <Text style={styles.PriceText}>
+                {data.options[selectedOptionIndex].price}
+              </Text>
             </View>
           </View>
           <View style={styles.AddButton}>
