@@ -49,7 +49,7 @@ const MAX_HEIGHT = screenHeight * 0.675;
 const DetailsScreen = ({route}: DetailsScreenProps) => {
   const height = useSharedValue(DESCRIPTION_HEIGHT);
   const startY = useSharedValue(0);
-  const headerOpacity = useSharedValue(1);
+  const headerHeight = useSharedValue(32);
   const {id} = route.params!;
   const {data, isLoading} = useQuery<CoffeeAndBeansDetailType, Error>({
     queryKey: ['get-coffee-details', id],
@@ -75,8 +75,8 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
     })
     .onUpdate(event => {
       height.value = startY.value - event.translationY;
-      headerOpacity.value = withTiming(
-        height.value > DESCRIPTION_HEIGHT + 100 ? 0 : 1,
+      headerHeight.value = withTiming(
+        height.value > DESCRIPTION_HEIGHT + 100 ? 0 : 32,
         {duration: 300},
       );
     })
@@ -96,7 +96,7 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
   });
   const headerAnimatedStyle = useAnimatedStyle(() => {
     return {
-      opacity: headerOpacity.value,
+      height: headerHeight.value,
     };
   });
 
@@ -259,6 +259,7 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 1,
     paddingHorizontal: SPACING.space_20,
+    overflow: 'hidden',
   },
   CoffeeImageBG: {
     height: IMAGE_BG_HEIGHT,
