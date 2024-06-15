@@ -11,7 +11,16 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  Gesture,
+  GestureDetector,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import BeanIcon from '../assets/svg_images/bean.svg';
 import CoffeeIcon from '../assets/svg_images/coffee.svg';
 import LocationIcon from '../assets/svg_images/location.svg';
@@ -31,12 +40,16 @@ import {
 
 type DetailsScreenProps = StackScreenProps<RootStackParamList, 'Details'>;
 
-const screenHeight = Dimensions.get('window').height;
+const {height: screenHeight} = Dimensions.get('window');
 const IMAGE_BG_HEIGHT = screenHeight * 0.6;
 const DETAILINFO_HEIGHT = 148.2;
 const DESCRIPTION_HEIGHT = screenHeight - IMAGE_BG_HEIGHT;
+const MAX_HEIGHT = screenHeight * 0.675;
 
 const DetailsScreen = ({route}: DetailsScreenProps) => {
+  const height = useSharedValue(DESCRIPTION_HEIGHT);
+  const startY = useSharedValue(0);
+  const headerOpacity = useSharedValue(1);
   const {id} = route.params!;
   const {data, isLoading} = useQuery<CoffeeAndBeansDetailType, Error>({
     queryKey: ['get-coffee-details', id],
@@ -56,6 +69,37 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
     color: COLORS.primaryOrangeHex,
   };
 
+  const panGestureEvent = Gesture.Pan()
+    .onStart(() => {
+      startY.value = height.value;
+    })
+    .onUpdate(event => {
+      height.value = startY.value - event.translationY;
+      headerOpacity.value = withTiming(
+        height.value > DESCRIPTION_HEIGHT + 100 ? 0 : 1,
+        {duration: 300},
+      );
+    })
+    .onEnd(() => {
+      height.value = withTiming(
+        height.value > DESCRIPTION_HEIGHT + 100
+          ? MAX_HEIGHT
+          : DESCRIPTION_HEIGHT,
+      );
+    });
+
+  const descriptionAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      minHeight: DESCRIPTION_HEIGHT,
+      height: height.value,
+    };
+  });
+  const headerAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: headerOpacity.value,
+    };
+  });
+
   if (isLoading)
     return (
       <ActivityIndicator
@@ -71,113 +115,116 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
   if (data)
     return (
       <View style={styles.Container}>
-        <View style={styles.DetailHeader}>
+        <Animated.View style={[styles.DetailHeader, headerAnimatedStyle]}>
           <BackButton />
           <HeartButton />
-        </View>
+        </Animated.View>
         <ImageBackground
           source={{uri: data.imageUrl}}
           style={styles.CoffeeImageBG}
         />
-        <View style={styles.DetailOptionWrapper}>
-          <View style={styles.DetailInfoWrapper}>
-            <View style={styles.DetailInfoLeft}>
-              <View style={styles.ItemNameWrapper}>
-                <Text style={styles.ItemName}>{data.name}</Text>
-                {data.category && (
-                  <Text style={styles.ItemCategoryName}>
-                    {data.category.name}
-                  </Text>
-                )}
-              </View>
-              <View style={styles.ItemRatingWrapper}>
-                <StarIcon
-                  width={18.57}
-                  height={18.42}
-                  fill={COLORS.primaryOrangeHex}
-                />
-                <Text style={styles.ItemRating}>{data.rating}</Text>
-                <Text
-                  style={
-                    styles.ItemRatingCount
-                  }>{`(${data.ratingCount})`}</Text>
-              </View>
-            </View>
-            <View style={styles.DetailInfoRight}>
-              <View style={styles.DetailInfoRightTop}>
-                <View style={styles.DetailInfoRightTopBox}>
-                  {data.type === 'COFFEE' ? (
-                    <CoffeeIcon
-                      width={24}
-                      height={24}
-                      fill={COLORS.primaryOrangeHex}
-                      stroke={COLORS.primaryOrangeHex}
-                      strokeWidth={0.407643}
-                    />
-                  ) : data.type === 'COFFEE_BEAN' ? (
-                    <BeanIcon
-                      width={24}
-                      height={24}
-                      fill={COLORS.primaryOrangeHex}
-                    />
-                  ) : null}
-                  <Text style={styles.DetailInfoRightText}>
-                    {data.type === 'COFFEE'
-                      ? 'Coffee'
-                      : data.type === 'COFFEE_BEAN'
-                      ? 'Bean'
-                      : null}
-                  </Text>
+        <GestureDetector gesture={panGestureEvent}>
+          <Animated.View
+            style={[styles.DetailOptionWrapper, descriptionAnimatedStyle]}>
+            <View style={styles.DetailInfoWrapper}>
+              <View style={styles.DetailInfoLeft}>
+                <View style={styles.ItemNameWrapper}>
+                  <Text style={styles.ItemName}>{data.name}</Text>
+                  {data.category && (
+                    <Text style={styles.ItemCategoryName}>
+                      {data.category.name}
+                    </Text>
+                  )}
                 </View>
-                <View style={styles.DetailInfoRightTopBox}>
-                  <LocationIcon
-                    width={24}
-                    height={24}
+                <View style={styles.ItemRatingWrapper}>
+                  <StarIcon
+                    width={18.57}
+                    height={18.42}
                     fill={COLORS.primaryOrangeHex}
                   />
-                  <Text style={styles.DetailInfoRightText}>
-                    {data.origin.country}
-                  </Text>
-                </View>
-              </View>
-              <View style={styles.DetailInfoRightBottom}>
-                <View style={styles.DetailInfoRightBottomBox}>
-                  <Text style={styles.DetailInfoRightText}>
-                    {data.roastType.name}
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
-          <View style={styles.DescriptionWrapper}>
-            <Text style={styles.DescriptionTitle}>Description</Text>
-            <Text style={styles.DescriptionText} numberOfLines={3}>
-              {data.description}
-            </Text>
-          </View>
-          <View style={styles.SizeWrapper}>
-            <Text style={styles.SizeTitle}>Size</Text>
-            <View style={styles.SizeTextWrapper}>
-              {data.options.map((opt, idx) => (
-                <TouchableOpacity
-                  key={opt.id}
-                  style={[
-                    styles.SizeTextBox,
-                    idx === selectedOptionIndex ? selectedBoxStyle : null,
-                  ]}
-                  onPress={() => handleSelectOption(idx)}>
+                  <Text style={styles.ItemRating}>{data.rating}</Text>
                   <Text
-                    style={[
-                      styles.SizeText,
-                      idx === selectedOptionIndex ? selectedTextStyle : null,
-                    ]}>
-                    {opt.size}
-                  </Text>
-                </TouchableOpacity>
-              ))}
+                    style={
+                      styles.ItemRatingCount
+                    }>{`(${data.ratingCount})`}</Text>
+                </View>
+              </View>
+              <View style={styles.DetailInfoRight}>
+                <View style={styles.DetailInfoRightTop}>
+                  <View style={styles.DetailInfoRightTopBox}>
+                    {data.type === 'COFFEE' ? (
+                      <CoffeeIcon
+                        width={24}
+                        height={24}
+                        fill={COLORS.primaryOrangeHex}
+                        stroke={COLORS.primaryOrangeHex}
+                        strokeWidth={0.407643}
+                      />
+                    ) : data.type === 'COFFEE_BEAN' ? (
+                      <BeanIcon
+                        width={24}
+                        height={24}
+                        fill={COLORS.primaryOrangeHex}
+                      />
+                    ) : null}
+                    <Text style={styles.DetailInfoRightText}>
+                      {data.type === 'COFFEE'
+                        ? 'Coffee'
+                        : data.type === 'COFFEE_BEAN'
+                        ? 'Bean'
+                        : null}
+                    </Text>
+                  </View>
+                  <View style={styles.DetailInfoRightTopBox}>
+                    <LocationIcon
+                      width={24}
+                      height={24}
+                      fill={COLORS.primaryOrangeHex}
+                    />
+                    <Text style={styles.DetailInfoRightText}>
+                      {data.origin.country}
+                    </Text>
+                  </View>
+                </View>
+                <View style={styles.DetailInfoRightBottom}>
+                  <View style={styles.DetailInfoRightBottomBox}>
+                    <Text style={styles.DetailInfoRightText}>
+                      {data.roastType.name}
+                    </Text>
+                  </View>
+                </View>
+              </View>
             </View>
-          </View>
-        </View>
+            <View style={styles.DescriptionWrapper}>
+              <Text style={styles.DescriptionTitle}>Description</Text>
+              <Text style={styles.DescriptionText} numberOfLines={3}>
+                {data.description}
+              </Text>
+            </View>
+            <View style={styles.SizeWrapper}>
+              <Text style={styles.SizeTitle}>Size</Text>
+              <View style={styles.SizeTextWrapper}>
+                {data.options.map((opt, idx) => (
+                  <TouchableOpacity
+                    key={opt.id}
+                    style={[
+                      styles.SizeTextBox,
+                      idx === selectedOptionIndex ? selectedBoxStyle : null,
+                    ]}
+                    onPress={() => handleSelectOption(idx)}>
+                    <Text
+                      style={[
+                        styles.SizeText,
+                        idx === selectedOptionIndex ? selectedTextStyle : null,
+                      ]}>
+                      {opt.size}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+          </Animated.View>
+        </GestureDetector>
         <View style={styles.BottomWrapper}>
           <View style={styles.PriceWrapper}>
             <Text style={styles.PriceTitle}>Price</Text>
@@ -201,6 +248,7 @@ export default DetailsScreen;
 const styles = StyleSheet.create({
   Container: {
     backgroundColor: COLORS.primaryBlackHex,
+    height: '100%',
   },
   DetailHeader: {
     position: 'absolute',
@@ -217,7 +265,9 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   DetailOptionWrapper: {
-    height: DESCRIPTION_HEIGHT,
+    position: 'absolute',
+    bottom: 0,
+
     backgroundColor: COLORS.primaryBlackHex,
     padding: SPACING.space_20,
     gap: SPACING.space_30,
