@@ -15,6 +15,8 @@ import {
   TouchableOpacity,
 } from 'react-native-gesture-handler';
 import Animated, {
+  runOnJS,
+  useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -47,6 +49,7 @@ const MAX_HEIGHT = screenHeight * 0.675;
 const DetailsScreen = ({route}: DetailsScreenProps) => {
   const height = useSharedValue(DESCRIPTION_HEIGHT);
   const startY = useSharedValue(0);
+  // const numberOfLinesSharedValue = useSharedValue(3);
   const headerHeight = useSharedValue(32);
   const {id} = route.params!;
   const {data, isLoading} = useQuery<CoffeeAndBeansDetailType, Error>({
@@ -56,9 +59,24 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
     staleTime: 5 * 60 * 1000,
   });
   const [selectedOptionIndex, setSelectedOptionIndex] = React.useState(0);
+  const [numberOfLines, setNumberOfLines] = React.useState(3);
+
   const handleSelectOption = (idx: number) => {
     setSelectedOptionIndex(idx);
   };
+
+  useAnimatedReaction(
+    () => height.value,
+    currentHeight => {
+      if (currentHeight > DESCRIPTION_HEIGHT + 100) {
+        runOnJS(setNumberOfLines)(0);
+      } else {
+        runOnJS(setNumberOfLines)(3);
+      }
+    },
+    [],
+  );
+
   const panGestureEvent = Gesture.Pan()
     .onStart(() => {
       startY.value = height.value;
@@ -183,7 +201,7 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
           </View>
           <View style={styles.DescriptionWrapper}>
             <Text style={styles.DescriptionTitle}>Description</Text>
-            <Text style={styles.DescriptionText} numberOfLines={3}>
+            <Text style={styles.DescriptionText} numberOfLines={numberOfLines}>
               {data.description}
             </Text>
           </View>
