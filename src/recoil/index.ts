@@ -40,6 +40,11 @@ export const beansState = atom<CoffeeAndBeansType[] | null>({
   default: null,
 });
 
+export const searchTextState = atom({
+  key: 'search-text-state',
+  default: '',
+});
+
 export interface CoffeeAndBeansDetailType extends CoffeeAndBeansType {
   ratingCount: number;
   options: {

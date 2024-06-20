@@ -4,6 +4,7 @@ import {useRecoilState, useRecoilValue} from 'recoil';
 import {
   CoffeeAndBeansType,
   coffeeListState,
+  searchTextState,
   selectedCoffeeCategoryState,
 } from '../../recoil';
 import CoffeeCard from './CoffeeCard';
@@ -11,6 +12,7 @@ import CoffeeCard from './CoffeeCard';
 const CoffeeList = () => {
   const [coffeeList, setCoffeeList] = useRecoilState(coffeeListState);
   const [renderData, setRenderData] = React.useState(coffeeList);
+  const [searchText, setSearchText] = useRecoilState(searchTextState);
 
   const selectedCategory = useRecoilValue(selectedCoffeeCategoryState);
 
@@ -33,6 +35,14 @@ const CoffeeList = () => {
       setRenderData(filteredData);
     }
   }, [coffeeList, selectedCategory]);
+
+  React.useEffect(() => {
+    if (!searchText || !coffeeList) return;
+
+    const filteredData = coffeeList.filter(el => el.name.includes(searchText));
+
+    setRenderData(filteredData);
+  }, [searchText]);
 
   return (
     <View>
