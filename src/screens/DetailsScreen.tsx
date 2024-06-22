@@ -49,7 +49,6 @@ const MAX_HEIGHT = screenHeight * 0.675;
 const DetailsScreen = ({route}: DetailsScreenProps) => {
   const height = useSharedValue(DESCRIPTION_HEIGHT);
   const startY = useSharedValue(0);
-  // const numberOfLinesSharedValue = useSharedValue(3);
   const headerHeight = useSharedValue(32);
   const {id} = route.params!;
   const {data, isLoading} = useQuery<CoffeeAndBeansDetailType, Error>({
