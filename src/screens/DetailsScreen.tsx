@@ -63,6 +63,7 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
   const handleSelectOption = (idx: number) => {
     setSelectedOptionIndex(idx);
   };
+  const handleAddToCart = () => {};
 
   useAnimatedReaction(
     () => height.value,
@@ -238,9 +239,9 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
             </Text>
           </View>
         </View>
-        <View style={styles.AddButton}>
+        <TouchableOpacity style={styles.AddButton} onPress={handleAddToCart}>
           <Text style={styles.AddButtonText}>Add to Cart</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   ) : null;
@@ -424,6 +425,7 @@ const styles = StyleSheet.create({
     color: COLORS.primaryWhiteHex,
   },
   AddButton: {
+    flex: 1,
     width: 240,
     backgroundColor: COLORS.primaryOrangeHex,
     borderRadius: BORDERRADIUS.radius_20,
