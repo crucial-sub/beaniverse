@@ -69,3 +69,14 @@ export const selectedCoffeeCategoryState = atom({
   key: 'selected-coffee-category-state',
   default: 'all',
 });
+
+export interface PaymentCartType {
+  coffeeId: number;
+  optionId: number;
+  quantity: number;
+}
+
+export const paymentCartState = atom<PaymentCartType[]>({
+  key: 'payment-cart-state',
+  default: [],
+});
