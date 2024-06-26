@@ -21,6 +21,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import {useRecoilState} from 'recoil';
 import BeanIcon from '../assets/svg_images/bean.svg';
 import CoffeeIcon from '../assets/svg_images/coffee.svg';
 import LocationIcon from '../assets/svg_images/location.svg';
@@ -29,7 +30,11 @@ import BackButton from '../components/Header/BackButton';
 import HeartButton from '../components/Header/HeartButton';
 import {DETAIL_SAMPLE} from '../data';
 import {RootStackParamList} from '../navigators/navigation';
-import {CoffeeAndBeansDetailType} from '../recoil';
+import {
+  CoffeeAndBeansDetailType,
+  PaymentCartType,
+  paymentCartListState,
+} from '../recoil';
 import {
   BORDERRADIUS,
   COLORS,
@@ -60,10 +65,34 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
   const [selectedOptionIndex, setSelectedOptionIndex] = React.useState(0);
   const [numberOfLines, setNumberOfLines] = React.useState(3);
 
+  const [paymentCartList, setPaymentCartList] =
+    useRecoilState<PaymentCartType[]>(paymentCartListState);
+
   const handleSelectOption = (idx: number) => {
     setSelectedOptionIndex(idx);
   };
-  const handleAddToCart = () => {};
+  const handleAddToCart = () => {
+    if (!data) return;
+    const selectedOptionId = data.options[selectedOptionIndex].id;
+    const selectedCartItem = paymentCartList.find(
+      item => item.coffeeId === data.id && item.optionId === selectedOptionId,
+    );
+    const newPaymentCartList = selectedCartItem
+      ? paymentCartList.map(item => ({
+          ...item,
+          quantity: item.quantity + 1,
+        }))
+      : [
+          ...paymentCartList,
+          {
+            coffeeId: data.id,
+            optionId: selectedOptionId,
+            quantity: 1,
+          },
+        ];
+
+    setPaymentCartList(newPaymentCartList);
+  };
 
   useAnimatedReaction(
     () => height.value,

@@ -76,7 +76,7 @@ export interface PaymentCartType {
   quantity: number;
 }
 
-export const paymentCartState = atom<PaymentCartType[]>({
-  key: 'payment-cart-state',
+export const paymentCartListState = atom<PaymentCartType[]>({
+  key: 'payment-cart-list-state',
   default: [],
 });
