@@ -264,7 +264,7 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
           <View style={styles.PriceTextWrapper}>
             <Text style={styles.DollarSign}>$ </Text>
             <Text style={styles.PriceText}>
-              {data.options[selectedOptionIndex].price}
+              {data.options[selectedOptionIndex].price.toFixed(2)}
             </Text>
           </View>
         </View>

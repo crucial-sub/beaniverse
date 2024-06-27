@@ -48,7 +48,9 @@ const CoffeeBeanCard = ({coffeeBean}: CoffeeBeanCardProps) => {
           <View style={styles.CardBottomWrapper}>
             <View style={styles.CoffeePriceWrapper}>
               <Text style={styles.DollarSign}>$ </Text>
-              <Text style={styles.CoffeePrice}>{coffeeBean.price}</Text>
+              <Text style={styles.CoffeePrice}>
+                {coffeeBean.price.toFixed(2)}
+              </Text>
             </View>
             <HeartButton />
           </View>

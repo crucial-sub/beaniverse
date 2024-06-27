@@ -80,7 +80,7 @@ const PaymentCartItem = ({item}: PaymentCartItemProps) => {
             </View>
             <View style={styles.CoffeePriceWrapper}>
               <Text style={styles.DollarSign}>$</Text>
-              <Text style={styles.CoffeePrice}>{opt.price}</Text>
+              <Text style={styles.CoffeePrice}>{opt.price.toFixed(2)}</Text>
             </View>
             <TouchableOpacity style={styles.PlusMinusButton}>
               <MinusIcon />

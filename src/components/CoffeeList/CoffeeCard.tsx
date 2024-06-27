@@ -54,7 +54,7 @@ const CoffeeCard = ({coffee}: CoffeeCardProps) => {
           <View style={styles.CardBottomWrapper}>
             <View style={styles.CoffeePriceWrapper}>
               <Text style={styles.DollarSign}>$ </Text>
-              <Text style={styles.CoffeePrice}>{coffee.price}</Text>
+              <Text style={styles.CoffeePrice}>{coffee.price.toFixed(2)}</Text>
             </View>
             <HeartButton />
           </View>
