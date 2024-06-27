@@ -85,11 +85,11 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
         )
       : [
           ...paymentCartList,
-          {
+          ...data.options.map(opt => ({
             coffeeId: data.id,
-            optionId: selectedOptionId,
-            quantity: 1,
-          },
+            optionId: opt.id,
+            quantity: opt.id === selectedOptionId ? 1 : 0,
+          })),
         ];
 
     setPaymentCartList(newPaymentCartList);
