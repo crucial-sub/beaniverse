@@ -9,7 +9,7 @@ import {
 } from '../../recoil';
 import PaymentCartItem from './PaymentCartItem';
 
-interface GroupedPaymentCartType {
+export interface GroupedPaymentCartType {
   coffeeId: number;
   items: PaymentCartType[];
 }
@@ -36,12 +36,7 @@ const PaymentCartList = () => {
   }));
 
   const renderItem = ({item}: {item: GroupedPaymentCartType}) => {
-    if (!coffeeList || !coffeeBeans) return null;
-    const coffeeData =
-      coffeeList.find(coffee => coffee.id === item.coffeeId) ||
-      coffeeBeans.find(bean => bean.id === item.coffeeId);
-    if (!coffeeData) return null;
-    return <PaymentCartItem coffeeId={item.coffeeId} />;
+    return <PaymentCartItem item={item} />;
   };
   const keyExtractor = (item: GroupedPaymentCartType) =>
     `cart-flat-list-item-${item.coffeeId}`;
