@@ -1,4 +1,5 @@
-import {atom} from 'recoil';
+import {atom, selector} from 'recoil';
+import {DETAIL_SAMPLE} from '../data';
 
 export const accessTokenState = atom({
   key: 'access-token-state',
@@ -79,4 +80,23 @@ export interface PaymentCartType {
 export const paymentCartListState = atom<PaymentCartType[]>({
   key: 'payment-cart-list-state',
   default: [],
+});
+
+export const totalPriceState = selector({
+  key: 'total-price-state',
+  get: async ({get}) => {
+    const paymentCartList = get(paymentCartListState);
+    let totalPrice = 0;
+
+    for (const item of paymentCartList) {
+      // const coffeeDetail = await getCoffeeDetails(item.coffeeId);
+      const coffeeDetail = await DETAIL_SAMPLE[item.coffeeId - 1];
+
+      const option = coffeeDetail.options.find(opt => opt.id === item.optionId);
+      const price = option ? option.price : 0;
+      totalPrice += price * item.quantity;
+    }
+
+    return totalPrice;
+  },
 });

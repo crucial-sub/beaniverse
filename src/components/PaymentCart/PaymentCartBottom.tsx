@@ -1,5 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {useRecoilValueLoadable} from 'recoil';
+import {totalPriceState} from '../../recoil';
 import {
   BORDERRADIUS,
   COLORS,
@@ -9,13 +11,28 @@ import {
 } from '../../theme/theme';
 
 const PaymentCartBottom = () => {
+  const totalPriceLoadable = useRecoilValueLoadable(totalPriceState);
+
+  let totalPriceDisplay;
+  switch (totalPriceLoadable.state) {
+    case 'hasValue':
+      totalPriceDisplay = totalPriceLoadable.contents.toFixed(2);
+      break;
+    case 'loading':
+      totalPriceDisplay = 'Loading...';
+      break;
+    case 'hasError':
+      totalPriceDisplay = 'Error';
+      break;
+  }
+
   return (
     <View style={styles.BottomWrapper}>
       <View style={styles.PriceWrapper}>
         <Text style={styles.PriceTitle}>Total Price</Text>
         <View style={styles.PriceTextWrapper}>
           <Text style={styles.DollarSign}>$ </Text>
-          <Text style={styles.PriceText}>10.40</Text>
+          <Text style={styles.PriceText}>{totalPriceDisplay}</Text>
         </View>
       </View>
       <TouchableOpacity style={styles.AddButton} onPress={() => {}}>
