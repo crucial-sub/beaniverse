@@ -39,6 +39,22 @@ const PaymentCartItem = ({item}: PaymentCartItemProps) => {
     queryFn: () => DETAIL_SAMPLE[item.coffeeId - 1],
     staleTime: 5 * 60 * 1000,
   });
+  const handlePlusButton = (optionId: number) => {
+    const newPaymentCartList = paymentCartList.map(cartItem =>
+      cartItem.coffeeId === item.coffeeId && cartItem.optionId === optionId
+        ? {...cartItem, quantity: cartItem.quantity + 1}
+        : cartItem,
+    );
+    setPaymentCartList(newPaymentCartList);
+  };
+  const handleMinusButton = (optionId: number) => {
+    const newPaymentCartList = paymentCartList.map(cartItem =>
+      cartItem.coffeeId === item.coffeeId && cartItem.optionId === optionId
+        ? {...cartItem, quantity: Math.max(cartItem.quantity - 1, 0)}
+        : cartItem,
+    );
+    setPaymentCartList(newPaymentCartList);
+  };
 
   return data ? (
     <LinearGradient
@@ -64,35 +80,44 @@ const PaymentCartItem = ({item}: PaymentCartItemProps) => {
         </View>
       </View>
       <View style={styles.CoffeeOptionsWrapper}>
-        {data.options.map(opt => (
-          <View
-            key={`item-option-${data.id}-${opt.id}`}
-            style={styles.OptionWrapper}>
-            <View style={styles.CoffeeSizeBox}>
-              <Text
-                style={
-                  data.type === 'COFFEE'
-                    ? styles.CoffeeSizeText
-                    : styles.CoffeeBeanSizeText
-                }>
-                {opt.size}
-              </Text>
+        {data.options.map(opt => {
+          const quantity =
+            item.items.find(e => e.optionId === opt.id)?.quantity || 0;
+
+          return (
+            <View
+              key={`item-option-${data.id}-${opt.id}`}
+              style={styles.OptionWrapper}>
+              <View style={styles.CoffeeSizeBox}>
+                <Text
+                  style={
+                    data.type === 'COFFEE'
+                      ? styles.CoffeeSizeText
+                      : styles.CoffeeBeanSizeText
+                  }>
+                  {opt.size}
+                </Text>
+              </View>
+              <View style={styles.CoffeePriceWrapper}>
+                <Text style={styles.DollarSign}>$</Text>
+                <Text style={styles.CoffeePrice}>{opt.price.toFixed(2)}</Text>
+              </View>
+              <TouchableOpacity
+                style={styles.PlusMinusButton}
+                onPress={() => handleMinusButton(opt.id)}>
+                <MinusIcon />
+              </TouchableOpacity>
+              <View style={styles.QuantityBox}>
+                <Text style={styles.QuantityText}>{quantity}</Text>
+              </View>
+              <TouchableOpacity
+                style={styles.PlusMinusButton}
+                onPress={() => handlePlusButton(opt.id)}>
+                <PlusIcon />
+              </TouchableOpacity>
             </View>
-            <View style={styles.CoffeePriceWrapper}>
-              <Text style={styles.DollarSign}>$</Text>
-              <Text style={styles.CoffeePrice}>{opt.price.toFixed(2)}</Text>
-            </View>
-            <TouchableOpacity style={styles.PlusMinusButton}>
-              <MinusIcon />
-            </TouchableOpacity>
-            <View style={styles.QuantityBox}>
-              <Text style={styles.QuantityText}>1</Text>
-            </View>
-            <TouchableOpacity style={styles.PlusMinusButton}>
-              <PlusIcon />
-            </TouchableOpacity>
-          </View>
-        ))}
+          );
+        })}
       </View>
     </LinearGradient>
   ) : null;
