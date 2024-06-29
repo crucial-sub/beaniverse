@@ -35,9 +35,12 @@ const PaymentCartList = () => {
     items: groupByCoffeeId[Number(coffeeId)],
   }));
 
-  const renderItem = ({item}: {item: GroupedPaymentCartType}) => {
-    return <PaymentCartItem item={item} />;
-  };
+  const renderItem = React.useCallback(
+    ({item}: {item: GroupedPaymentCartType}) => {
+      return <PaymentCartItem item={item} />;
+    },
+    [],
+  );
   const keyExtractor = (item: GroupedPaymentCartType) =>
     `cart-flat-list-item-${item.coffeeId}`;
 

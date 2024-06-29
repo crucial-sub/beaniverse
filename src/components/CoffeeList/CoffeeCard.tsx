@@ -64,7 +64,7 @@ const CoffeeCard = ({coffee}: CoffeeCardProps) => {
   );
 };
 
-export default CoffeeCard;
+export default React.memo(CoffeeCard);
 
 const styles = StyleSheet.create({
   Container: {},
