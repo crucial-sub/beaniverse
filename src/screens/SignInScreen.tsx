@@ -1,3 +1,5 @@
+import {UseMutationResult, useMutation} from '@tanstack/react-query';
+import axios from 'axios';
 import React from 'react';
 import {
   SafeAreaView,
@@ -7,9 +9,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useRecoilState} from 'recoil';
-import {signIn} from '../api/auth';
-import {accessTokenState} from '../recoil';
+import {useSetRecoilState} from 'recoil';
+import {LoginRequest, LoginResponse, signIn} from '../api/auth';
+import {saveStorageData} from '../lib/storage-helper';
+import {isLoginState} from '../recoil';
 import {
   BORDERRADIUS,
   COLORS,
@@ -26,10 +29,32 @@ const SignInScreen = () => {
   const [activeButton, setActiveButton] = React.useState(false);
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [token, setToken] = useRecoilState(accessTokenState);
+  const setIsLogin = useSetRecoilState(isLoginState);
 
-  const handleSignIn = async () => {
-    await signIn(email, password);
+  const mutation: UseMutationResult<
+    LoginResponse,
+    unknown,
+    LoginRequest,
+    unknown
+  > = useMutation({
+    mutationFn: signIn,
+    onSuccess: async (data: LoginResponse) => {
+      const {accessToken} = data;
+      saveStorageData('accessToken', accessToken);
+      console.log('Login successful:');
+      setIsLogin(true);
+    },
+    onError: (error: unknown) => {
+      if (axios.isAxiosError(error)) {
+        console.error('Axios error:', error.response?.status, error.message);
+      } else {
+        console.error('Unexpected error:', error);
+      }
+    },
+  });
+
+  const handleSignIn = () => {
+    mutation.mutate({email, password});
   };
 
   const handleFocus = (inputType: string) =>

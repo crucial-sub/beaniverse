@@ -1,9 +1,9 @@
 import {atom, selector} from 'recoil';
 import {DETAIL_SAMPLE} from '../data';
 
-export const accessTokenState = atom({
-  key: 'access-token-state',
-  default: '',
+export const isLoginState = atom<boolean>({
+  key: 'isLoginState',
+  default: false,
 });
 
 export interface UserType {

@@ -1,32 +1,45 @@
 import {createStackNavigator} from '@react-navigation/stack';
+import {useQuery} from '@tanstack/react-query';
 import React from 'react';
-import {Alert, BackHandler, StyleSheet} from 'react-native';
-import {useRecoilState, useRecoilValue} from 'recoil';
-import {CATEGORIES_SAMPLE, COFFEEANDBEANS_SAMPLE, USER_SAMPLE} from '../data';
-import {navigationRef} from '../lib/navigation';
 import {
-  CoffeeAndBeansType,
-  accessTokenState,
+  ActivityIndicator,
+  Alert,
+  BackHandler,
+  StyleSheet,
+  View,
+} from 'react-native';
+import {useRecoilState} from 'recoil';
+import {setAuthHeader} from '../api/apiClient';
+import {getCoffeeAndBeans, getCoffeeCategories} from '../api/apiCoffee';
+import {getUser} from '../api/apiUser';
+import {navigationRef} from '../lib/navigation';
+import {getStorageData} from '../lib/storage-helper';
+import {
+  UserType,
   beansState,
   coffeeCategoriesState,
   coffeeListState,
+  isLoginState,
   userState,
 } from '../recoil';
 import DetailsScreen from '../screens/DetailsScreen';
 import SignInScreen from '../screens/SignInScreen';
+import {COLORS} from '../theme/theme';
 import TabNavigator from './TabNavigator';
 import {RootStackParamList} from './navigation';
 
 const MainStack = createStackNavigator<RootStackParamList>();
 
 const MainStackNavigator = () => {
-  const accessToken = useRecoilValue(accessTokenState);
-  const [user, setUser] = useRecoilState(userState);
+  const [accessToken, setAccessToken] = React.useState<string | null>(null);
+  const [user, setUser] = useRecoilState<UserType | null>(userState);
   const [coffeeList, setCoffeeList] = useRecoilState(coffeeListState);
   const [coffeeBeans, setCoffeeBeans] = useRecoilState(beansState);
   const [coffeeCategories, setCoffeeCategories] = useRecoilState(
     coffeeCategoriesState,
   );
+  const [loading, setLoading] = React.useState(true);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
 
   React.useEffect(() => {
     const handleBackPress = () => {
@@ -59,37 +72,99 @@ const MainStackNavigator = () => {
   }, []);
 
   React.useEffect(() => {
-    // if (!accessToken) return;
-    const setCurrentUser = async () => {
-      // const currentUser = await getUser(accessToken);
-      const currentUser = USER_SAMPLE;
-      setUser(currentUser);
+    const initializeLoginState = async () => {
+      const storedAccessToken = await getStorageData('accessToken');
+      if (storedAccessToken) {
+        setAuthHeader(storedAccessToken);
+        setIsLogin(true);
+      } else {
+        setLoading(false);
+      }
     };
-    const setCoffeeAndBeansData = async () => {
-      // const coffeeAndBeans: CoffeeAndBeansType[] = await getCoffeeAndBeans();
-      const coffeeAndBeans = COFFEEANDBEANS_SAMPLE;
-      const coffeeList = [] as CoffeeAndBeansType[];
-      const beans = [] as CoffeeAndBeansType[];
-      coffeeAndBeans.forEach(item => {
-        if (item.type === 'COFFEE') coffeeList.push(item);
-        else if (item.type === 'COFFEE_BEAN') beans.push(item);
-      });
+
+    initializeLoginState();
+  }, []);
+
+  const {
+    data: userData,
+    error: userError,
+    isLoading: userDataLoading,
+    isSuccess: userDataSuccess,
+  } = useQuery({
+    enabled: !!isLogin,
+    queryKey: ['getUser'],
+    queryFn: getUser,
+  });
+  const {
+    data: coffeeAndBeansData,
+    isLoading: coffeeAndBeansDataLoading,
+    isSuccess: coffeeAndBeansDataSuccess,
+  } = useQuery({
+    enabled: !!isLogin,
+    queryKey: ['getCoffeeAndBeans'],
+    queryFn: getCoffeeAndBeans,
+  });
+  const {
+    data: coffeeCategoriesData,
+    isLoading: coffeeCategoriesDataLoading,
+    isSuccess: coffeeCategoriesDataSuccess,
+  } = useQuery({
+    enabled: !!isLogin,
+    queryKey: ['getCoffeeCategories'],
+    queryFn: getCoffeeCategories,
+  });
+
+  React.useEffect(() => {
+    if (userData) {
+      setUser(userData);
+    }
+  }, [userData]);
+
+  React.useEffect(() => {
+    if (coffeeAndBeansData) {
+      const coffeeList = coffeeAndBeansData.filter(
+        item => item.type === 'COFFEE',
+      );
+      const beans = coffeeAndBeansData.filter(
+        item => item.type === 'COFFEE_BEAN',
+      );
       setCoffeeList(coffeeList);
       setCoffeeBeans(beans);
-    };
-    const setCoffeeCategoriesData = async () => {
-      // const coffeeCategoriesData = await getCoffeeCategories();
-      const coffeeCategoriesData = CATEGORIES_SAMPLE;
+    }
+  }, [coffeeAndBeansData]);
+
+  React.useEffect(() => {
+    if (coffeeCategoriesData) {
       setCoffeeCategories(coffeeCategoriesData);
-    };
-    setCurrentUser();
-    setCoffeeAndBeansData();
-    setCoffeeCategoriesData();
-  }, [accessToken]);
+    }
+  }, [coffeeCategoriesData]);
+
+  React.useEffect(() => {
+    if (
+      userDataLoading ||
+      coffeeAndBeansDataLoading ||
+      coffeeCategoriesDataLoading
+    )
+      setLoading(true);
+    else if (
+      userDataSuccess &&
+      coffeeAndBeansDataSuccess &&
+      coffeeCategoriesDataSuccess
+    )
+      setLoading(false);
+  }, [userDataLoading, coffeeAndBeansDataLoading, coffeeCategoriesDataLoading]);
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={COLORS.primaryWhiteHex} />
+      </View>
+    );
+  }
 
   return (
     <MainStack.Navigator screenOptions={{headerShown: false}}>
-      {accessToken ? (
+      {!loading && !isLogin ? (
         <>
           <MainStack.Screen name="SignIn" component={SignInScreen} />
         </>
@@ -105,4 +180,11 @@ const MainStackNavigator = () => {
 
 export default MainStackNavigator;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLORS.primaryBlackHex,
+  },
+});

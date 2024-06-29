@@ -1,24 +1,17 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import apiClient, {setAuthHeader} from './apiClient';
 
-export const signIn = async (email: string, password: string) => {
-  try {
-    const {
-      data: {accessToken},
-    } = await apiClient.post('auth/login', {
-      email,
-      password,
-    });
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
 
-    setAuthHeader(accessToken);
-    await AsyncStorage.setItem(
-      'authToken',
-      JSON.stringify({
-        accessToken,
-      }),
-    );
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
+export interface LoginResponse {
+  accessToken: string;
+}
+
+export const signIn = async (req: LoginRequest): Promise<LoginResponse> => {
+  const {data} = await apiClient.post<LoginResponse>('auth/login', req);
+
+  setAuthHeader(data.accessToken);
+  return data;
 };

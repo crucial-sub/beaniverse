@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const saveStorageData = async (key: string, value: any) => {
   const valueString = JSON.stringify(value);
 
-  AsyncStorage.setItem(key, valueString);
+  await AsyncStorage.setItem(key, valueString);
 };
 
 export const getStorageData = async (key: string) => {
@@ -17,9 +17,9 @@ export const getStorageData = async (key: string) => {
 };
 
 export const removeStorageData = async (key: string) => {
-  AsyncStorage.removeItem(key);
+  await AsyncStorage.removeItem(key);
 };
 
 export const clearStorageData = async () => {
-  AsyncStorage.clear();
+  await AsyncStorage.clear();
 };

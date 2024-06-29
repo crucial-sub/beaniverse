@@ -1,12 +1,20 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {useRecoilValue} from 'recoil';
-import {userState} from '../../recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {removeStorageData} from '../../lib/storage-helper';
+import {isLoginState, userState} from '../../recoil';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../../theme/theme';
 
 const HomeHeader = () => {
   const user = useRecoilValue(userState);
+  const setIsLogin = useSetRecoilState(isLoginState);
+
+  const signOut = async () => {
+    await removeStorageData('accessToken');
+    setIsLogin(false);
+  };
+
   return (
     <View style={styles.HeaderWrapper}>
       <FastImage
@@ -14,6 +22,9 @@ const HomeHeader = () => {
         style={styles.ProfileImage}
       />
       <Text style={styles.HeaderText}>{`Welcome ${user?.user_name}`}</Text>
+      <TouchableOpacity onPress={signOut}>
+        <Text style={{color: COLORS.primaryWhiteHex}}>LogOut</Text>
+      </TouchableOpacity>
     </View>
   );
 };
