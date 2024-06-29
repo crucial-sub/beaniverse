@@ -7,13 +7,10 @@ import {
   ImageBackground,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  Gesture,
-  GestureDetector,
-  TouchableOpacity,
-} from 'react-native-gesture-handler';
+import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import Animated, {
   runOnJS,
   useAnimatedReaction,
@@ -22,19 +19,15 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {useRecoilState} from 'recoil';
+import {CoffeeAndBeansDetailType, getCoffeeDetails} from '../api/apiCoffee';
 import BeanIcon from '../assets/svg_images/bean.svg';
 import CoffeeIcon from '../assets/svg_images/coffee.svg';
 import LocationIcon from '../assets/svg_images/location.svg';
 import StarIcon from '../assets/svg_images/star.svg';
 import BackButton from '../components/Header/BackButton';
 import HeartButton from '../components/Header/HeartButton';
-import {DETAIL_SAMPLE} from '../data';
 import {RootStackParamList} from '../navigators/navigation';
-import {
-  CoffeeAndBeansDetailType,
-  PaymentCartType,
-  paymentCartListState,
-} from '../recoil';
+import {PaymentCartType, paymentCartListState} from '../recoil';
 import {
   BORDERRADIUS,
   COLORS,
@@ -42,6 +35,7 @@ import {
   FONTSIZE,
   SPACING,
 } from '../theme/theme';
+import {capitalize} from '../utils';
 
 type DetailsScreenProps = StackScreenProps<RootStackParamList, 'Details'>;
 
@@ -50,16 +44,20 @@ const IMAGE_BG_HEIGHT = screenHeight * 0.6;
 const DETAILINFO_HEIGHT = 148.2;
 const DESCRIPTION_HEIGHT = screenHeight - IMAGE_BG_HEIGHT;
 const MAX_HEIGHT = screenHeight * 0.675;
+const DESCRIPTION_SAMPLE =
+  'Cappuccino is a latte made with more foam than steamed milk, often with a sprinkle of cocoa powder or cinnamon on top.Cappuccino is a latte made with more foam than steamed milk, often with a sprinkle of cocoa powder or cinnamon on top.Cappuccino is a latte made with more foam than steamed milk, often with a sprinkle of cocoa powder or cinnamon on top.Cappuccino is a latte made with more foam than steamed milk, often with a sprinkle of cocoa powder or cinnamon on top.';
 
 const DetailsScreen = ({route}: DetailsScreenProps) => {
   const height = useSharedValue(DESCRIPTION_HEIGHT);
   const startY = useSharedValue(0);
   const headerHeight = useSharedValue(32);
   const {id} = route.params!;
-  const {data, isLoading} = useQuery<CoffeeAndBeansDetailType, Error>({
+  const {data, isLoading, isSuccess} = useQuery<
+    CoffeeAndBeansDetailType,
+    Error
+  >({
     queryKey: ['get-coffee-details', id],
-    // queryFn: () => getCoffeeDetails(id),
-    queryFn: () => DETAIL_SAMPLE[id - 1],
+    queryFn: () => getCoffeeDetails(id),
     staleTime: 5 * 60 * 1000,
   });
   const [selectedOptionIndex, setSelectedOptionIndex] = React.useState(0);
@@ -166,10 +164,10 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
           <View style={styles.DetailInfoWrapper}>
             <View style={styles.DetailInfoLeft}>
               <View style={styles.ItemNameWrapper}>
-                <Text style={styles.ItemName}>{data.name}</Text>
+                <Text style={styles.ItemName}>{capitalize(data.name)}</Text>
                 {data.category && (
                   <Text style={styles.ItemCategoryName}>
-                    {data.category.name}
+                    {capitalize(data.category.name)}
                   </Text>
                 )}
               </View>
@@ -179,11 +177,11 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
                   height={18.42}
                   fill={COLORS.primaryOrangeHex}
                 />
-                <Text style={styles.ItemRating}>{data.rating}</Text>
+                <Text style={styles.ItemRating}>{data.rating.average}</Text>
                 <Text
                   style={
                     styles.ItemRatingCount
-                  }>{`(${data.ratingCount})`}</Text>
+                  }>{`(${data.rating.total})`}</Text>
               </View>
             </View>
             <View style={styles.DetailInfoRight}>
@@ -216,14 +214,14 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
                     fill={COLORS.primaryOrangeHex}
                   />
                   <Text style={styles.DetailInfoRightText}>
-                    {data.origin.country}
+                    {capitalize(data.origin.country)}
                   </Text>
                 </View>
               </View>
               <View style={styles.DetailInfoRightBottom}>
                 <View style={styles.DetailInfoRightBottomBox}>
                   <Text style={styles.DetailInfoRightText}>
-                    {data.roastType.name}
+                    {`${capitalize(data.roastType.name)} Roasted`}
                   </Text>
                 </View>
               </View>
@@ -232,7 +230,7 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
           <View style={styles.DescriptionWrapper}>
             <Text style={styles.DescriptionTitle}>Description</Text>
             <Text style={styles.DescriptionText} numberOfLines={numberOfLines}>
-              {data.description}
+              {DESCRIPTION_SAMPLE}
             </Text>
           </View>
           <View style={styles.SizeWrapper}>
@@ -251,7 +249,9 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
                       styles.SizeText,
                       idx === selectedOptionIndex && styles.SelectedText,
                     ]}>
-                    {opt.size}
+                    {data.type === 'COFFEE'
+                      ? opt.option.toUpperCase()
+                      : `${opt.option}gm`}
                   </Text>
                 </TouchableOpacity>
               ))}
@@ -455,7 +455,6 @@ const styles = StyleSheet.create({
     color: COLORS.primaryWhiteHex,
   },
   AddButton: {
-    flex: 1,
     width: 240,
     backgroundColor: COLORS.primaryOrangeHex,
     borderRadius: BORDERRADIUS.radius_20,

@@ -1,8 +1,4 @@
-import {
-  CoffeeAndBeansDetailType,
-  CoffeeAndBeansType,
-  CoffeeCategoryType,
-} from '../recoil';
+import {CoffeeAndBeansType, CoffeeCategoryType} from '../recoil';
 import apiClient from './apiClient';
 
 export const getCoffeeAndBeans = async (): Promise<
@@ -29,14 +25,33 @@ export const getCoffeeCategories = async (): Promise<
   }
 };
 
+export interface CoffeeAndBeansDetailType {
+  category: {id: number; name: string} | null;
+  id: number;
+  imageUrl: string;
+  isFavorite: boolean;
+  name: string;
+  options: {
+    id: number;
+    option: string;
+    price: number;
+  }[];
+  origin: {country: string; id: number};
+  rating: {average: number; total: number};
+  roastType: {id: number; name: string};
+  type: 'COFFEE' | 'COFFEE_BEAN';
+}
+
 export const getCoffeeDetails = async (
   id: number,
-): Promise<CoffeeAndBeansDetailType | null> => {
+): Promise<CoffeeAndBeansDetailType> => {
   try {
-    const {data} = await apiClient.get(`coffee/${id}`);
+    const {data} = await apiClient.get<CoffeeAndBeansDetailType>(
+      `coffee/${id}`,
+    );
     return data;
   } catch (error) {
     console.log(error);
-    return null;
+    throw new Error('Network response was not ok');
   }
 };

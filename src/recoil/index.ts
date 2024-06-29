@@ -1,5 +1,5 @@
 import {atom, selector} from 'recoil';
-import {DETAIL_SAMPLE} from '../data';
+import {getCoffeeDetails} from '../api/apiCoffee';
 
 export const isLoginState = atom<boolean>({
   key: 'isLoginState',
@@ -46,16 +46,6 @@ export const searchTextState = atom({
   default: '',
 });
 
-export interface CoffeeAndBeansDetailType extends CoffeeAndBeansType {
-  ratingCount: number;
-  options: {
-    id: number;
-    size: string;
-    price: number;
-  }[];
-  description: string;
-}
-
 export interface CoffeeCategoryType {
   id: number;
   name: string;
@@ -89,10 +79,11 @@ export const totalPriceState = selector({
     let totalPrice = 0;
 
     for (const item of paymentCartList) {
-      // const coffeeDetail = await getCoffeeDetails(item.coffeeId);
-      const coffeeDetail = await DETAIL_SAMPLE[item.coffeeId - 1];
+      const coffeeDetail = await getCoffeeDetails(item.coffeeId);
 
-      const option = coffeeDetail.options.find(opt => opt.id === item.optionId);
+      const option = coffeeDetail.options.find(
+        (opt: {id: number}) => opt.id === item.optionId,
+      );
       const price = option ? option.price : 0;
       totalPrice += price * item.quantity;
     }
