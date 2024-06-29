@@ -1,12 +1,7 @@
 import React from 'react';
 import {FlatList} from 'react-native';
 import {useRecoilState} from 'recoil';
-import {
-  PaymentCartType,
-  beansState,
-  coffeeListState,
-  paymentCartListState,
-} from '../../recoil';
+import {PaymentCartType, paymentCartListState} from '../../recoil';
 import PaymentCartItem from './PaymentCartItem';
 
 export interface GroupedPaymentCartType {
@@ -17,23 +12,29 @@ export interface GroupedPaymentCartType {
 const PaymentCartList = () => {
   const [paymentCartList, setPaymentCartList] =
     useRecoilState<PaymentCartType[]>(paymentCartListState);
-  const [coffeeList, setCoffeeList] = useRecoilState(coffeeListState);
-  const [coffeeBeans, setCoffeeBeans] = useRecoilState(beansState);
 
-  const groupByCoffeeId = paymentCartList.reduce((acc, item) => {
-    if (!acc[item.coffeeId]) {
-      acc[item.coffeeId] = [];
-    }
-    acc[item.coffeeId].push(item);
-    return acc;
-  }, {} as Record<number, PaymentCartType[]>);
+  const [renderData, setRenderData] = React.useState<GroupedPaymentCartType[]>(
+    [],
+  );
 
-  const groupedPaymentCartList: GroupedPaymentCartType[] = Object.keys(
-    groupByCoffeeId,
-  ).map(coffeeId => ({
-    coffeeId: Number(coffeeId),
-    items: groupByCoffeeId[Number(coffeeId)],
-  }));
+  React.useEffect(() => {
+    const groupByCoffeeId = paymentCartList.reduce((acc, item) => {
+      if (!acc[item.coffeeId]) {
+        acc[item.coffeeId] = [];
+      }
+      acc[item.coffeeId].push(item);
+      return acc;
+    }, {} as Record<number, PaymentCartType[]>);
+
+    const groupedPaymentCartList: GroupedPaymentCartType[] = Object.keys(
+      groupByCoffeeId,
+    ).map(coffeeId => ({
+      coffeeId: Number(coffeeId),
+      items: groupByCoffeeId[Number(coffeeId)],
+    }));
+
+    setRenderData(groupedPaymentCartList);
+  }, [paymentCartList]);
 
   const renderItem = React.useCallback(
     ({item}: {item: GroupedPaymentCartType}) => {
@@ -46,7 +47,7 @@ const PaymentCartList = () => {
 
   return (
     <FlatList
-      data={groupedPaymentCartList}
+      data={renderData}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
       contentContainerStyle={{gap: 30}}

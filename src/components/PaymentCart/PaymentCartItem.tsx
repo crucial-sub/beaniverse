@@ -9,14 +9,10 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useRecoilState} from 'recoil';
+import {CoffeeAndBeansDetailType, getCoffeeDetails} from '../../api/apiCoffee';
 import MinusIcon from '../../assets/svg_images/minus.svg';
 import PlusIcon from '../../assets/svg_images/plus.svg';
-import {DETAIL_SAMPLE} from '../../data';
-import {
-  CoffeeAndBeansDetailType,
-  PaymentCartType,
-  paymentCartListState,
-} from '../../recoil';
+import {PaymentCartType, paymentCartListState} from '../../recoil';
 import {
   BORDERRADIUS,
   COLORS,
@@ -33,15 +29,15 @@ interface PaymentCartItemProps {
 const PaymentCartItem = ({item}: PaymentCartItemProps) => {
   const [paymentCartList, setPaymentCartList] =
     useRecoilState<PaymentCartType[]>(paymentCartListState);
-  const {data, isLoading} = useQuery<CoffeeAndBeansDetailType, Error>({
+  const {data: coffeeDetail} = useQuery<CoffeeAndBeansDetailType, Error>({
     queryKey: ['get-coffee-details', item.coffeeId],
-    // queryFn: () => getCoffeeDetails(coffeeId),
-    queryFn: () => DETAIL_SAMPLE[item.coffeeId - 1],
+    queryFn: () => getCoffeeDetails(item.coffeeId),
     staleTime: 5 * 60 * 1000,
   });
+
   const handlePlusButton = (optionId: number) => {
     const newPaymentCartList = paymentCartList.map(cartItem =>
-      cartItem.coffeeId === item.coffeeId && cartItem.optionId === optionId
+      cartItem.coffeeId === coffeeDetail?.id && cartItem.optionId === optionId
         ? {...cartItem, quantity: cartItem.quantity + 1}
         : cartItem,
     );
@@ -49,14 +45,14 @@ const PaymentCartItem = ({item}: PaymentCartItemProps) => {
   };
   const handleMinusButton = (optionId: number) => {
     const newPaymentCartList = paymentCartList.map(cartItem =>
-      cartItem.coffeeId === item.coffeeId && cartItem.optionId === optionId
+      cartItem.coffeeId === coffeeDetail?.id && cartItem.optionId === optionId
         ? {...cartItem, quantity: Math.max(cartItem.quantity - 1, 0)}
         : cartItem,
     );
     setPaymentCartList(newPaymentCartList);
   };
 
-  return data ? (
+  return coffeeDetail ? (
     <LinearGradient
       start={{x: 0, y: 0}}
       end={{x: 1, y: 1}}
@@ -64,38 +60,40 @@ const PaymentCartItem = ({item}: PaymentCartItemProps) => {
       style={styles.LinearGradientBG}>
       <View style={styles.CoffeeInfoWrapper}>
         <ImageBackground
-          source={{uri: data.imageUrl}}
+          source={{uri: coffeeDetail.imageUrl}}
           style={styles.CoffeeImageBG}
         />
         <View style={styles.CoffeeDetailWrapper}>
           <View>
-            <Text style={styles.CoffeeName}>{data.name}</Text>
+            <Text style={styles.CoffeeName}>{coffeeDetail.name}</Text>
             <Text style={styles.CoffeeMilk}>With Steamed Milk</Text>
           </View>
           <View style={styles.CoffeeRoastTypeBox}>
             <Text style={styles.CoffeeRoastTypeText}>
-              {data.roastType.name}
+              {coffeeDetail.roastType.name}
             </Text>
           </View>
         </View>
       </View>
       <View style={styles.CoffeeOptionsWrapper}>
-        {data.options.map(opt => {
+        {coffeeDetail.options.map(opt => {
           const quantity =
             item.items.find(e => e.optionId === opt.id)?.quantity || 0;
 
           return (
             <View
-              key={`item-option-${data.id}-${opt.id}`}
+              key={`item-option-${coffeeDetail.id}-${opt.id}`}
               style={styles.OptionWrapper}>
               <View style={styles.CoffeeSizeBox}>
                 <Text
                   style={
-                    data.type === 'COFFEE'
+                    coffeeDetail.type === 'COFFEE'
                       ? styles.CoffeeSizeText
                       : styles.CoffeeBeanSizeText
                   }>
-                  {opt.size}
+                  {coffeeDetail.type === 'COFFEE'
+                    ? opt.option.toUpperCase()
+                    : `${opt.option}gm`}
                 </Text>
               </View>
               <View style={styles.CoffeePriceWrapper}>
@@ -123,7 +121,7 @@ const PaymentCartItem = ({item}: PaymentCartItemProps) => {
   ) : null;
 };
 
-export default PaymentCartItem;
+export default React.memo(PaymentCartItem);
 
 const styles = StyleSheet.create({
   LinearGradientBG: {
