@@ -1,6 +1,8 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useRecoilValueLoadable} from 'recoil';
+import {RootNavigationProp} from '../../navigators/navigation';
 import {totalPriceState} from '../../recoil';
 import {
   BORDERRADIUS,
@@ -12,6 +14,7 @@ import {
 
 const PaymentCartBottom = () => {
   const totalPriceLoadable = useRecoilValueLoadable(totalPriceState);
+  const navigation = useNavigation<RootNavigationProp>();
 
   let totalPriceDisplay;
   switch (totalPriceLoadable.state) {
@@ -26,6 +29,10 @@ const PaymentCartBottom = () => {
       break;
   }
 
+  const handlePress = () => {
+    navigation.navigate('Payment');
+  };
+
   return (
     <View style={styles.BottomWrapper}>
       <View style={styles.PriceWrapper}>
@@ -35,7 +42,7 @@ const PaymentCartBottom = () => {
           <Text style={styles.PriceText}>{totalPriceDisplay}</Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.AddButton} onPress={() => {}}>
+      <TouchableOpacity style={styles.AddButton} onPress={handlePress}>
         <Text style={styles.AddButtonText}>Pay</Text>
       </TouchableOpacity>
     </View>

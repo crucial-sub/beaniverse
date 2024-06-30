@@ -46,6 +46,7 @@ interface Color {
   secondaryDarkGreyHex: string;
   primaryGreyHex: string;
   secondaryGreyHex: string;
+  tertiaryGreyHex: string;
   primarySilverGreyHex: string;
   secondarySilverGreyHex: string;
   primaryLightGreyHex: string;
@@ -66,6 +67,7 @@ export const COLORS: Color = {
   secondaryDarkGreyHex: '#21262E',
   primaryGreyHex: '#252A32',
   secondaryGreyHex: '#252A32',
+  tertiaryGreyHex: '#262B33',
   primarySilverGreyHex: '#FFFFFF2E',
   secondarySilverGreyHex: '#333333',
   primaryLightGreyHex: '#52555A',

@@ -23,6 +23,7 @@ import {
   userState,
 } from '../recoil';
 import DetailsScreen from '../screens/DetailsScreen';
+import PaymentScreen from '../screens/PaymentScreen';
 import SignInScreen from '../screens/SignInScreen';
 import {COLORS} from '../theme/theme';
 import TabNavigator from './TabNavigator';
@@ -172,6 +173,7 @@ const MainStackNavigator = () => {
         <>
           <MainStack.Screen name="Tab" component={TabNavigator} />
           <MainStack.Screen name="Details" component={DetailsScreen} />
+          <MainStack.Screen name="Payment" component={PaymentScreen} />
         </>
       )}
     </MainStack.Navigator>

@@ -125,8 +125,6 @@ export default React.memo(PaymentCartItem);
 
 const styles = StyleSheet.create({
   LinearGradientBG: {
-    borderWidth: 1,
-    borderColor: COLORS.secondaryDarkGreyHex,
     borderRadius: BORDERRADIUS.radius_23,
     backgroundColor: COLORS.secondaryDarkGreyHex,
     width: 330,
