@@ -1,7 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { PaymentWalletType } from '../../api/apiPayment';
-import { COLORS } from '../../theme/theme';
+import {StyleSheet, Text, View} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import {PaymentWalletType} from '../../api/apiPayment';
+import WalletIcon from '../../assets/svg_images/wallet.svg';
+import {BORDERRADIUS, COLORS, FONTFAMILY, FONTSIZE} from '../../theme/theme';
 
 type PaymentWalletPropsType = {
   wallet: PaymentWalletType;
@@ -9,16 +11,49 @@ type PaymentWalletPropsType = {
 
 const PaymentWallet = ({wallet}: PaymentWalletPropsType) => {
   return (
-    <View>
-      <Text style={styles.text}>{wallet.created_at}</Text>
-    </View>
+    <LinearGradient
+      start={{x: 0, y: 0}}
+      end={{x: 1, y: 1}}
+      colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
+      style={styles.LinearGradientBG}>
+      <View style={styles.PaymentWalletLeft}>
+        <WalletIcon />
+        <Text style={styles.PaymentWalletText}>Wallet</Text>
+      </View>
+      <Text style={styles.PaymentWalletBalance}>{`$ ${wallet.balance.toFixed(
+        2,
+      )}`}</Text>
+    </LinearGradient>
   );
 };
 
 export default PaymentWallet;
 
 const styles = StyleSheet.create({
-  text: {
+  LinearGradientBG: {
+    borderRadius: BORDERRADIUS.radius_25,
+    backgroundColor: COLORS.secondaryDarkGreyHex,
+    width: 350,
+    height: 50,
+    padding: 15,
+    borderWidth: 2,
+    borderColor: COLORS.tertiaryGreyHex,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  PaymentWalletLeft: {
+    flexDirection: 'row',
+    gap: 14,
+  },
+  PaymentWalletText: {
     color: COLORS.primaryWhiteHex,
+    fontFamily: FONTFAMILY.poppins_semibold,
+    fontSize: FONTSIZE.size_14,
+  },
+  PaymentWalletBalance: {
+    color: COLORS.primaryWhiteHex,
+    fontFamily: FONTFAMILY.poppins_regular,
+    fontSize: FONTSIZE.size_14,
   },
 });
