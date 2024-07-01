@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import {useRecoilState} from 'recoil';
 import {PaymentMethodType, getPaymentMethod} from '../api/apiPayment';
-import PaymentCards from '../components/Payment/PaymentCards';
-import PaymentWallet from '../components/Payment/PaymentWallet';
+import PaymentBottom from '../components/Payment/PaymentBottom';
+import PaymentMethod from '../components/Payment/PaymentMethod';
 import {PaymentCartType, paymentCartListState} from '../recoil';
 import {COLORS, FONTFAMILY, FONTSIZE} from '../theme/theme';
 
@@ -40,8 +40,8 @@ const PaymentScreen = () => {
       <SafeAreaView style={styles.SafeAreaView}>
         <View style={styles.Container}>
           <Text style={styles.Title}>Payment</Text>
-          <PaymentCards cards={paymentMethod.cards} />
-          <PaymentWallet wallet={paymentMethod.wallet} />
+          <PaymentMethod paymentMethod={paymentMethod} />
+          <PaymentBottom walletBalance={paymentMethod.wallet.balance} />
         </View>
       </SafeAreaView>
     )
@@ -57,9 +57,9 @@ const styles = StyleSheet.create({
   },
   Container: {
     flex: 1,
-    alignItems: 'center',
-    gap: 10,
+    gap: 30,
     paddingBottom: 50,
+    alignItems: 'center',
   },
   Title: {
     color: COLORS.primaryWhiteHex,

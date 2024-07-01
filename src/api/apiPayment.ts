@@ -1,3 +1,4 @@
+import {PaymentCartType} from '../recoil';
 import apiClient from './apiClient';
 
 export interface PaymentMethodType {
@@ -30,4 +31,18 @@ export const getPaymentMethod = async (): Promise<PaymentMethodType> => {
     console.log(error);
     throw new Error();
   }
+};
+
+export interface OrderRequest {
+  cart: PaymentCartType[];
+  paymentMethod: SelectedPaymentMethodType;
+  creditCardId?: number;
+}
+
+export type SelectedPaymentMethodType = 'WALLET' | 'CREDIT_CARD';
+
+export const order = async (req: OrderRequest): Promise<any> => {
+  const {data} = await apiClient.post<any>('payment/order', req);
+
+  return data;
 };

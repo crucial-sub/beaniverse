@@ -1,5 +1,6 @@
 import {atom, selector} from 'recoil';
 import {getCoffeeDetails} from '../api/apiCoffee';
+import {SelectedPaymentMethodType} from '../api/apiPayment';
 
 export const isLoginState = atom<boolean>({
   key: 'isLoginState',
@@ -90,4 +91,9 @@ export const totalPriceState = selector({
 
     return totalPrice;
   },
+});
+
+export const paymentMethodState = atom<SelectedPaymentMethodType>({
+  key: 'payment-method-state',
+  default: 'CREDIT_CARD',
 });
