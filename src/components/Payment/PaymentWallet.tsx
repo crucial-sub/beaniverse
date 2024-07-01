@@ -4,7 +4,10 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useRecoilState} from 'recoil';
 import {PaymentWalletType} from '../../api/apiPayment';
 import WalletIcon from '../../assets/svg_images/wallet.svg';
-import {paymentMethodState} from '../../recoil';
+import {
+  SelectedPaymentMethodType,
+  selectedPaymentMethodState,
+} from '../../recoil';
 import {BORDERRADIUS, COLORS, FONTFAMILY, FONTSIZE} from '../../theme/theme';
 
 type PaymentWalletPropsType = {
@@ -12,10 +15,12 @@ type PaymentWalletPropsType = {
 };
 
 const PaymentWallet = ({wallet}: PaymentWalletPropsType) => {
-  const [selectedPaymentMethod, setSelectedPaymentMethod] =
-    useRecoilState(paymentMethodState);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useRecoilState(
+    selectedPaymentMethodState,
+  );
   const selectMethod = () => {
-    setSelectedPaymentMethod('WALLET');
+    const newPaymentMethod: SelectedPaymentMethodType = {methodType: 'WALLET'};
+    setSelectedPaymentMethod(newPaymentMethod);
   };
 
   return (
@@ -26,7 +31,7 @@ const PaymentWallet = ({wallet}: PaymentWalletPropsType) => {
         colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
         style={[
           styles.LinearGradientBG,
-          selectedPaymentMethod === 'WALLET' && styles.Selected,
+          selectedPaymentMethod?.methodType === 'WALLET' && styles.Selected,
         ]}>
         <View style={styles.PaymentWalletLeft}>
           <WalletIcon />

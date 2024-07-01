@@ -7,6 +7,7 @@ import PaymentWallet from './PaymentWallet';
 type PaymentMethodPropsType = {
   paymentMethod: PaymentMethodType;
 };
+
 const PaymentMethod = ({paymentMethod}: PaymentMethodPropsType) => {
   const renderItem = React.useCallback(
     ({item}: {item: PaymentCardType}) => {
@@ -22,6 +23,7 @@ const PaymentMethod = ({paymentMethod}: PaymentMethodPropsType) => {
   }, [paymentMethod]);
   return (
     <FlatList
+      style={styles.PaymentMethodWrapper}
       data={paymentMethod.cards}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
@@ -33,4 +35,8 @@ const PaymentMethod = ({paymentMethod}: PaymentMethodPropsType) => {
 
 export default PaymentMethod;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  PaymentMethodWrapper: {
+    paddingBottom: 200,
+  },
+});

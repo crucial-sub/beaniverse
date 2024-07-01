@@ -6,7 +6,10 @@ import {PaymentCardType} from '../../api/apiPayment';
 import IcChipIcon from '../../assets/svg_images/ic-chip.svg';
 import MastercardIcon from '../../assets/svg_images/mastercard-mark.svg';
 import VisaIcon from '../../assets/svg_images/visa-mark.svg';
-import {paymentMethodState} from '../../recoil';
+import {
+  SelectedPaymentMethodType,
+  selectedPaymentMethodState,
+} from '../../recoil';
 import {BORDERRADIUS, COLORS, FONTFAMILY, FONTSIZE} from '../../theme/theme';
 
 type PaymentCardItemPropsType = {
@@ -14,10 +17,15 @@ type PaymentCardItemPropsType = {
 };
 
 const PaymentCardItem = ({item}: PaymentCardItemPropsType) => {
-  const [selectedPaymentMethod, setSelectedPaymentMethod] =
-    useRecoilState(paymentMethodState);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useRecoilState(
+    selectedPaymentMethodState,
+  );
   const selectMethod = () => {
-    setSelectedPaymentMethod('CREDIT_CARD');
+    const newPaymentMethod: SelectedPaymentMethodType = {
+      methodType: 'CREDIT_CARD',
+      creditCardId: item.id,
+    };
+    setSelectedPaymentMethod(newPaymentMethod);
   };
 
   const formatCardNumber = item.card_number
@@ -30,7 +38,7 @@ const PaymentCardItem = ({item}: PaymentCardItemPropsType) => {
     <TouchableOpacity
       style={[
         styles.CardsWrapper,
-        selectedPaymentMethod === 'CREDIT_CARD' && styles.Selected,
+        selectedPaymentMethod?.creditCardId === item.id && styles.Selected,
       ]}
       onPress={selectMethod}>
       <Text style={styles.Title}>Credit Card</Text>

@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useRecoilValue} from 'recoil';
-import {paymentMethodState, totalPriceState} from '../../recoil';
+import {selectedPaymentMethodState, totalPriceState} from '../../recoil';
 import {
   BORDERRADIUS,
   COLORS,
@@ -15,10 +15,11 @@ type PaymentBottomPropsType = {
 };
 
 const PaymentBottom = ({walletBalance}: PaymentBottomPropsType) => {
-  const selectedPaymentMethod = useRecoilValue(paymentMethodState);
+  const selectedPaymentMethod = useRecoilValue(selectedPaymentMethodState);
   const totalPrice = useRecoilValue(totalPriceState).toFixed(2);
   const payableState = !(
-    selectedPaymentMethod === 'WALLET' && Number(totalPrice) > walletBalance
+    selectedPaymentMethod?.methodType === 'WALLET' &&
+    Number(totalPrice) > walletBalance
   );
 
   const handlePress = () => {};
@@ -35,7 +36,9 @@ const PaymentBottom = ({walletBalance}: PaymentBottomPropsType) => {
       {payableState ? (
         <TouchableOpacity style={styles.AddButton} onPress={handlePress}>
           <Text style={styles.AddButtonText}>{`Pay from ${
-            selectedPaymentMethod === 'CREDIT_CARD' ? 'Credit Card' : 'Wallet'
+            selectedPaymentMethod?.methodType === 'CREDIT_CARD'
+              ? 'Credit Card'
+              : 'Wallet'
           }`}</Text>
         </TouchableOpacity>
       ) : (

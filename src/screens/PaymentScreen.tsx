@@ -11,17 +11,42 @@ import {useRecoilState} from 'recoil';
 import {PaymentMethodType, getPaymentMethod} from '../api/apiPayment';
 import PaymentBottom from '../components/Payment/PaymentBottom';
 import PaymentMethod from '../components/Payment/PaymentMethod';
-import {PaymentCartType, paymentCartListState} from '../recoil';
+import {
+  PaymentCartType,
+  SelectedPaymentMethodType,
+  paymentCartListState,
+  selectedPaymentMethodState,
+} from '../recoil';
 import {COLORS, FONTFAMILY, FONTSIZE} from '../theme/theme';
 
 const PaymentScreen = () => {
   const [paymentCartList, setPaymentCartList] =
     useRecoilState<PaymentCartType[]>(paymentCartListState);
-  const {data: paymentMethod, isLoading} = useQuery<PaymentMethodType, Error>({
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useRecoilState(
+    selectedPaymentMethodState,
+  );
+  const {
+    data: paymentMethod,
+    isLoading,
+    isSuccess,
+  } = useQuery<PaymentMethodType, Error>({
     queryKey: ['get-payment-method'],
     queryFn: getPaymentMethod,
     staleTime: 5 * 60 * 1000,
   });
+
+  React.useEffect(() => {
+    if (!paymentMethod || selectedPaymentMethod) return;
+    const initialPaymentMethod: SelectedPaymentMethodType = paymentMethod.cards
+      ? {
+          methodType: 'CREDIT_CARD',
+          creditCardId: paymentMethod.cards[0].id,
+        }
+      : {
+          methodType: 'WALLET',
+        };
+    setSelectedPaymentMethod(initialPaymentMethod);
+  }, [isSuccess]);
 
   if (isLoading)
     return (
@@ -58,7 +83,7 @@ const styles = StyleSheet.create({
   Container: {
     flex: 1,
     gap: 30,
-    paddingBottom: 50,
+    paddingBottom: 90,
     alignItems: 'center',
   },
   Title: {

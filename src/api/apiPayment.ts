@@ -35,11 +35,11 @@ export const getPaymentMethod = async (): Promise<PaymentMethodType> => {
 
 export interface OrderRequest {
   cart: PaymentCartType[];
-  paymentMethod: SelectedPaymentMethodType;
+  paymentMethod: SelectedPaymentCategoryType;
   creditCardId?: number;
 }
 
-export type SelectedPaymentMethodType = 'WALLET' | 'CREDIT_CARD';
+export type SelectedPaymentCategoryType = 'WALLET' | 'CREDIT_CARD';
 
 export const order = async (req: OrderRequest): Promise<any> => {
   const {data} = await apiClient.post<any>('payment/order', req);
