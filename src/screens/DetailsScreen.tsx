@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
   DetailHeader: {
     position: 'absolute',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     top: 60,
     left: 0,
     right: 0,

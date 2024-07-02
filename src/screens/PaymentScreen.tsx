@@ -1,14 +1,9 @@
 import {useQuery} from '@tanstack/react-query';
 import React from 'react';
-import {
-  ActivityIndicator,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {ActivityIndicator, SafeAreaView, StyleSheet, View} from 'react-native';
 import {useRecoilState} from 'recoil';
 import {PaymentMethodType, getPaymentMethod} from '../api/apiPayment';
+import HeaderWithoutBottomTab from '../components/Header/HeaderWithoutBottomTab';
 import PaymentBottom from '../components/Payment/PaymentBottom';
 import PaymentMethod from '../components/Payment/PaymentMethod';
 import {
@@ -64,7 +59,7 @@ const PaymentScreen = () => {
     paymentMethod && (
       <SafeAreaView style={styles.SafeAreaView}>
         <View style={styles.Container}>
-          <Text style={styles.Title}>Payment</Text>
+          <HeaderWithoutBottomTab title="payment" />
           <PaymentMethod paymentMethod={paymentMethod} />
           <PaymentBottom walletBalance={paymentMethod.wallet.balance} />
         </View>

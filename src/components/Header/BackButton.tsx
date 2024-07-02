@@ -13,7 +13,7 @@ const BackButton = () => {
   };
 
   return (
-    <TouchableOpacity onPress={handleGoBack}>
+    <TouchableOpacity onPress={handleGoBack} style={styles.BackButton}>
       <GradientBGIcon size={SPACING.space_30}>
         <LeftIcon fill={COLORS.primarySilverGreyHex} />
       </GradientBGIcon>
@@ -23,4 +23,9 @@ const BackButton = () => {
 
 export default BackButton;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  BackButton: {
+    position: 'absolute',
+    left: 20,
+  },
+});
