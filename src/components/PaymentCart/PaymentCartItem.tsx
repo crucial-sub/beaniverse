@@ -1,6 +1,7 @@
 import {useQuery} from '@tanstack/react-query';
 import React from 'react';
 import {
+  Alert,
   ImageBackground,
   StyleSheet,
   Text,
@@ -10,6 +11,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {useRecoilState} from 'recoil';
 import {CoffeeAndBeansDetailType, getCoffeeDetails} from '../../api/apiCoffee';
+import DeleteIcon from '../../assets/svg_images/fail.svg';
 import MinusIcon from '../../assets/svg_images/minus.svg';
 import PlusIcon from '../../assets/svg_images/plus.svg';
 import {PaymentCartType, paymentCartListState} from '../../recoil';
@@ -50,6 +52,33 @@ const PaymentCartItem = ({item}: PaymentCartItemProps) => {
         : cartItem,
     );
     setPaymentCartList(newPaymentCartList);
+  };
+
+  const handleDeleteButton = () => {
+    if (!coffeeDetail) return;
+
+    Alert.alert(
+      'Delete Item',
+      'Do you want to delete this item?',
+      [
+        {
+          text: 'Delete',
+          onPress: () => {
+            const newPaymentCartList = paymentCartList.filter(
+              cartItem => cartItem.coffeeId !== coffeeDetail.id,
+            );
+            setPaymentCartList(newPaymentCartList);
+            console.log('삭제!!');
+          },
+          style: 'destructive',
+        },
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+      ],
+      {cancelable: false},
+    );
   };
 
   return coffeeDetail ? (
@@ -117,6 +146,15 @@ const PaymentCartItem = ({item}: PaymentCartItemProps) => {
           );
         })}
       </View>
+      <TouchableOpacity
+        style={styles.DeleteButton}
+        onPress={handleDeleteButton}>
+        <DeleteIcon
+          width={20}
+          height={20}
+          fill={COLORS.secondaryLightGreyHex}
+        />
+      </TouchableOpacity>
     </LinearGradient>
   ) : null;
 };
@@ -237,5 +275,10 @@ const styles = StyleSheet.create({
     fontFamily: FONTFAMILY.poppins_semibold,
     fontSize: FONTSIZE.size_16,
     color: COLORS.primaryWhiteHex,
+  },
+  DeleteButton: {
+    position: 'absolute',
+    right: 16,
+    top: 16,
   },
 });
