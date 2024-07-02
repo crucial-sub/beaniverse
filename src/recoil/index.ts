@@ -1,5 +1,4 @@
 import {atom, selector} from 'recoil';
-import {getCoffeeDetails} from '../api/apiCoffee';
 import {SelectedPaymentCategoryType} from '../api/apiPayment';
 
 export const isLoginState = atom<boolean>({
@@ -66,6 +65,7 @@ export interface PaymentCartType {
   coffeeId: number;
   optionId: number;
   quantity: number;
+  price: number;
 }
 
 export const paymentCartListState = atom<PaymentCartType[]>({
@@ -75,20 +75,10 @@ export const paymentCartListState = atom<PaymentCartType[]>({
 
 export const totalPriceState = selector({
   key: 'total-price-state',
-  get: async ({get}) => {
+  get: ({get}) => {
     const paymentCartList = get(paymentCartListState);
     let totalPrice = 0;
-
-    for (const item of paymentCartList) {
-      const coffeeDetail = await getCoffeeDetails(item.coffeeId);
-
-      const option = coffeeDetail.options.find(
-        (opt: {id: number}) => opt.id === item.optionId,
-      );
-      const price = option ? option.price : 0;
-      totalPrice += price * item.quantity;
-    }
-
+    paymentCartList.forEach(item => (totalPrice += item.price * item.quantity));
     return totalPrice;
   },
 });

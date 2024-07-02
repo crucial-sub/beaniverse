@@ -87,6 +87,7 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
             coffeeId: data.id,
             optionId: opt.id,
             quantity: opt.id === selectedOptionId ? 1 : 0,
+            price: opt.price,
           })),
         ];
 

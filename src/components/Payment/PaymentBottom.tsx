@@ -34,8 +34,8 @@ const PaymentBottom = ({walletBalance}: PaymentBottomPropsType) => {
         </View>
       </View>
       {payableState ? (
-        <TouchableOpacity style={styles.AddButton} onPress={handlePress}>
-          <Text style={styles.AddButtonText}>{`Pay from ${
+        <TouchableOpacity style={styles.PayButton} onPress={handlePress}>
+          <Text style={styles.PayButtonText}>{`Pay from ${
             selectedPaymentMethod?.methodType === 'CREDIT_CARD'
               ? 'Credit Card'
               : 'Wallet'
@@ -43,7 +43,7 @@ const PaymentBottom = ({walletBalance}: PaymentBottomPropsType) => {
         </TouchableOpacity>
       ) : (
         <TouchableOpacity style={styles.InActiveButton}>
-          <Text style={styles.AddButtonText}>Insufficient Balance</Text>
+          <Text style={styles.PayButtonText}>Insufficient Balance</Text>
         </TouchableOpacity>
       )}
     </View>
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     fontSize: FONTSIZE.size_20,
     color: COLORS.primaryWhiteHex,
   },
-  AddButton: {
+  PayButton: {
     width: 240,
     backgroundColor: COLORS.primaryOrangeHex,
     borderRadius: BORDERRADIUS.radius_20,
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  AddButtonText: {
+  PayButtonText: {
     fontFamily: FONTFAMILY.poppins_semibold,
     fontSize: FONTSIZE.size_16,
     color: COLORS.primaryWhiteHex,

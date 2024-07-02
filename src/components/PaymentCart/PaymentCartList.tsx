@@ -1,7 +1,8 @@
 import React from 'react';
-import {FlatList} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {useRecoilState} from 'recoil';
 import {PaymentCartType, paymentCartListState} from '../../recoil';
+import {COLORS, FONTFAMILY, FONTSIZE} from '../../theme/theme';
 import PaymentCartItem from './PaymentCartItem';
 
 export interface GroupedPaymentCartType {
@@ -45,6 +46,13 @@ const PaymentCartList = () => {
   const keyExtractor = (item: GroupedPaymentCartType) =>
     `cart-flat-list-item-${item.coffeeId}`;
 
+  if (!paymentCartList.length)
+    return (
+      <View style={style.EmptyList}>
+        <Text style={style.EmptyText}>Your cart is empty!</Text>
+      </View>
+    );
+
   return (
     <FlatList
       data={renderData}
@@ -56,3 +64,15 @@ const PaymentCartList = () => {
 };
 
 export default PaymentCartList;
+
+const style = StyleSheet.create({
+  EmptyList: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  EmptyText: {
+    color: COLORS.primaryWhiteHex,
+    fontFamily: FONTFAMILY.poppins_semibold,
+    fontSize: FONTSIZE.size_20,
+  },
+});
