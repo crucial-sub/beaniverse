@@ -41,7 +41,6 @@ const SignInScreen = () => {
     onSuccess: async (data: LoginResponse) => {
       const {accessToken} = data;
       saveStorageData('accessToken', accessToken);
-      console.log('Login successful:');
       setIsLogin(true);
     },
     onError: (error: unknown) => {

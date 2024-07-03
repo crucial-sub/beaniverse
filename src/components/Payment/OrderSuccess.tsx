@@ -5,11 +5,11 @@ import {COLORS, FONTFAMILY, FONTSIZE} from '../../theme/theme';
 
 const OrderSuccess = () => {
   return (
-    <View style={style.Wrapper}>
+    <View style={styles.Wrapper}>
       <SuccessIcon width={87.5} height={87.5} />
-      <View style={style.TextWrapper}>
-        <Text style={style.Text}>Thank you!</Text>
-        <Text style={style.Text}>your order is confirmed</Text>
+      <View style={styles.TextWrapper}>
+        <Text style={styles.Text}>Thank you!</Text>
+        <Text style={styles.Text}>your order is confirmed</Text>
       </View>
     </View>
   );
@@ -17,7 +17,7 @@ const OrderSuccess = () => {
 
 export default OrderSuccess;
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   Wrapper: {
     flex: 1,
     justifyContent: 'center',

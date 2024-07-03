@@ -4,11 +4,11 @@ import {StyleSheet} from 'react-native';
 import BagIcon from '../assets/svg_images/bag-2.svg';
 import HeartIcon from '../assets/svg_images/heart.svg';
 import HomeIcon from '../assets/svg_images/home.svg';
-import NotificationIcon from '../assets/svg_images/notification.svg';
+import ProfileIcon from '../assets/svg_images/profile.svg';
 import CartScreen from '../screens/CartScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import HomeScreen from '../screens/HomeScreen';
-import OrderHistoryScreen from '../screens/OrderHistoryScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import {COLORS} from '../theme/theme';
 
 const BottomTab = createBottomTabNavigator();
@@ -62,11 +62,11 @@ const TabNavigator = () => {
         }}
       />
       <BottomTab.Screen
-        name="History"
-        component={OrderHistoryScreen}
+        name="Profile"
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({focused}) => (
-            <NotificationIcon
+            <ProfileIcon
               fill={
                 focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex
               }

@@ -10,16 +10,16 @@ type HeaderWithoutBottomTabPropsType = {
 
 const HeaderWithoutBottomTab = ({title}: HeaderWithoutBottomTabPropsType) => {
   return (
-    <View style={style.Header}>
+    <View style={styles.Header}>
       <BackButton />
-      <Text style={style.Title}>{capitalize(title)}</Text>
+      <Text style={styles.Title}>{capitalize(title)}</Text>
     </View>
   );
 };
 
 export default HeaderWithoutBottomTab;
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   Header: {
     width: '100%',
     flexDirection: 'row',

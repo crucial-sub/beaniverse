@@ -48,8 +48,8 @@ const PaymentCartList = () => {
 
   if (!paymentCartList.length)
     return (
-      <View style={style.EmptyList}>
-        <Text style={style.EmptyText}>Your cart is empty!</Text>
+      <View style={styles.EmptyList}>
+        <Text style={styles.EmptyText}>Your cart is empty!</Text>
       </View>
     );
 
@@ -65,7 +65,7 @@ const PaymentCartList = () => {
 
 export default PaymentCartList;
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   EmptyList: {
     flex: 1,
     justifyContent: 'center',
