@@ -1,7 +1,16 @@
+import {useNavigation} from '@react-navigation/native';
+import {useMutation} from '@tanstack/react-query';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {useRecoilValue} from 'recoil';
-import {selectedPaymentMethodState, totalPriceState} from '../../recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {paymentOrder} from '../../api/apiPayment';
+import {RootNavigationProp} from '../../navigators/navigation';
+import {
+  orderSuccessState,
+  paymentCartListState,
+  selectedPaymentMethodState,
+  totalPriceState,
+} from '../../recoil';
 import {
   BORDERRADIUS,
   COLORS,
@@ -16,35 +25,80 @@ type PaymentBottomPropsType = {
 
 const PaymentBottom = ({walletBalance}: PaymentBottomPropsType) => {
   const selectedPaymentMethod = useRecoilValue(selectedPaymentMethodState);
+  const paymentCart = useRecoilValue(paymentCartListState).map(item => ({
+    coffeeId: item.coffeeId,
+    optionId: item.optionId,
+    quantity: item.quantity,
+  }));
   const totalPrice = useRecoilValue(totalPriceState).toFixed(2);
   const payableState = !(
     selectedPaymentMethod?.methodType === 'WALLET' &&
     Number(totalPrice) > walletBalance
   );
+  const [orderSuccess, setOrderSuccess] = useRecoilState(orderSuccessState);
 
-  const handlePress = () => {};
+  const mutation = useMutation({
+    mutationFn: paymentOrder,
+    onSuccess: () => {
+      setOrderSuccess(true);
+    },
+    onError: error => {
+      throw new Error(error.message);
+    },
+  });
+
+  const handleOrderRequest = () => {
+    if (!selectedPaymentMethod) return;
+    const body = {
+      cart: paymentCart,
+      paymentMethod: selectedPaymentMethod?.methodType,
+      creditCardId:
+        selectedPaymentMethod.methodType === 'CREDIT_CARD'
+          ? selectedPaymentMethod.creditCardId
+          : undefined,
+    };
+    mutation.mutate(body);
+  };
+
+  const navigation = useNavigation<RootNavigationProp>();
+
+  const handleOrderHistoryButton = () => {
+    navigation.navigate('OrderHistory');
+  };
 
   return (
     <View style={styles.BottomWrapper}>
-      <View style={styles.PriceWrapper}>
-        <Text style={styles.PriceTitle}>Total Price</Text>
-        <View style={styles.PriceTextWrapper}>
-          <Text style={styles.DollarSign}>$ </Text>
-          <Text style={styles.PriceText}>{totalPrice}</Text>
-        </View>
-      </View>
-      {payableState ? (
-        <TouchableOpacity style={styles.PayButton} onPress={handlePress}>
-          <Text style={styles.PayButtonText}>{`Pay from ${
-            selectedPaymentMethod?.methodType === 'CREDIT_CARD'
-              ? 'Credit Card'
-              : 'Wallet'
-          }`}</Text>
+      {orderSuccess ? (
+        <TouchableOpacity
+          style={styles.OrderHistoryButton}
+          onPress={handleOrderHistoryButton}>
+          <Text style={styles.ButtonText}>Order History</Text>
         </TouchableOpacity>
       ) : (
-        <TouchableOpacity style={styles.InActiveButton}>
-          <Text style={styles.PayButtonText}>Insufficient Balance</Text>
-        </TouchableOpacity>
+        <>
+          <View style={styles.PriceWrapper}>
+            <Text style={styles.PriceTitle}>Total Price</Text>
+            <View style={styles.PriceTextWrapper}>
+              <Text style={styles.DollarSign}>$ </Text>
+              <Text style={styles.PriceText}>{totalPrice}</Text>
+            </View>
+          </View>
+          {payableState ? (
+            <TouchableOpacity
+              style={styles.PayButton}
+              onPress={handleOrderRequest}>
+              <Text style={styles.ButtonText}>{`Pay from ${
+                selectedPaymentMethod?.methodType === 'CREDIT_CARD'
+                  ? 'Credit Card'
+                  : 'Wallet'
+              }`}</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.InActiveButton}>
+              <Text style={styles.ButtonText}>Insufficient Balance</Text>
+            </TouchableOpacity>
+          )}
+        </>
       )}
     </View>
   );
@@ -98,9 +152,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  PayButtonText: {
+  ButtonText: {
     fontFamily: FONTFAMILY.poppins_semibold,
     fontSize: FONTSIZE.size_16,
     color: COLORS.primaryWhiteHex,
+  },
+  OrderHistoryButton: {
+    width: '100%',
+    backgroundColor: COLORS.primaryOrangeHex,
+    borderRadius: BORDERRADIUS.radius_20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

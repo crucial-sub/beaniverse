@@ -11,7 +11,7 @@ const CoffeeBeans = () => {
     <CoffeeBeanCard coffeeBean={item} />
   );
   const keyExtractor = (item: CoffeeAndBeansType) =>
-    `flat-list-item-${item.id}`;
+    `coffee-beans-flat-list-item-${item.id}`;
 
   return (
     <View>

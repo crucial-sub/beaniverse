@@ -1,18 +1,18 @@
 import React from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {useRecoilState} from 'recoil';
-import {PaymentCartType, paymentCartListState} from '../../recoil';
+import {PaymentCartStateType, paymentCartListState} from '../../recoil';
 import {COLORS, FONTFAMILY, FONTSIZE} from '../../theme/theme';
 import PaymentCartItem from './PaymentCartItem';
 
 export interface GroupedPaymentCartType {
   coffeeId: number;
-  items: PaymentCartType[];
+  items: PaymentCartStateType[];
 }
 
 const PaymentCartList = () => {
   const [paymentCartList, setPaymentCartList] =
-    useRecoilState<PaymentCartType[]>(paymentCartListState);
+    useRecoilState<PaymentCartStateType[]>(paymentCartListState);
 
   const [renderData, setRenderData] = React.useState<GroupedPaymentCartType[]>(
     [],
@@ -25,7 +25,7 @@ const PaymentCartList = () => {
       }
       acc[item.coffeeId].push(item);
       return acc;
-    }, {} as Record<number, PaymentCartType[]>);
+    }, {} as Record<number, PaymentCartStateType[]>);
 
     const groupedPaymentCartList: GroupedPaymentCartType[] = Object.keys(
       groupByCoffeeId,

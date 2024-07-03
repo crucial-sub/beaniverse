@@ -1,5 +1,5 @@
 import {atom, selector} from 'recoil';
-import {SelectedPaymentCategoryType} from '../api/apiPayment';
+import {PaymentCartType, SelectedPaymentCategoryType} from '../api/apiPayment';
 
 export const isLoginState = atom<boolean>({
   key: 'isLoginState',
@@ -61,14 +61,11 @@ export const selectedCoffeeCategoryState = atom({
   default: 'all',
 });
 
-export interface PaymentCartType {
-  coffeeId: number;
-  optionId: number;
-  quantity: number;
+export interface PaymentCartStateType extends PaymentCartType {
   price: number;
 }
 
-export const paymentCartListState = atom<PaymentCartType[]>({
+export const paymentCartListState = atom<PaymentCartStateType[]>({
   key: 'payment-cart-list-state',
   default: [],
 });
@@ -93,3 +90,8 @@ export const selectedPaymentMethodState =
     key: 'selected-payment-method-state',
     default: null,
   });
+
+export const orderSuccessState = atom({
+  key: 'payment-success-state',
+  default: false,
+});

@@ -14,7 +14,7 @@ import {CoffeeAndBeansDetailType, getCoffeeDetails} from '../../api/apiCoffee';
 import DeleteIcon from '../../assets/svg_images/fail.svg';
 import MinusIcon from '../../assets/svg_images/minus.svg';
 import PlusIcon from '../../assets/svg_images/plus.svg';
-import {PaymentCartType, paymentCartListState} from '../../recoil';
+import {PaymentCartStateType, paymentCartListState} from '../../recoil';
 import {
   BORDERRADIUS,
   COLORS,
@@ -30,7 +30,7 @@ interface PaymentCartItemProps {
 
 const PaymentCartItem = ({item}: PaymentCartItemProps) => {
   const [paymentCartList, setPaymentCartList] =
-    useRecoilState<PaymentCartType[]>(paymentCartListState);
+    useRecoilState<PaymentCartStateType[]>(paymentCartListState);
   const {data: coffeeDetail} = useQuery<CoffeeAndBeansDetailType, Error>({
     queryKey: ['get-coffee-details', item.coffeeId],
     queryFn: () => getCoffeeDetails(item.coffeeId),
@@ -68,7 +68,6 @@ const PaymentCartItem = ({item}: PaymentCartItemProps) => {
               cartItem => cartItem.coffeeId !== coffeeDetail.id,
             );
             setPaymentCartList(newPaymentCartList);
-            console.log('삭제!!');
           },
           style: 'destructive',
         },

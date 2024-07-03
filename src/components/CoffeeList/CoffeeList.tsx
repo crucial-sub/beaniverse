@@ -20,7 +20,7 @@ const CoffeeList = () => {
     <CoffeeCard coffee={item} />
   );
   const keyExtractor = (item: CoffeeAndBeansType) =>
-    `flat-list-item-${item.id}`;
+    `coffee-flat-list-item-${item.id}`;
 
   React.useEffect(() => {
     if (!coffeeList) return;

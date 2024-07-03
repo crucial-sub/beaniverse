@@ -1,4 +1,3 @@
-import {PaymentCartType} from '../recoil';
 import apiClient from './apiClient';
 
 export interface PaymentMethodType {
@@ -33,16 +32,21 @@ export const getPaymentMethod = async (): Promise<PaymentMethodType> => {
   }
 };
 
-export interface OrderRequest {
+export interface PaymentCartType {
+  coffeeId: number;
+  optionId: number;
+  quantity: number;
+}
+export type SelectedPaymentCategoryType = 'WALLET' | 'CREDIT_CARD';
+
+export interface OrderRequestBodyType {
   cart: PaymentCartType[];
   paymentMethod: SelectedPaymentCategoryType;
   creditCardId?: number;
 }
 
-export type SelectedPaymentCategoryType = 'WALLET' | 'CREDIT_CARD';
-
-export const order = async (req: OrderRequest): Promise<any> => {
-  const {data} = await apiClient.post<any>('payment/order', req);
+export const paymentOrder = async (body: OrderRequestBodyType) => {
+  const {data} = await apiClient.post('payment/order', body);
 
   return data;
 };

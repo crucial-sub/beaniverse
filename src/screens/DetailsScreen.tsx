@@ -27,7 +27,7 @@ import StarIcon from '../assets/svg_images/star.svg';
 import BackButton from '../components/Header/BackButton';
 import HeartButton from '../components/Header/HeartButton';
 import {RootStackParamList} from '../navigators/navigation';
-import {PaymentCartType, paymentCartListState} from '../recoil';
+import {PaymentCartStateType, paymentCartListState} from '../recoil';
 import {
   BORDERRADIUS,
   COLORS,
@@ -64,7 +64,7 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
   const [numberOfLines, setNumberOfLines] = React.useState(3);
 
   const [paymentCartList, setPaymentCartList] =
-    useRecoilState<PaymentCartType[]>(paymentCartListState);
+    useRecoilState<PaymentCartStateType[]>(paymentCartListState);
 
   const handleSelectOption = (idx: number) => {
     setSelectedOptionIndex(idx);

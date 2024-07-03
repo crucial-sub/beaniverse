@@ -1,25 +1,28 @@
+import {useNavigation} from '@react-navigation/native';
 import {useQuery} from '@tanstack/react-query';
 import React from 'react';
 import {ActivityIndicator, SafeAreaView, StyleSheet, View} from 'react-native';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {PaymentMethodType, getPaymentMethod} from '../api/apiPayment';
 import HeaderWithoutBottomTab from '../components/Header/HeaderWithoutBottomTab';
+import OrderSuccess from '../components/Payment/OrderSuccess';
 import PaymentBottom from '../components/Payment/PaymentBottom';
 import PaymentMethod from '../components/Payment/PaymentMethod';
+import {useResetCartAndOrderState} from '../hooks/useResetCartAndOrderState';
 import {
-  PaymentCartType,
   SelectedPaymentMethodType,
-  paymentCartListState,
+  orderSuccessState,
   selectedPaymentMethodState,
 } from '../recoil';
 import {COLORS, FONTFAMILY, FONTSIZE} from '../theme/theme';
 
 const PaymentScreen = () => {
-  const [paymentCartList, setPaymentCartList] =
-    useRecoilState<PaymentCartType[]>(paymentCartListState);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useRecoilState(
     selectedPaymentMethodState,
   );
+  const orderSuccess = useRecoilValue(orderSuccessState);
+  const navigation = useNavigation();
+  const resetStates = useResetCartAndOrderState();
   const {
     data: paymentMethod,
     isLoading,
@@ -60,7 +63,11 @@ const PaymentScreen = () => {
       <SafeAreaView style={styles.SafeAreaView}>
         <View style={styles.Container}>
           <HeaderWithoutBottomTab title="payment" />
-          <PaymentMethod paymentMethod={paymentMethod} />
+          {orderSuccess ? (
+            <OrderSuccess />
+          ) : (
+            <PaymentMethod paymentMethod={paymentMethod} />
+          )}
           <PaymentBottom walletBalance={paymentMethod.wallet.balance} />
         </View>
       </SafeAreaView>

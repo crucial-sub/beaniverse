@@ -5,6 +5,7 @@ export type RootStackParamList = {
   Tab: undefined;
   Details: {id: number} | undefined;
   Payment: undefined;
+  OrderHistory: undefined;
 };
 
 export type RootNavigationProp = StackNavigationProp<RootStackParamList>;
