@@ -46,6 +46,13 @@ const PaymentScreen = () => {
     setSelectedPaymentMethod(initialPaymentMethod);
   }, [isSuccess]);
 
+  React.useEffect(() => {
+    if (!orderSuccess) return;
+    navigation.addListener('blur', () => {
+      resetStates();
+    });
+  }, [navigation, orderSuccess]);
+
   if (isLoading)
     return (
       <ActivityIndicator

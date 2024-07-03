@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {CommonActions, useNavigation} from '@react-navigation/native';
 import {useMutation} from '@tanstack/react-query';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
@@ -62,8 +62,13 @@ const PaymentBottom = ({walletBalance}: PaymentBottomPropsType) => {
 
   const navigation = useNavigation<RootNavigationProp>();
 
-  const handleOrderHistoryButton = () => {
-    navigation.navigate('OrderHistory');
+  const handleGoToOrderHistory = () => {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [{name: 'Tab'}, {name: 'OrderHistory'}],
+      }),
+    );
   };
 
   return (
@@ -71,7 +76,7 @@ const PaymentBottom = ({walletBalance}: PaymentBottomPropsType) => {
       {orderSuccess ? (
         <TouchableOpacity
           style={styles.OrderHistoryButton}
-          onPress={handleOrderHistoryButton}>
+          onPress={handleGoToOrderHistory}>
           <Text style={styles.ButtonText}>Order History</Text>
         </TouchableOpacity>
       ) : (
