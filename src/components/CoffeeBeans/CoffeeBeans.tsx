@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, View} from 'react-native';
 import {useRecoilState} from 'recoil';
 import {CoffeeAndBeansType, beansState} from '../../recoil';
 import CoffeeBeanCard from './CoffeeBeanCard';
@@ -27,5 +27,3 @@ const CoffeeBeans = () => {
 };
 
 export default CoffeeBeans;
-
-const styles = StyleSheet.create({});

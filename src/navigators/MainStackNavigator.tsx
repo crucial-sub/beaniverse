@@ -34,7 +34,6 @@ import {RootStackParamList} from './navigation';
 const MainStack = createStackNavigator<RootStackParamList>();
 
 const MainStackNavigator = () => {
-  const [accessToken, setAccessToken] = React.useState<string | null>(null);
   const [user, setUser] = useRecoilState<UserType | null>(userState);
   const [coffeeList, setCoffeeList] = useRecoilState(coffeeListState);
   const [coffeeBeans, setCoffeeBeans] = useRecoilState(beansState);

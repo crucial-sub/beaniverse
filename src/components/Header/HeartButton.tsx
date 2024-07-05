@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {useRecoilState} from 'recoil';
 import HeartIcon from '../../assets/svg_images/heart.svg';
 import {favoritesState, toggleFavorite} from '../../recoil';
@@ -32,5 +32,3 @@ const HeartButton = ({id}: HeartButtonPropsType) => {
 };
 
 export default HeartButton;
-
-const styles = StyleSheet.create({});

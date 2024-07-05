@@ -13,19 +13,19 @@ const FavoritesScreen = () => {
   );
 
   const renderItem = ({item}: {item: CoffeeAndBeansType}) => (
-    <View style={styles.itemWrapper}>
+    <View style={styles.ItemWrapper}>
       <CoffeeCard coffee={item} />
     </View>
   );
 
   return (
-    <SafeAreaView style={styles.safeAreaView}>
+    <SafeAreaView style={styles.SafeAreaView}>
       <FlatList
         data={favoriteCoffees}
         renderItem={renderItem}
         keyExtractor={item => `favorite-${item.id}`}
         numColumns={2}
-        contentContainerStyle={styles.contentContainer}
+        contentContainerStyle={styles.ContentContainer}
       />
     </SafeAreaView>
   );
@@ -34,15 +34,15 @@ const FavoritesScreen = () => {
 export default FavoritesScreen;
 
 const styles = StyleSheet.create({
-  safeAreaView: {
+  SafeAreaView: {
     flex: 1,
     backgroundColor: COLORS.primaryBlackHex,
   },
-  contentContainer: {
+  ContentContainer: {
     paddingHorizontal: SPACING.space_10,
     paddingBottom: SPACING.space_20,
   },
-  itemWrapper: {
+  ItemWrapper: {
     flex: 1,
     padding: SPACING.space_10,
   },

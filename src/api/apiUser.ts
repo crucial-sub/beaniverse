@@ -7,7 +7,7 @@ export const getUser = async (): Promise<UserType | null> => {
     const {data} = await apiClient.get('user/me');
     return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };

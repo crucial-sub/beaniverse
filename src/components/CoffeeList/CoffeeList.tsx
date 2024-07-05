@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, View} from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {
   CoffeeAndBeansType,
@@ -58,5 +58,3 @@ const CoffeeList = () => {
 };
 
 export default CoffeeList;
-
-const styles = StyleSheet.create({});

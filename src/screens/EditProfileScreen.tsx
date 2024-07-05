@@ -87,7 +87,7 @@ const EditProfileScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.safeAreaView}>
+    <SafeAreaView style={styles.SafeAreaView}>
       <HeaderWithoutBottomTab title="Edit Profile" />
       <View style={styles.Container}>
         <View style={styles.ProfileImageWrapper}>
@@ -128,7 +128,7 @@ const EditProfileScreen = () => {
 export default EditProfileScreen;
 
 const styles = StyleSheet.create({
-  safeAreaView: {
+  SafeAreaView: {
     flex: 1,
     backgroundColor: COLORS.primaryBlackHex,
   },

@@ -52,10 +52,7 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
   const startY = useSharedValue(0);
   const headerHeight = useSharedValue(32);
   const {id} = route.params!;
-  const {data, isLoading, isSuccess} = useQuery<
-    CoffeeAndBeansDetailType,
-    Error
-  >({
+  const {data, isLoading} = useQuery<CoffeeAndBeansDetailType, Error>({
     queryKey: ['get-coffee-details', id],
     queryFn: () => getCoffeeDetails(id),
     staleTime: 5 * 60 * 1000,

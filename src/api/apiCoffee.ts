@@ -8,7 +8,7 @@ export const getCoffeeAndBeans = async (): Promise<
     const {data} = await apiClient.get('coffee/');
     return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };
@@ -20,7 +20,7 @@ export const getCoffeeCategories = async (): Promise<
     const {data} = await apiClient.get('coffee/categories');
     return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };
@@ -51,7 +51,7 @@ export const getCoffeeDetails = async (
     );
     return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error('Network response was not ok');
   }
 };
