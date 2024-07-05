@@ -30,15 +30,20 @@ export interface SectionDataType extends CoffeeOrderType {
 }
 
 const createSections = (data: OrderHistoryType[]) => {
-  const sections = data.map(order => ({
-    title: formatDate(order.createdAt),
-    totalPrice: order.totalPrice,
-    data: Object.keys(order.orderGroupByCoffeeId).map(key => ({
-      orderId: order.id,
-      itemId: key,
-      ...order.orderGroupByCoffeeId[key],
-    })),
-  }));
+  const sections = data
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    )
+    .map(order => ({
+      title: formatDate(order.createdAt),
+      totalPrice: order.totalPrice,
+      data: Object.keys(order.orderGroupByCoffeeId).map(key => ({
+        orderId: order.id,
+        itemId: key,
+        ...order.orderGroupByCoffeeId[key],
+      })),
+    }));
   return sections;
 };
 
