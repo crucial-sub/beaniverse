@@ -37,11 +37,11 @@ export interface PaymentCartType {
   optionId: number;
   quantity: number;
 }
-export type SelectedPaymentCategoryType = 'WALLET' | 'CREDIT_CARD';
+export type PaymentCategoryType = 'WALLET' | 'CREDIT_CARD';
 
 export interface OrderRequestBodyType {
   cart: PaymentCartType[];
-  paymentMethod: SelectedPaymentCategoryType;
+  paymentMethod: PaymentCategoryType;
   creditCardId?: number;
 }
 

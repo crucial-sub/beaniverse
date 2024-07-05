@@ -1,5 +1,5 @@
 import {atom, selector} from 'recoil';
-import {PaymentCartType, SelectedPaymentCategoryType} from '../api/apiPayment';
+import {PaymentCartType, PaymentCategoryType} from '../api/apiPayment';
 
 export const isLoginState = atom<boolean>({
   key: 'isLoginState',
@@ -81,7 +81,7 @@ export const totalPriceState = selector({
 });
 
 export interface SelectedPaymentMethodType {
-  methodType: SelectedPaymentCategoryType;
+  methodType: PaymentCategoryType;
   creditCardId?: number;
 }
 

@@ -50,7 +50,7 @@ const PaymentBottom = ({walletBalance}: PaymentBottomPropsType) => {
   const handleOrderRequest = () => {
     if (!selectedPaymentMethod) return;
     const body = {
-      cart: paymentCart,
+      cart: paymentCart.filter(item => item.quantity !== 0),
       paymentMethod: selectedPaymentMethod?.methodType,
       creditCardId:
         selectedPaymentMethod.methodType === 'CREDIT_CARD'
