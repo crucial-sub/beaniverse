@@ -52,7 +52,7 @@ const CoffeeBeanCard = ({coffeeBean}: CoffeeBeanCardProps) => {
                 {coffeeBean.price.toFixed(2)}
               </Text>
             </View>
-            <HeartButton />
+            <HeartButton id={coffeeBean.id} />
           </View>
         </View>
       </LinearGradient>

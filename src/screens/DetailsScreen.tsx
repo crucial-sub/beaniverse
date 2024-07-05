@@ -153,7 +153,7 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
     <View style={styles.Container}>
       <Animated.View style={[styles.DetailHeader, headerAnimatedStyle]}>
         <BackButton />
-        <HeartButton />
+        <HeartButton id={data.id} />
       </Animated.View>
       <ImageBackground
         source={{uri: data.imageUrl}}

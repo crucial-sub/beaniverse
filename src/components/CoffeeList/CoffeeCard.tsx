@@ -56,7 +56,7 @@ const CoffeeCard = ({coffee}: CoffeeCardProps) => {
               <Text style={styles.DollarSign}>$ </Text>
               <Text style={styles.CoffeePrice}>{coffee.price.toFixed(2)}</Text>
             </View>
-            <HeartButton />
+            <HeartButton id={coffee.id} />
           </View>
         </View>
       </LinearGradient>

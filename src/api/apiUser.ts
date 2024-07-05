@@ -44,3 +44,19 @@ export const getOrderHistory = async (): Promise<OrderHistoryType[]> => {
     throw error;
   }
 };
+
+export const getFavorites = async (): Promise<any> => {
+  try {
+    const {data} = await apiClient.get('user/me/favorites');
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const editFavorites = async (coffeeId: number) => {
+  const {data} = await apiClient.post(`user/me/favorites/${coffeeId}`);
+
+  return data;
+};

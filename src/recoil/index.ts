@@ -1,5 +1,6 @@
 import {atom, selector} from 'recoil';
 import {PaymentCartType, PaymentCategoryType} from '../api/apiPayment';
+import {editFavorites, getFavorites} from '../api/apiUser';
 
 export const isLoginState = atom<boolean>({
   key: 'isLoginState',
@@ -95,3 +96,32 @@ export const orderSuccessState = atom({
   key: 'payment-success-state',
   default: false,
 });
+
+export const favoritesState = atom<number[]>({
+  key: 'favoritesState',
+  default: selector({
+    key: 'favoritesState/default',
+    get: async () => {
+      try {
+        const data = await getFavorites();
+        return data.map((item: any) => item.coffeeId);
+      } catch (error) {
+        console.error(error);
+        return [];
+      }
+    },
+  }),
+});
+
+export const toggleFavorite = async (coffeeId: number, setFavorites: any) => {
+  try {
+    await editFavorites(coffeeId);
+    setFavorites((prevFavorites: number[]) =>
+      prevFavorites.includes(coffeeId)
+        ? prevFavorites.filter(id => id !== coffeeId)
+        : [...prevFavorites, coffeeId],
+    );
+  } catch (error) {
+    console.error(error);
+  }
+};
