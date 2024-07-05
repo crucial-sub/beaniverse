@@ -34,7 +34,9 @@ const ProfileScreen = () => {
           <Text style={styles.UserName}>{user?.user_name}</Text>
         </View>
         <View style={styles.MyProfileMenuWrapper}>
-          <TouchableOpacity style={styles.MenuItemWrapper}>
+          <TouchableOpacity
+            style={styles.MenuItemWrapper}
+            onPress={() => handleNavigate('EditProfile' as never)}>
             <View style={styles.MenuItemLeft}>
               <UserIcon />
               <Text style={styles.MenuItemText}>Profile</Text>

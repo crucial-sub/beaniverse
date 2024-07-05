@@ -6,6 +6,7 @@ export type RootStackParamList = {
   Details: {id: number} | undefined;
   Payment: undefined;
   OrderHistory: undefined;
+  EditProfile: undefined;
 };
 
 export type RootNavigationProp = StackNavigationProp<RootStackParamList>;

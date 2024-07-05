@@ -51,6 +51,7 @@ interface Color {
   secondarySilverGreyHex: string;
   primaryLightGreyHex: string;
   secondaryLightGreyHex: string;
+  tertiaryLightGreyHex: string;
   primaryWhiteHex: string;
   secondaryWhiteHex: string;
   primaryBlackRGBA: string;
@@ -72,6 +73,7 @@ export const COLORS: Color = {
   secondarySilverGreyHex: '#333333',
   primaryLightGreyHex: '#52555A',
   secondaryLightGreyHex: '#AEAEAE',
+  tertiaryLightGreyHex: '#737373',
   primaryWhiteHex: '#FFFFFF',
   secondaryWhiteHex: '#D9D9D9',
   primaryBlackRGBA: 'rgba(12,15,20,0.5)',

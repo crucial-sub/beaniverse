@@ -34,7 +34,7 @@ const PaymentCartBottom = () => {
           <Text style={styles.PayButtonText}>Pay</Text>
         </TouchableOpacity>
       ) : (
-        <TouchableOpacity style={styles.InActiveButton}>
+        <TouchableOpacity style={styles.InActiveButton} disabled>
           <Text style={styles.PayButtonText}>Nothing to Pay</Text>
         </TouchableOpacity>
       )}

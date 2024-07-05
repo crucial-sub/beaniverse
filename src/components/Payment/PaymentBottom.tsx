@@ -99,7 +99,7 @@ const PaymentBottom = ({walletBalance}: PaymentBottomPropsType) => {
               }`}</Text>
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity style={styles.InActiveButton}>
+            <TouchableOpacity style={styles.InActiveButton} disabled>
               <Text style={styles.ButtonText}>Insufficient Balance</Text>
             </TouchableOpacity>
           )}

@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
   ProfileImage: {
     width: 35,
     height: 35,
+    borderRadius: 100,
   },
   HeaderText: {
     color: COLORS.primaryWhiteHex,

@@ -125,3 +125,13 @@ export const toggleFavorite = async (coffeeId: number, setFavorites: any) => {
     console.error(error);
   }
 };
+
+export const profileImageState = atom({
+  key: 'profileImageState',
+  default: '',
+});
+
+export const userNameState = atom({
+  key: 'userNameState',
+  default: '',
+});

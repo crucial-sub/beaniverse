@@ -60,3 +60,11 @@ export const editFavorites = async (coffeeId: number) => {
 
   return data;
 };
+
+export const patchProfile = async (data: FormData) => {
+  await apiClient.patch('user/me', data, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  });
+};

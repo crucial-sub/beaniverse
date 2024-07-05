@@ -23,6 +23,7 @@ import {
   userState,
 } from '../recoil';
 import DetailsScreen from '../screens/DetailsScreen';
+import EditProfileScreen from '../screens/EditProfileScreen';
 import OrderHistoryScreen from '../screens/OrderHistoryScreen';
 import PaymentScreen from '../screens/PaymentScreen';
 import SignInScreen from '../screens/SignInScreen';
@@ -179,6 +180,7 @@ const MainStackNavigator = () => {
             name="OrderHistory"
             component={OrderHistoryScreen}
           />
+          <MainStack.Screen name="EditProfile" component={EditProfileScreen} />
         </>
       )}
     </MainStack.Navigator>
