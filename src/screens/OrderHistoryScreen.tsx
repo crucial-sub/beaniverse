@@ -80,9 +80,10 @@ const OrderHistoryScreen = () => {
     <SafeAreaView style={styles.safeAreaView}>
       <HeaderWithoutBottomTab title="Order History" />
       <SectionList
-        contentContainerStyle={{gap: 20}}
+        contentContainerStyle={styles.SectionListContent}
         style={styles.SectionList}
         sections={sections}
+        stickySectionHeadersEnabled={false}
         keyExtractor={keyExtractor}
         renderItem={renderItem}
         renderSectionHeader={({section}) => (
@@ -112,7 +113,12 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primaryBlackHex,
   },
   SectionList: {
-    padding: 30,
+    paddingHorizontal: 30,
+    marginTop: 20,
+  },
+  SectionListContent: {
+    paddingBottom: 50,
+    gap: 20,
   },
   SectionHeader: {
     flexDirection: 'row',
