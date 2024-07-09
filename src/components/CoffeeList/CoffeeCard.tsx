@@ -19,7 +19,7 @@ import {
   SPACING,
 } from '../../theme/theme';
 import {capitalize} from '../../utils';
-import HeartButton from '../Header/HeartButton';
+import HeartButton from '../Favorites/HeartButton';
 
 interface CoffeeCardProps {
   coffee: CoffeeAndBeansType;
@@ -56,7 +56,7 @@ const CoffeeCard = ({coffee}: CoffeeCardProps) => {
               <Text style={styles.DollarSign}>$ </Text>
               <Text style={styles.CoffeePrice}>{coffee.price.toFixed(2)}</Text>
             </View>
-            <HeartButton id={coffee.id} />
+            <HeartButton id={coffee.id} isFavorite={coffee.isFavorite} />
           </View>
         </View>
       </LinearGradient>

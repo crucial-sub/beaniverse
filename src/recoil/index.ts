@@ -98,9 +98,9 @@ export const orderSuccessState = atom({
 });
 
 export const favoritesState = atom<number[]>({
-  key: 'favoritesState',
+  key: 'favorites-state',
   default: selector({
-    key: 'favoritesState/default',
+    key: 'favorites-state-default',
     get: async () => {
       try {
         const data = await getFavorites();
@@ -127,11 +127,11 @@ export const toggleFavorite = async (coffeeId: number, setFavorites: any) => {
 };
 
 export const profileImageState = atom({
-  key: 'profileImageState',
+  key: 'profile-image-state',
   default: '',
 });
 
 export const userNameState = atom({
-  key: 'userNameState',
+  key: 'user-name-state',
   default: '',
 });

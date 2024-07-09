@@ -24,8 +24,8 @@ import BeanIcon from '../assets/svg_images/bean.svg';
 import CoffeeIcon from '../assets/svg_images/coffee.svg';
 import LocationIcon from '../assets/svg_images/location.svg';
 import StarIcon from '../assets/svg_images/star.svg';
+import HeartButton from '../components/Favorites/HeartButton';
 import BackButton from '../components/Header/BackButton';
-import HeartButton from '../components/Header/HeartButton';
 import {RootStackParamList} from '../navigators/navigation';
 import {PaymentCartStateType, paymentCartListState} from '../recoil';
 import {
@@ -153,7 +153,7 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
     <View style={styles.Container}>
       <Animated.View style={[styles.DetailHeader, headerAnimatedStyle]}>
         <BackButton />
-        <HeartButton id={data.id} />
+        <HeartButton id={data.id} isFavorite={data.isFavorite} />
       </Animated.View>
       <ImageBackground
         source={{uri: data.imageUrl}}

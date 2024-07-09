@@ -1,25 +1,32 @@
+import {useMutation, useQueryClient} from '@tanstack/react-query';
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
-import {useRecoilState} from 'recoil';
+import {editFavorites} from '../../api/apiUser';
 import HeartIcon from '../../assets/svg_images/heart.svg';
-import {favoritesState, toggleFavorite} from '../../recoil';
 import {COLORS, SPACING} from '../../theme/theme';
 import GradientBGIcon from '../GradientBGIcon';
 
 type HeartButtonPropsType = {
   id: number;
+  isFavorite: boolean;
 };
 
-const HeartButton = ({id}: HeartButtonPropsType) => {
-  const [favorites, setFavorites] = useRecoilState(favoritesState);
-  const isFavorite = favorites.includes(id);
+const HeartButton = ({id, isFavorite}: HeartButtonPropsType) => {
+  const queryClient = useQueryClient();
 
-  const handlePress = () => {
-    toggleFavorite(id, setFavorites);
-  };
+  const mutation = useMutation({
+    mutationFn: () => editFavorites(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['get-favorites']});
+    },
+    onError: error => {
+      console.error(error);
+      throw error;
+    },
+  });
 
   return (
-    <TouchableOpacity onPress={handlePress}>
+    <TouchableOpacity onPress={() => mutation.mutate()}>
       <GradientBGIcon size={SPACING.space_30}>
         <HeartIcon
           fill={isFavorite ? COLORS.primaryRedHex : COLORS.secondaryWhiteHex}

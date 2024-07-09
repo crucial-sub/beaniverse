@@ -7,7 +7,7 @@ export const getUser = async (): Promise<UserType | null> => {
     const {data} = await apiClient.get('user/me');
     return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };
@@ -45,7 +45,20 @@ export const getOrderHistory = async (): Promise<OrderHistoryType[]> => {
   }
 };
 
-export const getFavorites = async (): Promise<any> => {
+export interface FavoritesType {
+  category: string | null;
+  id: number;
+  imageUrl: string;
+  isFavorite: boolean;
+  name: string;
+  origin: string;
+  price: number;
+  rating: {average: number; total: number};
+  roastType: string;
+  type: 'COFFEE' | 'COFFEE_BEAN';
+}
+
+export const getFavorites = async (): Promise<FavoritesType[]> => {
   try {
     const {data} = await apiClient.get('user/me/favorites');
     return data;
@@ -56,9 +69,13 @@ export const getFavorites = async (): Promise<any> => {
 };
 
 export const editFavorites = async (coffeeId: number) => {
-  const {data} = await apiClient.post(`user/me/favorites/${coffeeId}`);
-
-  return data;
+  try {
+    const {data} = await apiClient.post(`user/me/favorites/${coffeeId}`);
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
 
 export const patchProfile = async (data: FormData) => {

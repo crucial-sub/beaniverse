@@ -27,7 +27,7 @@ export const getPaymentMethod = async (): Promise<PaymentMethodType> => {
     const {data} = await apiClient.get('payment/methods');
     return data;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error();
   }
 };

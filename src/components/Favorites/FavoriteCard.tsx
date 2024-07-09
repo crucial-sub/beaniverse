@@ -8,8 +8,9 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {FavoritesType} from '../../api/apiUser';
+import StarIcon from '../../assets/svg_images/star.svg';
 import {RootNavigationProp} from '../../navigators/navigation';
-import {CoffeeAndBeansType} from '../../recoil';
 import {
   BORDERRADIUS,
   COLORS,
@@ -18,16 +19,16 @@ import {
   SPACING,
 } from '../../theme/theme';
 import {capitalize} from '../../utils';
-import HeartButton from '../Favorites/HeartButton';
+import HeartButton from './HeartButton';
 
-interface CoffeeBeanCardProps {
-  coffeeBean: CoffeeAndBeansType;
+interface FavoriteCardProps {
+  item: FavoritesType;
 }
 
-const CoffeeBeanCard = ({coffeeBean}: CoffeeBeanCardProps) => {
+const FavotiteCard = ({item}: FavoriteCardProps) => {
   const navigation = useNavigation<RootNavigationProp>();
   const handlePress = () => {
-    navigation.navigate('Details', {id: coffeeBean.id});
+    navigation.navigate('Details', {id: item.id});
   };
 
   return (
@@ -38,24 +39,26 @@ const CoffeeBeanCard = ({coffeeBean}: CoffeeBeanCardProps) => {
         colors={[COLORS.primaryGreyHex, COLORS.primaryBlackHex]}
         style={styles.LinearGradientBG}>
         <ImageBackground
-          source={{uri: coffeeBean.imageUrl}}
-          style={styles.CoffeeImageBG}></ImageBackground>
+          source={{uri: item.imageUrl}}
+          style={styles.CoffeeImageBG}>
+          <View style={styles.CoffeeRatingWrapper}>
+            <StarIcon fill={COLORS.primaryOrangeHex} />
+            <Text style={styles.CoffeeRating}>
+              {item.rating.average.toFixed(1)}
+            </Text>
+          </View>
+        </ImageBackground>
         <View style={styles.CardInfoWrapper}>
-          <Text style={styles.CoffeeName}>{capitalize(coffeeBean.name)}</Text>
+          <Text style={styles.CoffeeName}>{capitalize(item.name)}</Text>
           <Text style={styles.CoffeeOrigin}>{`From ${capitalize(
-            coffeeBean.origin.country,
+            item.origin,
           )}`}</Text>
           <View style={styles.CardBottomWrapper}>
             <View style={styles.CoffeePriceWrapper}>
               <Text style={styles.DollarSign}>$ </Text>
-              <Text style={styles.CoffeePrice}>
-                {coffeeBean.price.toFixed(2)}
-              </Text>
+              <Text style={styles.CoffeePrice}>{item.price.toFixed(2)}</Text>
             </View>
-            <HeartButton
-              id={coffeeBean.id}
-              isFavorite={coffeeBean.isFavorite}
-            />
+            <HeartButton id={item.id} isFavorite={item.isFavorite} />
           </View>
         </View>
       </LinearGradient>
@@ -63,7 +66,7 @@ const CoffeeBeanCard = ({coffeeBean}: CoffeeBeanCardProps) => {
   );
 };
 
-export default React.memo(CoffeeBeanCard);
+export default React.memo(FavotiteCard);
 
 const styles = StyleSheet.create({
   Container: {},
