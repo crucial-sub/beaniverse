@@ -1,26 +1,57 @@
+import debounce from 'lodash/debounce';
 import React from 'react';
-import {StyleSheet, TextInput, View} from 'react-native';
-import {useRecoilState} from 'recoil';
-import SearchIcon from '../../assets/svg_images/search.svg';
-import {searchTextState} from '../../recoil';
+import {
+  Keyboard,
+  StyleSheet,
+  TextInput,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import {useRecoilState, useSetRecoilState} from 'recoil';
+import {searchTextState, selectedCoffeeCategoryState} from '../../recoil';
 import {BORDERRADIUS, COLORS, FONTFAMILY, FONTSIZE} from '../../theme/theme';
 
 const SearchInput = () => {
   const [searchText, setSearchText] = useRecoilState(searchTextState);
-  const handleChangeValue = (text: string) => {
-    setSearchText(text);
+  const setSelectedCategory = useSetRecoilState(selectedCoffeeCategoryState);
+
+  const debouncedSearch = React.useCallback(
+    debounce(text => {
+      setSearchText(text);
+    }, 300),
+    [],
+  );
+
+  React.useEffect(() => {
+    debouncedSearch(searchText);
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [searchText]);
+
+  const handleDismissKeyboard = () => {
+    Keyboard.dismiss();
   };
+
+  const handleInputChange = (text: string) => {
+    setSearchText(text);
+    if (text.length > 0) {
+      setSelectedCategory('all');
+    }
+  };
+
   return (
-    <View style={styles.Wrapper}>
-      <SearchIcon fill={COLORS.primaryLightGreyHex} />
-      <TextInput
-        style={styles.TextInput}
-        placeholder="Find Your Coffee..."
-        placeholderTextColor={COLORS.primaryLightGreyHex}
-        value={searchText}
-        onChangeText={handleChangeValue}
-      />
-    </View>
+    <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
+      <View style={styles.Wrapper}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Search..."
+          placeholderTextColor={COLORS.tertiaryLightGreyHex}
+          value={searchText}
+          onChangeText={handleInputChange}
+        />
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -37,6 +68,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   TextInput: {
+    width: '100%',
     color: COLORS.primaryWhiteHex,
     fontFamily: FONTFAMILY.poppins_medium,
     fontSize: FONTSIZE.size_10,

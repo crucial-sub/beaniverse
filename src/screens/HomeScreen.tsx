@@ -1,13 +1,25 @@
+import {useFocusEffect} from '@react-navigation/native';
 import React from 'react';
 import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {useSetRecoilState} from 'recoil';
 import CoffeeBeans from '../components/CoffeeBeans/CoffeeBeans';
 import CoffeeCategories from '../components/CoffeeList/CoffeeCategories';
 import CoffeeList from '../components/CoffeeList/CoffeeList';
 import SearchInput from '../components/CoffeeList/SearchInput';
 import HomeHeader from '../components/Header/HomeHeader';
+import {searchTextState} from '../recoil';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/theme';
 
 const HomeScreen = () => {
+  const setSearchText = useSetRecoilState(searchTextState);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setSearchText('');
+      return () => setSearchText('');
+    }, []),
+  );
+
   return (
     <SafeAreaView style={styles.SafeAreaView}>
       <ScrollView

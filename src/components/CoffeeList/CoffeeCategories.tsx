@@ -1,52 +1,46 @@
 import React from 'react';
+import {ScrollView, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextStyle,
-  TouchableOpacity,
-} from 'react-native';
-import {useRecoilState} from 'recoil';
-import {coffeeCategoriesState, selectedCoffeeCategoryState} from '../../recoil';
+  coffeeCategoriesState,
+  searchTextState,
+  selectedCoffeeCategoryState,
+} from '../../recoil';
 import {COLORS, FONTFAMILY, FONTSIZE} from '../../theme/theme';
 import {capitalize} from '../../utils';
 
 const CoffeeCategories = () => {
-  const [coffeeCategories, setCoffeeCategories] = useRecoilState(
-    coffeeCategoriesState,
-  );
+  const [coffeeCategories] = useRecoilState(coffeeCategoriesState);
   const [selectedCategory, setSelectedCategory] = useRecoilState(
     selectedCoffeeCategoryState,
   );
+  const setSearchText = useSetRecoilState(searchTextState);
 
   const handlePress = (category: string) => {
     setSelectedCategory(category);
-  };
-  const selectedStyle: TextStyle = {
-    color: COLORS.primaryOrangeHex,
+    setSearchText('');
   };
 
-  if (!coffeeCategories) return;
-  const arr = [{id: 0, name: 'all'}, ...coffeeCategories];
+  if (!coffeeCategories) return null;
+
+  const categories = [{id: 0, name: 'all'}, ...coffeeCategories];
 
   return (
     <ScrollView
       contentContainerStyle={styles.CategoryContentContainerStyle}
-      horizontal={true}
+      horizontal
       showsHorizontalScrollIndicator={false}>
-      {arr.map(el => {
-        return (
-          <TouchableOpacity key={el.id} onPress={() => handlePress(el.name)}>
-            <Text
-              style={[
-                styles.CategoryName,
-                el.name === selectedCategory ? selectedStyle : null,
-              ]}>
-              {capitalize(el.name)}
-            </Text>
-          </TouchableOpacity>
-        );
-      })}
+      {categories.map(el => (
+        <TouchableOpacity key={el.id} onPress={() => handlePress(el.name)}>
+          <Text
+            style={[
+              styles.CategoryName,
+              el.name === selectedCategory && styles.SelectedStyle,
+            ]}>
+            {capitalize(el.name)}
+          </Text>
+        </TouchableOpacity>
+      ))}
     </ScrollView>
   );
 };
@@ -63,5 +57,8 @@ const styles = StyleSheet.create({
     fontFamily: FONTFAMILY.poppins_semibold,
     fontSize: FONTSIZE.size_14,
     color: COLORS.primaryLightGreyHex,
+  },
+  SelectedStyle: {
+    color: COLORS.primaryOrangeHex,
   },
 });

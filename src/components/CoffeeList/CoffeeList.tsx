@@ -1,20 +1,20 @@
 import React from 'react';
-import {FlatList, View} from 'react-native';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {useRecoilValue} from 'recoil';
 import {
   CoffeeAndBeansType,
   coffeeListState,
   searchTextState,
   selectedCoffeeCategoryState,
 } from '../../recoil';
+import {COLORS} from '../../theme/theme';
 import CoffeeCard from './CoffeeCard';
 
 const CoffeeList = () => {
-  const [coffeeList, setCoffeeList] = useRecoilState(coffeeListState);
-  const [renderData, setRenderData] = React.useState(coffeeList);
-  const [searchText, setSearchText] = useRecoilState(searchTextState);
-
+  const coffeeList = useRecoilValue(coffeeListState);
+  const searchText = useRecoilValue(searchTextState);
   const selectedCategory = useRecoilValue(selectedCoffeeCategoryState);
+  const [renderData, setRenderData] = React.useState<CoffeeAndBeansType[]>([]);
 
   const renderItem = ({item}: {item: CoffeeAndBeansType}) => (
     <CoffeeCard coffee={item} />
@@ -24,37 +24,52 @@ const CoffeeList = () => {
 
   React.useEffect(() => {
     if (!coffeeList) return;
-    if (selectedCategory === 'all') {
-      setRenderData(coffeeList);
-    } else {
-      const filteredData = coffeeList.filter(el => {
-        if (!el.category) return false;
-        else return el.category.name === selectedCategory;
-      });
+    let filteredData = coffeeList;
 
-      setRenderData(filteredData);
+    if (selectedCategory !== 'all') {
+      filteredData = filteredData.filter(
+        el => el.category?.name === selectedCategory,
+      );
     }
-  }, [coffeeList, selectedCategory]);
 
-  React.useEffect(() => {
-    if (!searchText || !coffeeList) return;
-
-    const filteredData = coffeeList.filter(el => el.name.includes(searchText));
+    if (searchText) {
+      filteredData = filteredData.filter(el =>
+        el.name.toLowerCase().includes(searchText.toLowerCase()),
+      );
+    }
 
     setRenderData(filteredData);
-  }, [searchText]);
+  }, [coffeeList, selectedCategory, searchText]);
 
   return (
     <View>
-      <FlatList
-        data={renderData}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        horizontal={true}
-        contentContainerStyle={{gap: 30}}
-      />
+      {renderData.length > 0 ? (
+        <FlatList
+          data={renderData}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          horizontal
+          contentContainerStyle={{gap: 30}}
+        />
+      ) : (
+        <View style={styles.NoResultWrapper}>
+          <Text style={styles.NoResultsText}>No results found.</Text>
+        </View>
+      )}
     </View>
   );
 };
-
 export default CoffeeList;
+
+const styles = StyleSheet.create({
+  NoResultWrapper: {
+    height: 250,
+    justifyContent: 'center',
+  },
+  NoResultsText: {
+    color: COLORS.primaryWhiteHex,
+    fontSize: 16,
+    textAlign: 'center',
+    marginVertical: 20,
+  },
+});

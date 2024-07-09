@@ -70,7 +70,7 @@ export const getFavorites = async (): Promise<FavoritesType[]> => {
 
 export const editFavorites = async (coffeeId: number) => {
   try {
-    const {data} = await apiClient.post(`user/me/favorites/${coffeeId}`);
+    const {data} = await apiClient.post(`user/me/favorite/${coffeeId}`);
     return data;
   } catch (error) {
     console.error(error);
