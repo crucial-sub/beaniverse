@@ -20,10 +20,9 @@ const FavoritesScreen = () => {
   });
 
   const renderItem = ({item}: {item: FavoritesType}) => (
-    // <View style={styles.itemWrapper}>
     <FavoriteCard item={item} />
-    // </View>
   );
+  const keyExtractor = (item: FavoritesType) => `favorite-${item.id}`;
 
   if (isLoading)
     return (
@@ -41,13 +40,20 @@ const FavoritesScreen = () => {
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.Container}>
         <Text style={styles.Title}>Favorites</Text>
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={item => `favorite-${item.id}`}
-          numColumns={2}
-          contentContainerStyle={styles.contentContainer}
-        />
+        {isSuccess && data && data.length > 0 ? (
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={keyExtractor}
+            numColumns={2}
+            columnWrapperStyle={styles.columnWrapper}
+            contentContainerStyle={styles.contentContainer}
+          />
+        ) : (
+          <View style={styles.EmptyContainer}>
+            <Text style={styles.EmptyText}>No favorites yet</Text>
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -62,22 +68,32 @@ const styles = StyleSheet.create({
   },
   Container: {
     flex: 1,
-    // width: '100%',
     alignItems: 'center',
-    gap: 10,
+    gap: 30,
     paddingBottom: 50,
   },
   Title: {
     color: COLORS.primaryWhiteHex,
     fontSize: FONTSIZE.size_20,
     fontFamily: FONTFAMILY.poppins_medium,
+    height: 36,
+    lineHeight: 36,
+  },
+  columnWrapper: {
+    gap: 30,
   },
   contentContainer: {
     paddingHorizontal: SPACING.space_10,
-    paddingBottom: SPACING.space_20,
+    gap: 24,
   },
-  itemWrapper: {
+  EmptyContainer: {
     flex: 1,
-    padding: SPACING.space_10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  EmptyText: {
+    color: COLORS.primaryWhiteHex,
+    fontSize: 16,
+    textAlign: 'center',
   },
 });
