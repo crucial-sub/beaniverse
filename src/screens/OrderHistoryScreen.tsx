@@ -48,7 +48,7 @@ const createSections = (data: OrderHistoryType[]) => {
 };
 
 const OrderHistoryScreen = () => {
-  const {data, isLoading, isSuccess} = useQuery<OrderHistoryType[], Error>({
+  const {data, isLoading, isSuccess} = useQuery<OrderHistoryType[]>({
     queryKey: ['get-order-history'],
     queryFn: getOrderHistory,
     staleTime: 5 * 60 * 1000,
@@ -79,28 +79,34 @@ const OrderHistoryScreen = () => {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <HeaderWithoutBottomTab title="Order History" />
-      <SectionList
-        contentContainerStyle={styles.SectionListContent}
-        style={styles.SectionList}
-        sections={sections}
-        stickySectionHeadersEnabled={false}
-        keyExtractor={keyExtractor}
-        renderItem={renderItem}
-        renderSectionHeader={({section}) => (
-          <View style={styles.SectionHeader}>
-            <View>
-              <Text style={styles.OrderDateLabel}>Order Date</Text>
-              <Text style={styles.OrderDate}>{section.title}</Text>
+      {isSuccess && data && data.length > 0 ? (
+        <SectionList
+          contentContainerStyle={styles.SectionListContent}
+          style={styles.SectionList}
+          sections={sections}
+          stickySectionHeadersEnabled={false}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
+          renderSectionHeader={({section}) => (
+            <View style={styles.SectionHeader}>
+              <View>
+                <Text style={styles.OrderDateLabel}>Order Date</Text>
+                <Text style={styles.OrderDate}>{section.title}</Text>
+              </View>
+              <View>
+                <Text style={styles.TotalAmountLabel}>Total Amount</Text>
+                <Text style={styles.TotalAmount}>
+                  {`$ ${section.totalPrice.toFixed(2)}`}
+                </Text>
+              </View>
             </View>
-            <View>
-              <Text style={styles.TotalAmountLabel}>Total Amount</Text>
-              <Text style={styles.TotalAmount}>
-                {`$ ${section.totalPrice.toFixed(2)}`}
-              </Text>
-            </View>
-          </View>
-        )}
-      />
+          )}
+        />
+      ) : (
+        <View style={styles.EmptyContainer}>
+          <Text style={styles.EmptyText}>No History</Text>
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -146,5 +152,15 @@ const styles = StyleSheet.create({
     fontSize: FONTSIZE.size_14,
     fontFamily: FONTFAMILY.poppins_semibold,
     alignSelf: 'flex-end',
+  },
+  EmptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  EmptyText: {
+    color: COLORS.primaryWhiteHex,
+    fontSize: 16,
+    textAlign: 'center',
   },
 });

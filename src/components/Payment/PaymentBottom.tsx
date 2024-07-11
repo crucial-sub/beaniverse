@@ -1,5 +1,5 @@
 import {CommonActions, useNavigation} from '@react-navigation/native';
-import {useMutation} from '@tanstack/react-query';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
@@ -37,10 +37,13 @@ const PaymentBottom = ({walletBalance}: PaymentBottomPropsType) => {
   );
   const [orderSuccess, setOrderSuccess] = useRecoilState(orderSuccessState);
 
+  const queryClient = useQueryClient();
+
   const mutation = useMutation({
     mutationFn: paymentOrder,
     onSuccess: () => {
       setOrderSuccess(true);
+      queryClient.invalidateQueries({queryKey: ['get-order-history']});
     },
     onError: error => {
       throw new Error(error.message);
