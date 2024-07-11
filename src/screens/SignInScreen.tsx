@@ -110,6 +110,7 @@ const SignInScreen = () => {
             onBlur={() => handleBlur('password')}
             value={password}
             onChangeText={handlePasswordText}
+            secureTextEntry={true}
           />
         </View>
         <TouchableOpacity
