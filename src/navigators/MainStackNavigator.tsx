@@ -95,7 +95,7 @@ const MainStackNavigator = () => {
     isSuccess: userDataSuccess,
   } = useQuery({
     enabled: !!isLogin,
-    queryKey: ['getUser'],
+    queryKey: ['get-user'],
     queryFn: getUser,
   });
   const {
@@ -104,7 +104,7 @@ const MainStackNavigator = () => {
     isSuccess: coffeeAndBeansDataSuccess,
   } = useQuery({
     enabled: !!isLogin,
-    queryKey: ['getCoffeeAndBeans'],
+    queryKey: ['get-coffee-and-beans'],
     queryFn: getCoffeeAndBeans,
   });
   const {
@@ -113,7 +113,7 @@ const MainStackNavigator = () => {
     isSuccess: coffeeCategoriesDataSuccess,
   } = useQuery({
     enabled: !!isLogin,
-    queryKey: ['getCoffeeCategories'],
+    queryKey: ['get-coffee-categories'],
     queryFn: getCoffeeCategories,
   });
 
