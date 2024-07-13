@@ -7,8 +7,25 @@ const apiClient = axios.create({
   },
 });
 
+let onUnauthorized: (() => void) | null = null;
+
+apiClient.interceptors.response.use(
+  response => response,
+  error => {
+    const {response} = error;
+    if (response && response.status === 401 && onUnauthorized) {
+      onUnauthorized();
+    }
+    return Promise.reject(error);
+  },
+);
+
 export const setAuthHeader = (token: string) => {
   apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+};
+
+export const setOnUnauthorized = (callback: () => void) => {
+  onUnauthorized = callback;
 };
 
 export default apiClient;

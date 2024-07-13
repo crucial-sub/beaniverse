@@ -9,10 +9,10 @@ import {
   View,
 } from 'react-native';
 import {useRecoilState} from 'recoil';
-import {setAuthHeader} from '../api/apiClient';
+import {setAuthHeader, setOnUnauthorized} from '../api/apiClient';
 import {getCoffeeAndBeans, getCoffeeCategories} from '../api/apiCoffee';
 import {getUser} from '../api/apiUser';
-import {navigationRef} from '../lib/navigation';
+import {navigateToSignIn, navigationRef} from '../lib/navigation';
 import {getStorageData} from '../lib/storage-helper';
 import {
   UserType,
@@ -34,7 +34,6 @@ import {RootStackParamList} from './navigation';
 const MainStack = createStackNavigator<RootStackParamList>();
 
 const MainStackNavigator = () => {
-  const [accessToken, setAccessToken] = React.useState<string | null>(null);
   const [user, setUser] = useRecoilState<UserType | null>(userState);
   const [coffeeList, setCoffeeList] = useRecoilState(coffeeListState);
   const [coffeeBeans, setCoffeeBeans] = useRecoilState(beansState);
@@ -116,6 +115,16 @@ const MainStackNavigator = () => {
     queryKey: ['get-coffee-categories'],
     queryFn: getCoffeeCategories,
   });
+
+  React.useEffect(() => {
+    const handleUnauthorized = () => {
+      setUser(null);
+      setIsLogin(false);
+      navigateToSignIn();
+    };
+
+    setOnUnauthorized(handleUnauthorized);
+  }, [setUser, setIsLogin]);
 
   React.useEffect(() => {
     if (userData) {
