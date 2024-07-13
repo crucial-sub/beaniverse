@@ -18,7 +18,6 @@ const FavoritesScreen = () => {
     queryFn: getFavorites,
     staleTime: 5 * 60 * 1000,
   });
-
   const renderItem = ({item}: {item: FavoritesType}) => (
     <FavoriteCard item={item} />
   );
@@ -42,12 +41,13 @@ const FavoritesScreen = () => {
         <Text style={styles.Title}>Favorites</Text>
         {isSuccess && data && data.length > 0 ? (
           <FlatList
+            style={styles.FlatListStyle}
             data={data}
             renderItem={renderItem}
             keyExtractor={keyExtractor}
             numColumns={2}
-            columnWrapperStyle={styles.columnWrapper}
-            contentContainerStyle={styles.contentContainer}
+            columnWrapperStyle={styles.ColumnWrapper}
+            contentContainerStyle={styles.ContentContainer}
           />
         ) : (
           <View style={styles.EmptyContainer}>
@@ -79,11 +79,14 @@ const styles = StyleSheet.create({
     height: 36,
     lineHeight: 36,
   },
-  columnWrapper: {
+  FlatListStyle: {
+    width: '100%',
+    paddingHorizontal: SPACING.space_30,
+  },
+  ColumnWrapper: {
     gap: 30,
   },
-  contentContainer: {
-    paddingHorizontal: SPACING.space_10,
+  ContentContainer: {
     gap: 24,
   },
   EmptyContainer: {
