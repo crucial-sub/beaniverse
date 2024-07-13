@@ -28,7 +28,7 @@ interface FavoriteCardProps {
 const FavotiteCard = ({item}: FavoriteCardProps) => {
   const navigation = useNavigation<RootNavigationProp>();
   const handlePress = () => {
-    navigation.navigate('Details', {id: item.id});
+    navigation.navigate('Details', {id: item.coffee_id});
   };
 
   return (
@@ -41,12 +41,14 @@ const FavotiteCard = ({item}: FavoriteCardProps) => {
         <ImageBackground
           source={{uri: item.imageUrl}}
           style={styles.CoffeeImageBG}>
-          <View style={styles.CoffeeRatingWrapper}>
-            <StarIcon fill={COLORS.primaryOrangeHex} />
-            <Text style={styles.CoffeeRating}>
-              {item.rating.average.toFixed(1)}
-            </Text>
-          </View>
+          {item.rating.average ? (
+            <View style={styles.CoffeeRatingWrapper}>
+              <StarIcon fill={COLORS.primaryOrangeHex} />
+              <Text style={styles.CoffeeRating}>
+                {item.rating.average.toFixed(1)}
+              </Text>
+            </View>
+          ) : null}
         </ImageBackground>
         <View style={styles.CardInfoWrapper}>
           <Text style={styles.CoffeeName}>{capitalize(item.name)}</Text>
@@ -58,7 +60,7 @@ const FavotiteCard = ({item}: FavoriteCardProps) => {
               <Text style={styles.DollarSign}>$ </Text>
               <Text style={styles.CoffeePrice}>{item.price.toFixed(2)}</Text>
             </View>
-            <HeartButton id={item.id} isFavorite={item.isFavorite} />
+            <HeartButton id={item.coffee_id} isFavorite={item.isFavorite} />
           </View>
         </View>
       </LinearGradient>

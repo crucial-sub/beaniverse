@@ -48,6 +48,7 @@ export const getOrderHistory = async (): Promise<OrderHistoryType[]> => {
 export interface FavoritesType {
   category: string | null;
   id: number;
+  coffee_id: number;
   imageUrl: string;
   isFavorite: boolean;
   name: string;
