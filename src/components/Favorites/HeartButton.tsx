@@ -17,6 +17,8 @@ const HeartButton = ({id, isFavorite}: HeartButtonPropsType) => {
   const mutation = useMutation({
     mutationFn: () => editFavorites(id),
     onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['get-coffee-and-beans']});
+      queryClient.invalidateQueries({queryKey: ['get-coffee-details']});
       queryClient.invalidateQueries({queryKey: ['get-favorites']});
     },
     onError: error => {
@@ -25,8 +27,12 @@ const HeartButton = ({id, isFavorite}: HeartButtonPropsType) => {
     },
   });
 
+  const handlePress = () => {
+    mutation.mutate();
+  };
+
   return (
-    <TouchableOpacity onPress={() => mutation.mutate()}>
+    <TouchableOpacity onPress={handlePress}>
       <GradientBGIcon size={SPACING.space_30}>
         <HeartIcon
           fill={isFavorite ? COLORS.primaryRedHex : COLORS.secondaryWhiteHex}
