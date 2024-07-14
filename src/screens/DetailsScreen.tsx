@@ -13,7 +13,6 @@ import {
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import Animated, {
   runOnJS,
-  useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -44,24 +43,18 @@ const IMAGE_BG_HEIGHT = screenHeight * 0.6;
 const DETAILINFO_HEIGHT = 148.2;
 const DESCRIPTION_HEIGHT = screenHeight - IMAGE_BG_HEIGHT;
 const MAX_HEIGHT = screenHeight * 0.675;
-const DESCRIPTION_SAMPLE =
-  'Cappuccino is a latte made with more foam than steamed milk, often with a sprinkle of cocoa powder or cinnamon on top.Cappuccino is a latte made with more foam than steamed milk, often with a sprinkle of cocoa powder or cinnamon on top.Cappuccino is a latte made with more foam than steamed milk, often with a sprinkle of cocoa powder or cinnamon on top.Cappuccino is a latte made with more foam than steamed milk, often with a sprinkle of cocoa powder or cinnamon on top.';
 
 const DetailsScreen = ({route}: DetailsScreenProps) => {
   const height = useSharedValue(DESCRIPTION_HEIGHT);
   const startY = useSharedValue(0);
   const headerHeight = useSharedValue(32);
   const {id} = route.params!;
-  const {data, isLoading, isSuccess} = useQuery<
-    CoffeeAndBeansDetailType,
-    Error
-  >({
+  const {data, isLoading} = useQuery<CoffeeAndBeansDetailType, Error>({
     queryKey: ['get-coffee-details', id],
     queryFn: () => getCoffeeDetails(id),
     staleTime: 5 * 60 * 1000,
   });
   const [selectedOptionIndex, setSelectedOptionIndex] = React.useState(0);
-  const [numberOfLines, setNumberOfLines] = React.useState(3);
 
   const [paymentCartList, setPaymentCartList] =
     useRecoilState<PaymentCartStateType[]>(paymentCartListState);
@@ -94,17 +87,7 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
     setPaymentCartList(newPaymentCartList);
   };
 
-  useAnimatedReaction(
-    () => height.value,
-    currentHeight => {
-      if (currentHeight > DESCRIPTION_HEIGHT + 100) {
-        runOnJS(setNumberOfLines)(0);
-      } else {
-        runOnJS(setNumberOfLines)(3);
-      }
-    },
-    [],
-  );
+  const [numberOfLines, setNumberOfLines] = React.useState(3);
 
   const panGestureEvent = Gesture.Pan()
     .onStart(() => {
@@ -116,6 +99,12 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
         height.value > DESCRIPTION_HEIGHT + 100 ? 0 : 32,
         {duration: 300},
       );
+
+      if (height.value > DESCRIPTION_HEIGHT + 100) {
+        runOnJS(setNumberOfLines)(0);
+      } else {
+        runOnJS(setNumberOfLines)(3);
+      }
     })
     .onEnd(() => {
       height.value = withTiming(
@@ -131,6 +120,7 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
       height: height.value,
     };
   });
+
   const headerAnimatedStyle = useAnimatedStyle(() => {
     return {
       height: headerHeight.value,
@@ -178,7 +168,9 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
                   height={18.42}
                   fill={COLORS.primaryOrangeHex}
                 />
-                <Text style={styles.ItemRating}>{data.rating.average}</Text>
+                <Text style={styles.ItemRating}>
+                  {data.rating.average.toFixed(1)}
+                </Text>
                 <Text
                   style={
                     styles.ItemRatingCount
@@ -231,7 +223,7 @@ const DetailsScreen = ({route}: DetailsScreenProps) => {
           <View style={styles.DescriptionWrapper}>
             <Text style={styles.DescriptionTitle}>Description</Text>
             <Text style={styles.DescriptionText} numberOfLines={numberOfLines}>
-              {DESCRIPTION_SAMPLE}
+              {data.description}
             </Text>
           </View>
           <View style={styles.SizeWrapper}>
@@ -303,7 +295,6 @@ const styles = StyleSheet.create({
   DetailOptionWrapper: {
     position: 'absolute',
     bottom: 0,
-
     backgroundColor: COLORS.primaryBlackHex,
     padding: SPACING.space_20,
     gap: SPACING.space_30,
@@ -362,7 +353,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   DetailInfoRightTopBox: {
-    width: 55.71,
+    minWidth: 55.71,
     height: 55.71,
     backgroundColor: COLORS.primaryDarkGreyHex,
     borderRadius: BORDERRADIUS.radius_10,

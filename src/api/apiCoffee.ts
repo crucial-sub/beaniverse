@@ -27,6 +27,7 @@ export const getCoffeeCategories = async (): Promise<
 
 export interface CoffeeAndBeansDetailType {
   category: {id: number; name: string} | null;
+  description: string;
   id: number;
   imageUrl: string;
   isFavorite: boolean;
