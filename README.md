@@ -96,3 +96,111 @@
 ## 아키텍쳐
 
 ### 디렉토리 구조
+
+```bash
+📦src
+ ┣ 📂api
+ ┃ ┣ 📜apiClient.ts
+ ┃ ┣ 📜apiCoffee.ts
+ ┃ ┣ 📜apiPayment.ts
+ ┃ ┣ 📜apiUser.ts
+ ┃ ┗ 📜auth.ts
+ ┣ 📂assets
+ ┃ ┣ 📂fonts
+ ┃ ┃ ┣ 📜Poppins-Black.ttf
+ ┃ ┃ ┣ 📜Poppins-Bold.ttf
+ ┃ ┃ ┣ 📜Poppins-ExtraBold.ttf
+ ┃ ┃ ┣ 📜Poppins-ExtraLight.ttf
+ ┃ ┃ ┣ 📜Poppins-Light.ttf
+ ┃ ┃ ┣ 📜Poppins-Medium.ttf
+ ┃ ┃ ┣ 📜Poppins-Regular.ttf
+ ┃ ┃ ┣ 📜Poppins-SemiBold.ttf
+ ┃ ┃ ┣ 📜Poppins-Thin.ttf
+ ┃ ┃ ┗ 📜app_icons.ttf
+ ┃ ┗ 📂svg_images
+ ┃ ┃ ┣ 📜bag-2.svg
+ ┃ ┃ ┣ 📜bean.svg
+ ┃ ┃ ┣ 📜bell.svg
+ ┃ ┃ ┣ 📜check.svg
+ ┃ ┃ ┣ 📜coffee.svg
+ ┃ ┃ ┣ 📜delete.svg
+ ┃ ┃ ┣ 📜edit.svg
+ ┃ ┃ ┣ 📜fail.svg
+ ┃ ┃ ┣ 📜heart.svg
+ ┃ ┃ ┣ 📜home.svg
+ ┃ ┃ ┣ 📜ic-chip.svg
+ ┃ ┃ ┣ 📜info-circle.svg
+ ┃ ┃ ┣ 📜left.svg
+ ┃ ┃ ┣ 📜location.svg
+ ┃ ┃ ┣ 📜logout.svg
+ ┃ ┃ ┣ 📜mastercard-mark.svg
+ ┃ ┃ ┣ 📜menu.svg
+ ┃ ┃ ┣ 📜minus.svg
+ ┃ ┃ ┣ 📜order.svg
+ ┃ ┃ ┣ 📜plus.svg
+ ┃ ┃ ┣ 📜profile.svg
+ ┃ ┃ ┣ 📜right.svg
+ ┃ ┃ ┣ 📜search.svg
+ ┃ ┃ ┣ 📜star.svg
+ ┃ ┃ ┣ 📜user.svg
+ ┃ ┃ ┣ 📜visa-mark.svg
+ ┃ ┃ ┗ 📜wallet.svg
+ ┣ 📂components
+ ┃ ┣ 📂CoffeeBeans
+ ┃ ┃ ┣ 📜CoffeeBeanCard.tsx
+ ┃ ┃ ┗ 📜CoffeeBeans.tsx
+ ┃ ┣ 📂CoffeeList
+ ┃ ┃ ┣ 📜CoffeeCard.tsx
+ ┃ ┃ ┣ 📜CoffeeCategories.tsx
+ ┃ ┃ ┣ 📜CoffeeList.tsx
+ ┃ ┃ ┗ 📜SearchInput.tsx
+ ┃ ┣ 📂Favorites
+ ┃ ┃ ┣ 📜FavoriteCard.tsx
+ ┃ ┃ ┗ 📜HeartButton.tsx
+ ┃ ┣ 📂Header
+ ┃ ┃ ┣ 📜BackButton.tsx
+ ┃ ┃ ┣ 📜HeaderWithoutBottomTab.tsx
+ ┃ ┃ ┗ 📜HomeHeader.tsx
+ ┃ ┣ 📂OrderHistory
+ ┃ ┃ ┗ 📜OrderItem.tsx
+ ┃ ┣ 📂Payment
+ ┃ ┃ ┣ 📜OrderSuccess.tsx
+ ┃ ┃ ┣ 📜PaymentBottom.tsx
+ ┃ ┃ ┣ 📜PaymentCardItem.tsx
+ ┃ ┃ ┣ 📜PaymentMethod.tsx
+ ┃ ┃ ┗ 📜PaymentWallet.tsx
+ ┃ ┣ 📂PaymentCart
+ ┃ ┃ ┣ 📜PaymentCartBottom.tsx
+ ┃ ┃ ┣ 📜PaymentCartItem.tsx
+ ┃ ┃ ┗ 📜PaymentCartList.tsx
+ ┃ ┗ 📜GradientBGIcon.tsx
+ ┣ 📂hooks
+ ┃ ┗ 📜useResetCartAndOrderState.ts
+ ┣ 📂lib
+ ┃ ┣ 📜navigation.ts
+ ┃ ┗ 📜storage-helper.ts
+ ┣ 📂navigators
+ ┃ ┣ 📜MainStackNavigator.tsx
+ ┃ ┣ 📜TabNavigator.tsx
+ ┃ ┗ 📜navigation.ts
+ ┣ 📂recoil
+ ┃ ┗ 📜index.ts
+ ┣ 📂screens
+ ┃ ┣ 📜CartScreen.tsx
+ ┃ ┣ 📜DetailsScreen.tsx
+ ┃ ┣ 📜EditProfileScreen.tsx
+ ┃ ┣ 📜FavoritesScreen.tsx
+ ┃ ┣ 📜HomeScreen.tsx
+ ┃ ┣ 📜MainScreen.tsx
+ ┃ ┣ 📜OrderHistoryScreen.tsx
+ ┃ ┣ 📜PaymentScreen.tsx
+ ┃ ┣ 📜ProfileScreen.tsx
+ ┃ ┗ 📜SignInScreen.tsx
+ ┣ 📂theme
+ ┃ ┗ 📜theme.ts
+ ┣ 📂types
+ ┃ ┗ 📜index.d.ts
+ ┣ 📂utils
+ ┃ ┗ 📜index.ts
+ ┗ 📜App.tsx
+```
