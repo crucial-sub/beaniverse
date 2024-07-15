@@ -7,18 +7,25 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import FastImage from 'react-native-fast-image';
-import {useRecoilValue} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import InfoIcon from '../assets/svg_images/info-circle.svg';
+import LogoutIcon from '../assets/svg_images/logout.svg';
 import OrderIcon from '../assets/svg_images/order.svg';
 import RightIcon from '../assets/svg_images/right.svg';
 import UserIcon from '../assets/svg_images/user.svg';
-import {userState} from '../recoil';
+import {removeStorageData} from '../lib/storage-helper';
+import {isLoginState, userState} from '../recoil';
 import {COLORS, FONTFAMILY, FONTSIZE} from '../theme/theme';
 
 const ProfileScreen = () => {
   const user = useRecoilValue(userState);
   const navigation = useNavigation();
+  const setIsLogin = useSetRecoilState(isLoginState);
+
+  const signOut = async () => {
+    await removeStorageData('accessToken');
+    setIsLogin(false);
+  };
   const handleNavigate = (screenName: never) => {
     navigation.navigate(screenName);
   };
@@ -58,6 +65,12 @@ const ProfileScreen = () => {
               <Text style={styles.MenuItemText}>App Version 1.1.0</Text>
             </View>
           </View>
+          <TouchableOpacity style={styles.MenuItemWrapper} onPress={signOut}>
+            <View style={styles.MenuItemLeft}>
+              <LogoutIcon fill={COLORS.primaryWhiteHex} />
+              <Text style={styles.MenuItemText}>Logout</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
