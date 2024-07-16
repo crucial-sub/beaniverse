@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
   EmptyText: {
     color: COLORS.primaryWhiteHex,
-    fontSize: 16,
-    textAlign: 'center',
+    fontFamily: FONTFAMILY.poppins_semibold,
+    fontSize: FONTSIZE.size_20,
   },
 });
