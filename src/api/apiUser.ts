@@ -80,9 +80,14 @@ export const editFavorites = async (coffeeId: number) => {
 };
 
 export const patchProfile = async (data: FormData) => {
-  await apiClient.patch('user/me', data, {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-  });
+  try {
+    await apiClient.patch('user/me', data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
