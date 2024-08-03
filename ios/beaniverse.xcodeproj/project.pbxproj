@@ -19,7 +19,6 @@
 		6AC08E96DC8A4570A9736D73 /* app_icons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 68815BC663214AE2877CEA27 /* app_icons.ttf */; };
 		6ED929CFB4B14D64A7964C01 /* Poppins-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F2705D3CF4740089B52C81C /* Poppins-ExtraLight.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-beaniverse-beaniverseTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-beaniverse-beaniverseTests.a */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8CDAEAD24A9444D6B9E72EDD /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 311795D840734A03BD342A40 /* Poppins-Medium.ttf */; };
 		9F62E247BA0F4F54BF105A52 /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FEEE72F01C61447883A85148 /* Poppins-ExtraBold.ttf */; };
 		A1A8F2B5DAA9413F8BF0ED93 /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 851B00EAD8874A6D9A3CEE85 /* Poppins-Black.ttf */; };
@@ -59,7 +58,6 @@
 		5B7EB9410499542E8C5724F5 /* Pods-beaniverse-beaniverseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-beaniverse-beaniverseTests.debug.xcconfig"; path = "Target Support Files/Pods-beaniverse-beaniverseTests/Pods-beaniverse-beaniverseTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-beaniverse.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-beaniverse.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		68815BC663214AE2877CEA27 /* app_icons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = app_icons.ttf; path = ../src/assets/fonts/app_icons.ttf; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = beaniverse/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		851B00EAD8874A6D9A3CEE85 /* Poppins-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-Black.ttf"; path = "../src/assets/fonts/Poppins-Black.ttf"; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-beaniverse-beaniverseTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-beaniverse-beaniverseTests.release.xcconfig"; path = "Target Support Files/Pods-beaniverse-beaniverseTests/Pods-beaniverse-beaniverseTests.release.xcconfig"; sourceTree = "<group>"; };
 		937762554692410896BB9185 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-SemiBold.ttf"; path = "../src/assets/fonts/Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -115,7 +113,6 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				11DEC66F2C5E4BD400C925E2 /* beaniverse-Bridging-Header.h */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = beaniverse;
@@ -284,7 +281,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				A1A8F2B5DAA9413F8BF0ED93 /* Poppins-Black.ttf in Resources */,
 				596C5F8969A644FCAF5BE3CC /* Poppins-Bold.ttf in Resources */,
