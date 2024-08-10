@@ -7,28 +7,37 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {version} from '../../package.json';
 import InfoIcon from '../assets/svg_images/info-circle.svg';
 import LogoutIcon from '../assets/svg_images/logout.svg';
 import OrderIcon from '../assets/svg_images/order.svg';
 import RightIcon from '../assets/svg_images/right.svg';
 import UserIcon from '../assets/svg_images/user.svg';
 import {removeStorageData} from '../lib/storage-helper';
+import {MainStackNavigationProp} from '../navigators/MainStackNavigator';
 import {isLoginState, userState} from '../recoil';
 import {COLORS, FONTFAMILY, FONTSIZE} from '../theme/theme';
 
 const ProfileScreen = () => {
   const user = useRecoilValue(userState);
-  const navigation = useNavigation();
+  const navigation = useNavigation<MainStackNavigationProp>();
   const setIsLogin = useSetRecoilState(isLoginState);
 
   const signOut = async () => {
     await removeStorageData('accessToken');
     setIsLogin(false);
   };
-  const handleNavigate = (screenName: never) => {
-    navigation.navigate(screenName);
+
+  const handlePressProfile = () => {
+    navigation.navigate('EditProfile');
   };
+
+  const handlePressOrderHistory = () => {
+    navigation.navigate('OrderHistory');
+  };
+
   return (
     <SafeAreaView style={styles.SafeAreaView}>
       <View style={styles.Container}>
@@ -43,7 +52,7 @@ const ProfileScreen = () => {
         <View style={styles.MyProfileMenuWrapper}>
           <TouchableOpacity
             style={styles.MenuItemWrapper}
-            onPress={() => handleNavigate('EditProfile' as never)}>
+            onPress={handlePressProfile}>
             <View style={styles.MenuItemLeft}>
               <UserIcon />
               <Text style={styles.MenuItemText}>Profile</Text>
@@ -52,25 +61,26 @@ const ProfileScreen = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.MenuItemWrapper}
-            onPress={() => handleNavigate('OrderHistory' as never)}>
+            onPress={handlePressOrderHistory}>
             <View style={styles.MenuItemLeft}>
               <OrderIcon />
               <Text style={styles.MenuItemText}>Order History</Text>
             </View>
             <RightIcon />
           </TouchableOpacity>
-          <View style={styles.MenuItemWrapper}>
-            <View style={styles.MenuItemLeft}>
-              <InfoIcon />
-              <Text style={styles.MenuItemText}>App Version 1.1.0</Text>
-            </View>
-          </View>
           <TouchableOpacity style={styles.MenuItemWrapper} onPress={signOut}>
             <View style={styles.MenuItemLeft}>
               <LogoutIcon fill={COLORS.primaryWhiteHex} />
               <Text style={styles.MenuItemText}>Logout</Text>
             </View>
+            <RightIcon />
           </TouchableOpacity>
+          <View style={styles.MenuItemWrapper}>
+            <View style={styles.MenuItemLeft}>
+              <InfoIcon />
+              <Text style={styles.MenuItemText}>App Version {version}</Text>
+            </View>
+          </View>
         </View>
       </View>
     </SafeAreaView>

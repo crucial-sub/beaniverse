@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import StarIcon from '../../assets/svg_images/star.svg';
-import {RootNavigationProp} from '../../navigators/navigation';
+import {MainStackNavigationProp} from '../../navigators/MainStackNavigator';
 import {CoffeeAndBeansType} from '../../recoil';
 import {
   BORDERRADIUS,
@@ -26,7 +26,8 @@ interface CoffeeCardProps {
 }
 
 const CoffeeCard = ({coffee}: CoffeeCardProps) => {
-  const navigation = useNavigation<RootNavigationProp>();
+  const navigation = useNavigation<MainStackNavigationProp>();
+
   const handlePress = () => {
     navigation.navigate('Details', {id: coffee.id});
   };

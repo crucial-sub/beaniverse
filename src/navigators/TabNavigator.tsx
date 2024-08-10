@@ -1,5 +1,8 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import React from 'react';
+import {
+  BottomTabNavigationProp,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
+import React, {memo} from 'react';
 import {StyleSheet} from 'react-native';
 import BagIcon from '../assets/svg_images/bag-2.svg';
 import HeartIcon from '../assets/svg_images/heart.svg';
@@ -11,7 +14,21 @@ import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import {COLORS} from '../theme/theme';
 
-const BottomTab = createBottomTabNavigator();
+const getIconColor = (focused: boolean) => {
+  return focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex;
+};
+
+export type BottomTabParamList = {
+  Home: undefined;
+  Cart: undefined;
+  Favorite: undefined;
+  Profile: undefined;
+};
+
+export type BottomTabStackNavigationProp =
+  BottomTabNavigationProp<BottomTabParamList>;
+
+const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 const TabNavigator = () => {
   return (
@@ -26,39 +43,21 @@ const TabNavigator = () => {
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarIcon: ({focused}) => (
-            <HomeIcon
-              fill={
-                focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex
-              }
-            />
-          ),
+          tabBarIcon: ({focused}) => <HomeIcon fill={getIconColor(focused)} />,
         }}
       />
       <BottomTab.Screen
         name="Cart"
         component={CartScreen}
         options={{
-          tabBarIcon: ({focused}) => (
-            <BagIcon
-              fill={
-                focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex
-              }
-            />
-          ),
+          tabBarIcon: ({focused}) => <BagIcon fill={getIconColor(focused)} />,
         }}
       />
       <BottomTab.Screen
         name="Favorite"
         component={FavoritesScreen}
         options={{
-          tabBarIcon: ({focused}) => (
-            <HeartIcon
-              fill={
-                focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex
-              }
-            />
-          ),
+          tabBarIcon: ({focused}) => <HeartIcon fill={getIconColor(focused)} />,
         }}
       />
       <BottomTab.Screen
@@ -66,11 +65,7 @@ const TabNavigator = () => {
         component={ProfileScreen}
         options={{
           tabBarIcon: ({focused}) => (
-            <ProfileIcon
-              fill={
-                focused ? COLORS.primaryOrangeHex : COLORS.primaryLightGreyHex
-              }
-            />
+            <ProfileIcon fill={getIconColor(focused)} />
           ),
         }}
       />
@@ -78,7 +73,7 @@ const TabNavigator = () => {
   );
 };
 
-export default TabNavigator;
+export default memo(TabNavigator);
 
 const styles = StyleSheet.create({
   TabBarStyle: {

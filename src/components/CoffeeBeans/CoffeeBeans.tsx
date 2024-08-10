@@ -1,11 +1,11 @@
 import React from 'react';
 import {FlatList, View} from 'react-native';
-import {useRecoilState} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {CoffeeAndBeansType, beansState} from '../../recoil';
 import CoffeeBeanCard from './CoffeeBeanCard';
 
 const CoffeeBeans = () => {
-  const [coffeeBeans, setCoffeeBeans] = useRecoilState(beansState);
+  const coffeeBeans = useRecoilValue(beansState);
 
   const renderItem = ({item}: {item: CoffeeAndBeansType}) => (
     <CoffeeBeanCard coffeeBean={item} />

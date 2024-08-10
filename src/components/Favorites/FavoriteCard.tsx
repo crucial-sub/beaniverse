@@ -10,7 +10,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {FavoritesType} from '../../api/apiUser';
 import StarIcon from '../../assets/svg_images/star.svg';
-import {RootNavigationProp} from '../../navigators/navigation';
+import {MainStackNavigationProp} from '../../navigators/MainStackNavigator';
 import {
   BORDERRADIUS,
   COLORS,
@@ -26,7 +26,8 @@ interface FavoriteCardProps {
 }
 
 const FavotiteCard = ({item}: FavoriteCardProps) => {
-  const navigation = useNavigation<RootNavigationProp>();
+  const navigation = useNavigation<MainStackNavigationProp>();
+
   const handlePress = () => {
     navigation.navigate('Details', {id: item.coffee_id});
   };

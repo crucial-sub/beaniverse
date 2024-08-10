@@ -1,18 +1,16 @@
-import {createStackNavigator} from '@react-navigation/stack';
-import {useQuery} from '@tanstack/react-query';
-import React from 'react';
 import {
-  ActivityIndicator,
-  Alert,
-  BackHandler,
-  StyleSheet,
-  View,
-} from 'react-native';
-import {useRecoilState} from 'recoil';
+  StackNavigationProp,
+  createStackNavigator,
+} from '@react-navigation/stack';
+import {useQuery} from '@tanstack/react-query';
+import React, {memo, useCallback} from 'react';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {setAuthHeader, setOnUnauthorized} from '../api/apiClient';
 import {getCoffeeAndBeans, getCoffeeCategories} from '../api/apiCoffee';
 import {getUser} from '../api/apiUser';
-import {navigateToSignIn, navigationRef} from '../lib/navigation';
+import useBackPressHandler from '../hooks/useBackPressHandler';
+import {navigateToSignIn} from '../lib/navigation';
 import {getStorageData} from '../lib/storage-helper';
 import {
   UserType,
@@ -26,66 +24,50 @@ import DetailsScreen from '../screens/DetailsScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
 import OrderHistoryScreen from '../screens/OrderHistoryScreen';
 import PaymentScreen from '../screens/PaymentScreen';
-import SignInScreen from '../screens/SignInScreen';
 import {COLORS} from '../theme/theme';
-import TabNavigator from './TabNavigator';
-import {RootStackParamList} from './navigation';
+import AuthStackNavigator from './AuthStackNavigator';
+import TabNavigator, {BottomTabParamList} from './TabNavigator';
 
-const MainStack = createStackNavigator<RootStackParamList>();
+export type MainStackParamList = {
+  Tab: {
+    screen: keyof BottomTabParamList;
+    params?: BottomTabParamList[keyof BottomTabParamList];
+  };
+  Details: {id: number} | undefined;
+  Payment: undefined;
+  OrderHistory: undefined;
+  EditProfile: undefined;
+};
+
+export type MainStackNavigationProp = StackNavigationProp<MainStackParamList>;
+
+const MainStack = createStackNavigator<MainStackParamList>();
 
 const MainStackNavigator = () => {
-  const [user, setUser] = useRecoilState<UserType | null>(userState);
-  const [coffeeList, setCoffeeList] = useRecoilState(coffeeListState);
-  const [coffeeBeans, setCoffeeBeans] = useRecoilState(beansState);
-  const [coffeeCategories, setCoffeeCategories] = useRecoilState(
-    coffeeCategoriesState,
-  );
+  useBackPressHandler();
+
+  const setUser = useSetRecoilState<UserType | null>(userState);
+  const setCoffeeList = useSetRecoilState(coffeeListState);
+  const setCoffeeBeans = useSetRecoilState(beansState);
+  const setCoffeeCategories = useSetRecoilState(coffeeCategoriesState);
+
   const [loading, setLoading] = React.useState(true);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
 
-  React.useEffect(() => {
-    const handleBackPress = () => {
-      if (
-        navigationRef.getCurrentRoute()?.name === 'SignIn' ||
-        navigationRef.getCurrentRoute()?.name === 'Home'
-      ) {
-        Alert.alert('잠깐!!', '정말 앱을 종료하시겠어요?', [
-          {
-            text: '취소',
-            onPress: () => null,
-            style: 'cancel',
-          },
-          {text: '나가기', onPress: () => BackHandler.exitApp()},
-        ]);
-      } else {
-        navigationRef.goBack();
-      }
+  const initializeLoginState = useCallback(async () => {
+    const storedAccessToken = await getStorageData('accessToken');
 
-      return true;
-    };
-
-    BackHandler.addEventListener('hardwareBackPress', () => handleBackPress());
-
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', () =>
-        handleBackPress(),
-      );
-    };
+    if (storedAccessToken) {
+      setAuthHeader(storedAccessToken);
+      setIsLogin(true);
+    } else {
+      setLoading(false);
+    }
   }, []);
 
   React.useEffect(() => {
-    const initializeLoginState = async () => {
-      const storedAccessToken = await getStorageData('accessToken');
-      if (storedAccessToken) {
-        setAuthHeader(storedAccessToken);
-        setIsLogin(true);
-      } else {
-        setLoading(false);
-      }
-    };
-
     initializeLoginState();
-  }, []);
+  }, [initializeLoginState]);
 
   const {
     data: userData,
@@ -97,6 +79,7 @@ const MainStackNavigator = () => {
     queryKey: ['get-user'],
     queryFn: getUser,
   });
+
   const {
     data: coffeeAndBeansData,
     isLoading: coffeeAndBeansDataLoading,
@@ -106,6 +89,7 @@ const MainStackNavigator = () => {
     queryKey: ['get-coffee-and-beans'],
     queryFn: getCoffeeAndBeans,
   });
+
   const {
     data: coffeeCategoriesData,
     isLoading: coffeeCategoriesDataLoading,
@@ -176,9 +160,9 @@ const MainStackNavigator = () => {
 
   return (
     <MainStack.Navigator screenOptions={{headerShown: false}}>
-      {!loading && !isLogin ? (
+      {!isLogin ? (
         <>
-          <MainStack.Screen name="SignIn" component={SignInScreen} />
+          <AuthStackNavigator />
         </>
       ) : (
         <>
@@ -196,7 +180,7 @@ const MainStackNavigator = () => {
   );
 };
 
-export default MainStackNavigator;
+export default memo(MainStackNavigator);
 
 const styles = StyleSheet.create({
   loadingContainer: {

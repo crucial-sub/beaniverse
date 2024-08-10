@@ -2,7 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useRecoilValue} from 'recoil';
-import {RootNavigationProp} from '../../navigators/navigation';
+import {MainStackNavigationProp} from '../../navigators/MainStackNavigator';
 import {totalPriceState} from '../../recoil';
 import {
   BORDERRADIUS,
@@ -14,7 +14,7 @@ import {
 
 const PaymentCartBottom = () => {
   const totalPrice = useRecoilValue(totalPriceState).toFixed(2);
-  const navigation = useNavigation<RootNavigationProp>();
+  const navigation = useNavigation<MainStackNavigationProp>();
 
   const handlePress = () => {
     navigation.navigate('Payment');

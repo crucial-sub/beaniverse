@@ -1,4 +1,4 @@
-import {StackScreenProps} from '@react-navigation/stack';
+import {RouteProp, useRoute} from '@react-navigation/native';
 import {useQuery} from '@tanstack/react-query';
 import React from 'react';
 import {
@@ -25,7 +25,7 @@ import LocationIcon from '../assets/svg_images/location.svg';
 import StarIcon from '../assets/svg_images/star.svg';
 import HeartButton from '../components/Favorites/HeartButton';
 import BackButton from '../components/Header/BackButton';
-import {RootStackParamList} from '../navigators/navigation';
+import {MainStackParamList} from '../navigators/MainStackNavigator';
 import {PaymentCartStateType, paymentCartListState} from '../recoil';
 import {
   BORDERRADIUS,
@@ -36,32 +36,36 @@ import {
 } from '../theme/theme';
 import {capitalize} from '../utils';
 
-type DetailsScreenProps = StackScreenProps<RootStackParamList, 'Details'>;
-
 const {height: screenHeight} = Dimensions.get('window');
 const IMAGE_BG_HEIGHT = screenHeight * 0.6;
 const DETAILINFO_HEIGHT = 148.2;
 const DESCRIPTION_HEIGHT = screenHeight - IMAGE_BG_HEIGHT;
 const MAX_HEIGHT = screenHeight * 0.675;
 
-const DetailsScreen = ({route}: DetailsScreenProps) => {
+type RouteProps = RouteProp<MainStackParamList, 'Details'>;
+
+const DetailsScreen = () => {
+  const route = useRoute<RouteProps>();
+  const {params} = route;
+
   const height = useSharedValue(DESCRIPTION_HEIGHT);
   const startY = useSharedValue(0);
   const headerHeight = useSharedValue(32);
-  const {id} = route.params!;
+
   const {data, isLoading} = useQuery<CoffeeAndBeansDetailType, Error>({
-    queryKey: ['get-coffee-details', id],
-    queryFn: () => getCoffeeDetails(id),
+    queryKey: ['get-coffee-details', params?.id],
+    queryFn: () => getCoffeeDetails(params?.id ?? 0),
     staleTime: 5 * 60 * 1000,
+    enabled: Boolean(params?.id !== undefined),
   });
   const [selectedOptionIndex, setSelectedOptionIndex] = React.useState(0);
-
   const [paymentCartList, setPaymentCartList] =
     useRecoilState<PaymentCartStateType[]>(paymentCartListState);
 
   const handleSelectOption = (idx: number) => {
     setSelectedOptionIndex(idx);
   };
+
   const handleAddToCart = () => {
     if (!data) return;
     const selectedOptionId = data.options[selectedOptionIndex].id;

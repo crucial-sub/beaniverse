@@ -4,7 +4,7 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {paymentOrder} from '../../api/apiPayment';
-import {RootNavigationProp} from '../../navigators/navigation';
+import {MainStackNavigationProp} from '../../navigators/MainStackNavigator';
 import {
   orderSuccessState,
   paymentCartListState,
@@ -24,6 +24,9 @@ type PaymentBottomPropsType = {
 };
 
 const PaymentBottom = ({walletBalance}: PaymentBottomPropsType) => {
+  const navigation = useNavigation<MainStackNavigationProp>();
+  const queryClient = useQueryClient();
+
   const selectedPaymentMethod = useRecoilValue(selectedPaymentMethodState);
   const paymentCart = useRecoilValue(paymentCartListState).map(item => ({
     coffeeId: item.coffeeId,
@@ -36,8 +39,6 @@ const PaymentBottom = ({walletBalance}: PaymentBottomPropsType) => {
     Number(totalPrice) > walletBalance
   );
   const [orderSuccess, setOrderSuccess] = useRecoilState(orderSuccessState);
-
-  const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: paymentOrder,
@@ -62,8 +63,6 @@ const PaymentBottom = ({walletBalance}: PaymentBottomPropsType) => {
     };
     mutation.mutate(body);
   };
-
-  const navigation = useNavigation<RootNavigationProp>();
 
   const handleGoToOrderHistory = () => {
     navigation.dispatch(
